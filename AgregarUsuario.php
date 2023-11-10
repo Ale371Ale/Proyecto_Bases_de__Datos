@@ -6,6 +6,9 @@
     $database = "nozama";
     $mysqli = new mysqli($host,$user,$password,$database);
 
+    $Error = "";
+    $anterior = "";
+    $Login = 0;
     if (!$mysqli) {
         alert("Error al conectar a la base de datos");
     }
@@ -15,16 +18,31 @@
         $tipo = $_POST['tipo'];
         if ($tipo === 'comprador') {
             $Login = 1;
-        } elseif ($tipo === 'vendedor') {
+            $anterior = 1;
+            echo "ya entro ".$anterior;
+        } elseif ($tipo == 'vendedor') {
             $Login = 2;
-        }elseif($tipo === 'Agregar'){
-            $nombre = $_POST['Nombre'];
-            $fecha = $_POST['Fecha'];
-            $sexo = $_POST['Sexo'];
-            $correo = $_POST['Correo'];
-            $telefono = $_POST['Telefono'];
-            $contra = $_POST['Contra'];
-            $contra2 = $_POST['Contra2'];
+            $anterior = 2;
+            echo "ya entro ".$anterior;
+        }elseif($tipo == 'Agregar'){
+            //$nombre = $_POST['Nombre'];
+            //$fecha = $_POST['Fecha'];
+            //$sexo = $_POST['Sexo'];
+            //$correo = $_POST['Correo'];
+            //$telefono = $_POST['Telefono'];
+            //$contra = $_POST['Contra'];
+           // $contra2 = $_POST['Contra2'];
+            if (!empty($nombre)) {
+                
+            } else {
+                $Error = "El Nombre no puede estar vacio";
+                if($anterior == 1){
+                    $Login = 1;
+                }
+                else{
+                    $Login = 2;
+                }
+            }
         }
     }
     else{
@@ -67,7 +85,7 @@
             color: black;
             border-color: Black;
         }
-        h5{
+        .Error{
             color: red;
         }
     </style>
@@ -76,12 +94,12 @@
     <br><br><br>
     <div class="container-xs text-center">
         <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 ">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
                 <div>
                     <a href="Index.php"><img src="src/Logo.png" class="img-fluid"></a>
                 </div>
             </div>
-            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 ">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
                 <div class="General">
                     <br><br>
                     <h4>Que tipo de cuenta necesitas</h4>
@@ -93,9 +111,9 @@
                         <!--Dependiendo la accion que haga muestra el formulario correspondiente-->
                         <?PHP
                             //comprador
+                            echo "<h5 class='Error'>$Error<h5>";
                             if($Login == 1){
                                 echo "<h4>Ingresa la siguiente informacion</h4>
-                                    <h5>Error<h5>
                                     <div class='container'>
                                         <div class='row'>
                                             <div class='col-md-3'>
