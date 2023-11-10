@@ -2,10 +2,13 @@
     //Verificamos la url y que exista la variable tipo
     if (isset($_POST['tipo'])) {
         $tipo = $_POST['tipo'];
-        if ($tipo === 'telefono') {
+        if ($tipo == 'telefono') {
             $Login = 1;
-        } elseif ($tipo === 'correo') {
+        } elseif ($tipo == 'correo') {
             $Login = 2;
+        }
+        elseif($tipo == 'nuevo'){
+            $Login = 3;
         }
     }
     else{
@@ -118,8 +121,7 @@
                                         </div>";
                                     echo"</form></div></div>";
                                 }
-                                else{
-                                    if($Login == 2){
+                                elseif($Login == 2){
                                     echo "<h4>Ingresa la siguiente informacion</h4>";
                                         echo"<form>";
                                     echo"<div class='Formulario'>
@@ -130,17 +132,14 @@
                                            <input type='password' class='form-control' id='exampleFormControlInput1'>
                                         </div>";
                                     echo"</form>";
-                                    }
+                                }
+                                elseif($Login == 3){
+                                    header("Location: AgregarUsuario.php");
                                 }
                                     
                             echo "</div>";
                             ?>
                         </div>
-                        <br>
-                        <a class="Botones" href="AgregarUsuario.php">
-                            Crear una Cuenta
-                        </a>
-                        <br><br>
                     <br>
                 </div>
             </div>
