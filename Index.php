@@ -11,6 +11,19 @@
     else{
         $Login=0;
     }
+
+    //Conexion a una base de datos
+    $host = "localhost";
+    $user = "root";
+    $password = "";
+    $database = "nozama";
+    $mysqli = new mysqli($host,$user,$password,$database);
+
+    if (!$mysqli) {
+        alert("Error al conectar a la base de datos");
+    }
+    else{
+    }
 ?>
 
 <!DOCTYPE html>
@@ -18,11 +31,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nozama</title>
+    <title>nozama</title>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="shortcut icon" href="src/Logo.ico" />
+    <style type="text/css">
+        .Formulario{
+            padding: 20px;
+            margin: 20px;
+        }
+        .Botones{
+            background-color: #7dc688;
+            margin: 25px;
+            border-radius: 10px;
+            padding: 10px;
+            color: black;
+            border-color: Black;
+
+        }
+        .General{
+            margin: 20px;
+            background-color: rgba(215, 177, 114, 0.98);
+            border-radius: 20px;
+            font-family: "Lucida Console", Courier, monospace;
+        }
+        .General2{
+            background-color: rgba(194, 237, 201, 0.98);
+            margin: 20px;
+            border-radius: 20px;
+        }
+        img{
+            height: 300px;
+            width: 300px;
+        }
+        body {
+            background-image: url('src/Fondo.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
 </head>
 
 <body class="img-fluid">  
@@ -34,7 +83,7 @@
                 <a href=""><img src="src/Logo.png" class="img-fluid"></a>
                 <div class="General">
                     <br>
-                    <h2 class="eslogan">Uniendo Venderores y Proveedores</h2>
+                    <h2>Uniendo Venderores y Proveedores</h2>
                     <br>
                 </div>
             </div>
@@ -49,6 +98,7 @@
                             <form action="" method="POST">
                                 <button type="submit" class="Botones" name="tipo" value="telefono">Número de Teléfono</button>
                                 <button type="submit" class="Botones" name="tipo" value="correo">Correo Electrónico</button>
+                                <button type="submit" class="Botones" name="tipo" value="nuevo">Crear Cuenta</button>
                             </form>
                             <div>
                             <!--Dependiendo la accion que haga muestra el formulario correspondiente-->
@@ -56,15 +106,17 @@
                             
                                 if($Login == 1){
                                     echo "<h4>Ingresa la siguiente informacion</h4>";
-                                    echo"<form>";
-                                    echo"<div class='Formulario'>
-                                        <label for='exampleFormControlInput1' class='text-start form-label text-left'>Numero Telefonico</label>
-                                        <input type='email' class='form-control' id='exampleFormControlInput1' placeholder='##########' autofocus>
-                                        <br>
-                                          <label for='exampleFormControlTextarea1' class='form-label'>Contraseña</label>
-                                           <input type='password' class='form-control' id='exampleFormControlInput1'>
+
+                                    echo"<div class='container'><div class='row'><form>";
+                                    echo"<div class='form-floating mb-3'>
+                                            <input type='email' class='form-control' id='floatingInput' placeholder='name@example.com'>
+                                            <label for='floatingInput'>Numero Telefonico</label>
+                                        </div>
+                                        <div class='form-floating'>
+                                            <input type='password' class='form-control' id='floatingPassword' placeholder='Password'>
+                                            <label for='floatingPassword'>Password</label>
                                         </div>";
-                                    echo"</form>";
+                                    echo"</form></div></div>";
                                 }
                                 else{
                                     if($Login == 2){
@@ -85,7 +137,7 @@
                             ?>
                         </div>
                         <br>
-                        <a class="Botones" href="crear_cuenta.php">
+                        <a class="Botones" href="AgregarUsuario.php">
                             Crear una Cuenta
                         </a>
                         <br><br>
