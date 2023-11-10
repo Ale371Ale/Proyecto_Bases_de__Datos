@@ -5,48 +5,51 @@
     $password = "";
     $database = "nozama";
     $mysqli = new mysqli($host,$user,$password,$database);
-
     $Error = "";
-    $anterior = "";
     $Login = 0;
+    $nombre = "";
+    $fechaNacimiento = null;
     if (!$mysqli) {
         alert("Error al conectar a la base de datos");
     }
-    
+
     //Verificamos la url y que exista la variable tipo
     if (isset($_POST['tipo'])) {
+       
         $tipo = $_POST['tipo'];
         if ($tipo === 'comprador') {
             $Login = 1;
-            $anterior = 1;
-            echo "ya entro ".$anterior;
         } elseif ($tipo == 'vendedor') {
             $Login = 2;
-            $anterior = 2;
-            echo "ya entro ".$anterior;
         }elseif($tipo == 'Agregar'){
-            //$nombre = $_POST['Nombre'];
-            //$fecha = $_POST['Fecha'];
-            //$sexo = $_POST['Sexo'];
+            $Login = $_POST['Login'];
+            $nombre = $_POST['Nombre'];
+            $fechaNacimiento = $_POST['Fecha'];
             //$correo = $_POST['Correo'];
             //$telefono = $_POST['Telefono'];
             //$contra = $_POST['Contra'];
-           // $contra2 = $_POST['Contra2'];
+            //$contra2 = $_POST['Contra2'];
             if (!empty($nombre)) {
-                
+                // Crear objetos DateTime para la fecha de nacimiento y la fecha actual
+                $fechaNacimientoObj = new DateTime($fechaNacimiento);
+                $fechaActual = new DateTime();
+                // Calcular la diferencia entre la fecha de nacimiento y la fecha actual
+                $diferencia = $fechaNacimientoObj->diff($fechaActual);
+                // Verificar si la diferencia es al menos de 18 años
+                if ($diferencia->y >= 18) {
+                    // Validar selección de sexo si se está agregando como comprador
+                    if (isset($_POST['Sexo']) && $_POST['Sexo'] !== "Elige una opcion") {
+                        $sexo = $_POST['Sexo'];
+                    } else {
+                        $Error = "Por favor, selecciona tu sexo.";
+                    }
+                } else {
+                    $Error = "Debes tener al menos 18 años para registrarte.";
+                }
             } else {
-                $Error = "El Nombre no puede estar vacio";
-                if($anterior == 1){
-                    $Login = 1;
-                }
-                else{
-                    $Login = 2;
-                }
+                $Error = "El Nombre no puede estar vacío";
             }
         }
-    }
-    else{
-        $Login=0;
     }
 ?>
 
@@ -120,12 +123,13 @@
                                             </div>
                                             <div class='col-md-6'>
                                                 <form action='' method='POST'>
+                                                    <input type='hidden' name='Login' value='$Login'>
                                                     <div class='form-floating mb-3'>
-                                                        <input type='text' name='Nombre' class='form-control' id='floatingNombre' placeholder='' autofocus>
+                                                        <input type='text' value='$nombre' name='Nombre' class='form-control' id='floatingNombre' placeholder='' autofocus>
                                                         <label for='floatingNombre'>Nombre</label>
                                                     </div>
                                                     <div class='form-floating'>
-                                                        <input type='date' name='Fecha' class='form-control' id='floatingFecha' placeholder=''>
+                                                        <input type='date' name='Fecha' value='$fechaNacimiento' class='form-control' id='floatingFecha' placeholder=''>
                                                         <label for='floatingFecha'>Fecha de Nacimiento</label>
                                                     </div>
                                                     <br>
