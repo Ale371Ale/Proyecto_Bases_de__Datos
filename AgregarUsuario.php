@@ -27,7 +27,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>nozama</title>
     <!-- Bootstrap -->
@@ -42,35 +42,126 @@
             background-attachment: fixed;
         }
         img{
-            width: 100px;
-            height: 100px;
+            width: 250px;
+            height: 250px;
+            position: relative;
         }
         .General{
-            margin: 20px;
-            background-color: rgba(215, 177, 114, 0.9);
+            margin: 5px;
             border-radius: 20px;
-            font-family: "Lucida Console", Courier, monospace;
+            background-color: rgba(215, 177, 114, 0.9);
+        }
+        .Botones{
+            background-color: #766241;
+            margin: 25px;
+            border-radius: 10px;
+            padding: 10px;
+            color: black;
+            border-color: Black;
         }
     </style>
 </head>
-<body>
-    <div class="container-lg text-center" id="general">
+<body class="img-fluid">
+    <br><br><br>
+    <div class="container-xs text-center">
         <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                <!-- Image-->
-                <a href="Index.php"><img src="src/Logo.png" class="img-fluid"></a>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 ">
+                <div>
+                    <a href="Index.php"><img src="src/Logo.png" class="img-fluid"></a>
+                </div>
             </div>
-            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 General">
-                <h2>BIENVENIDO A NOZAMA</h2>
-                <h4>Elige un tipo de cuenta</h4>
-                <form action="" method="POST">
-                    <button type="submit" class="Botones" name="tipo" value="comprador">Comprador</button>
-                    <button type="submit" class="Botones" name="tipo" value="vendedor">Vendedor</button>
-                </form>
-                <h4>Rellena el siguiente formulario</h4>
-                <form>
-                    
-                </form>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 ">
+                <div class="General">
+                    <br><br>
+                    <h4>Que tipo de cuenta necesitas</h4>
+                    <form action="" method="POST">
+                        <button type="submit" class="Botones" name="tipo" value="vendedor">Vendedor</button>
+                        <button type="submit" class="Botones" name="tipo" value="comprador">Comprador</button>
+                    </form>
+                    <div>
+                        <!--Dependiendo la accion que haga muestra el formulario correspondiente-->
+                        <?PHP
+                            //comprador
+                            if($Login == 1){
+                                echo "<h4>Ingresa la siguiente informacion</h4>
+                                    <div class='container'>
+                                        <div class='row'>
+                                            <div class='col-md-3'>
+                                            </div>
+                                            <div class='col-md-6'>
+                                                <form>
+                                                    <div class='form-floating mb-3'>
+                                                        <input type='text' class='form-control' id='floatingNombre' placeholder='' autofocus>
+                                                        <label for='floatingNombre'>Nombre</label>
+                                                    </div>
+                                                    <div class='form-floating'>
+                                                        <input type='date' class='form-control' id='floatingFecha' placeholder=''>
+                                                        <label for='floatingFecha'>Fecha de Nacimiento</label>
+                                                    </div>
+                                                    <br>
+                                                    <div class='form-floating'>
+                                                        <select class='form-select aria-label='Default select example' id='floatingSelect'>
+                                                            <option selected>Elige una opcion</option>
+                                                            <option value='1'>Femenino</option>
+                                                            <option value='2'>Masculino</option>
+                                                            <option value='3'>Prefiero no decirlo </option>
+                                                        </select>
+                                                    <label for='floatingSelect'>Sexo</label>
+                                                    </div>
+                                                    <br>    
+                                                    <div class='form-floating mb-3'>
+                                                            <input type='email' class='form-control' id='floatingCorreo' placeholder='name@example.com'>
+                                                            <label for='floatingCorreo'>Correo Electronico</label>
+                                                        </div>
+                                                        <div class='form-floating mb-3'>
+                                                        <input type='number' class='form-control' id='floatingTelefono' placeholder='##########'>
+                                                        <label for='floatingTelefono'>Numero de Telefono</label>
+                                                    </div>
+                                                    <div class='form-floating'>
+                                                            <input type='password' class='form-control' id='floatingPassword' placeholder='Password'>
+                                                            <label for='floatingPassword'>Contraseña</label>
+                                                    </div>
+                                                    <br>
+                                                    <div class='form-floating'>
+                                                            <input type='password' class='form-control' id='floatingConfirmarPassword' placeholder='Password'>
+                                                            <label for='floatingConfirmarPassword'>Confirma tu Contraseña</label>
+                                                    </div>
+                                                    <button type='submit' class='Botones' name='tipo' value='nuevo'>Crear Cuenta</button>
+                                                </form>
+                                            </div>
+                                            <div class='col-md-3'>
+                                            </div>
+                                        </div>
+                                    </div>";
+                            }
+                            //vendedor
+                            elseif($Login == 2){
+                                echo "<h4>Ingresa la siguiente informacion</h4>
+                                    <div class='container'>
+                                        <div class='row'>
+                                            <div class='col-md-3'>
+                                            </div>
+                                            <div class='col-md-6'>
+                                                <form>
+                                                    <div class='form-floating mb-3'>
+                                                        <input type='email' class='form-control' id='floatingInput' placeholder='name@example.com'>
+                                                        <label for='floatingInput'>Correo Electronico</label>
+                                                    </div>
+                                                    <div class='form-floating'>
+                                                        <input type='password' class='form-control' id='floatingPassword' placeholder='Password'>
+                                                        <label for='floatingPassword'>Password</label>
+                                                    </div>
+                                                    <button type='submit' class='Botones' name='tipo' value='nuevo'>Crear Cuenta</button>
+                                                </form>
+                                            </div>
+                                            <div class='col-md-3'>
+                                            </div>
+                                        </div>
+                                    </div>";
+                            }
+                        ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -108,21 +108,22 @@
                             <?PHP
                                 //Por numero telefonico
                                 if($Login == 1){
-                                    echo "<h4>Ingresa la siguiente informacion</h4>";
-                                    echo"<div class='container'>
+                                    echo "<h4>Ingresa la siguiente informacion</h4>
+                                        <div class='container'>
                                             <div class='row'>
                                                 <div class='col-md-3'>
                                                 </div>
                                                 <div class='col-md-6'>
                                                     <form>
                                                         <div class='form-floating mb-3'>
-                                                            <input type='number' class='form-control' id='floatingInput' placeholder='##########'>
-                                                            <label for='floatingInput'>Numero de Telefono</label>
+                                                            <input type='number' class='form-control' id='floatingTelefono' placeholder='##########'>
+                                                            <label for='floatingTelefono'>Numero de Telefono</label>
                                                         </div>
                                                         <div class='form-floating'>
                                                             <input type='password' class='form-control' id='floatingPassword' placeholder='Password'>
-                                                            <label for='floatingPassword'>Password</label>
+                                                            <label for='floatingPassword'>Contraseña</label>
                                                         </div>
+                                                        <button type='submit' class='Botones'>Iniciar Sesión</button>
                                                     </form>
                                                 </div>
                                                 <div class='col-md-3'>
@@ -132,21 +133,22 @@
                                 }
                                 //Por correo
                                 elseif($Login == 2){
-                                    echo "<h4>Ingresa la siguiente informacion</h4>";
-                                    echo"<div class='container'>
+                                    echo "<h4>Ingresa la siguiente informacion</h4>
+                                        <div class='container'>
                                             <div class='row'>
                                                 <div class='col-md-3'>
                                                 </div>
                                                 <div class='col-md-6'>
                                                     <form>
                                                         <div class='form-floating mb-3'>
-                                                            <input type='email' class='form-control' id='floatingInput' placeholder='name@example.com'>
-                                                            <label for='floatingInput'>Correo Electronico</label>
+                                                            <input type='email' class='form-control' id='floatingCorreo' placeholder='name@example.com'>
+                                                            <label for='floatingCorreo'>Correo Electronico</label>
                                                         </div>
                                                         <div class='form-floating'>
                                                             <input type='password' class='form-control' id='floatingPassword' placeholder='Password'>
-                                                            <label for='floatingPassword'>Password</label>
+                                                            <label for='floatingPassword'>Contraseña</label>
                                                         </div>
+                                                        <button type='submit' class='Botones'>Iniciar Sesión</button>
                                                     </form>
                                                 </div>
                                                 <div class='col-md-3'>
