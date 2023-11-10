@@ -86,7 +86,7 @@
                 <a href=""><img src="src/Logo.png" class="img-fluid"></a>
                 <div class="General">
                     <br>
-                    <h2>Uniendo Venderores y Proveedores</h2>
+                    <h2>Uniendo Negocios</h2>
                     <br>
                 </div>
             </div>
@@ -106,38 +106,58 @@
                             <div>
                             <!--Dependiendo la accion que haga muestra el formulario correspondiente-->
                             <?PHP
-                            
+                                //Por numero telefonico
                                 if($Login == 1){
                                     echo "<h4>Ingresa la siguiente informacion</h4>";
-
-                                    echo"<div class='container'><div class='row'><form>";
-                                    echo"<div class='form-floating mb-3'>
-                                            <input type='email' class='form-control' id='floatingInput' placeholder='name@example.com'>
-                                            <label for='floatingInput'>Numero Telefonico</label>
-                                        </div>
-                                        <div class='form-floating'>
-                                            <input type='password' class='form-control' id='floatingPassword' placeholder='Password'>
-                                            <label for='floatingPassword'>Password</label>
+                                    echo"<div class='container'>
+                                            <div class='row'>
+                                                <div class='col-md-3'>
+                                                </div>
+                                                <div class='col-md-6'>
+                                                    <form>
+                                                        <div class='form-floating mb-3'>
+                                                            <input type='number' class='form-control' id='floatingInput' placeholder='##########'>
+                                                            <label for='floatingInput'>Numero de Telefono</label>
+                                                        </div>
+                                                        <div class='form-floating'>
+                                                            <input type='password' class='form-control' id='floatingPassword' placeholder='Password'>
+                                                            <label for='floatingPassword'>Password</label>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class='col-md-3'>
+                                                </div>
+                                            </div>
                                         </div>";
-                                    echo"</form></div></div>";
                                 }
+                                //Por correo
                                 elseif($Login == 2){
                                     echo "<h4>Ingresa la siguiente informacion</h4>";
-                                        echo"<form>";
-                                    echo"<div class='Formulario'>
-                                        <label for='exampleFormControlInput1' class='form-label text-left'>Correo Electronico</label>
-                                        <input type='email' class='form-control' id='exampleFormControlInput1' placeholder='name@example.com' autofocus>
-                                        <br>
-                                          <label for='exampleFormControlTextarea1' class='form-label'>Contraseña</label>
-                                           <input type='password' class='form-control' id='exampleFormControlInput1'>
+                                    echo"<div class='container'>
+                                            <div class='row'>
+                                                <div class='col-md-3'>
+                                                </div>
+                                                <div class='col-md-6'>
+                                                    <form>
+                                                        <div class='form-floating mb-3'>
+                                                            <input type='email' class='form-control' id='floatingInput' placeholder='name@example.com'>
+                                                            <label for='floatingInput'>Correo Electronico</label>
+                                                        </div>
+                                                        <div class='form-floating'>
+                                                            <input type='password' class='form-control' id='floatingPassword' placeholder='Password'>
+                                                            <label for='floatingPassword'>Password</label>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class='col-md-3'>
+                                                </div>
+                                            </div>
                                         </div>";
-                                    echo"</form>";
                                 }
+                                //Nueva cuenta
                                 elseif($Login == 3){
                                     header("Location: AgregarUsuario.php");
                                 }
-                                    
-                            echo "</div>";
                             ?>
                         </div>
                     <br>
