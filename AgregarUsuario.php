@@ -1,17 +1,4 @@
 <?PHP
-    //Verificamos la url y que exista la variable tipo
-    if (isset($_POST['tipo'])) {
-        $tipo = $_POST['tipo'];
-        if ($tipo === 'comprador') {
-            $Login = 1;
-        } elseif ($tipo === 'vendedor') {
-            $Login = 2;
-        }
-    }
-    else{
-        $Login=0;
-    }
-
     //Conexion a una base de datos
     $host = "localhost";
     $user = "root";
@@ -21,6 +8,27 @@
 
     if (!$mysqli) {
         alert("Error al conectar a la base de datos");
+    }
+    
+    //Verificamos la url y que exista la variable tipo
+    if (isset($_POST['tipo'])) {
+        $tipo = $_POST['tipo'];
+        if ($tipo === 'comprador') {
+            $Login = 1;
+        } elseif ($tipo === 'vendedor') {
+            $Login = 2;
+        }elseif($tipo === 'Agregar'){
+            $nombre = $_POST['Nombre'];
+            $fecha = $_POST['Fecha'];
+            $sexo = $_POST['Sexo'];
+            $correo = $_POST['Correo'];
+            $telefono = $_POST['Telefono'];
+            $contra = $_POST['Contra'];
+            $contra2 = $_POST['Contra2'];
+        }
+    }
+    else{
+        $Login=0;
     }
 ?>
 
@@ -59,6 +67,9 @@
             color: black;
             border-color: Black;
         }
+        h5{
+            color: red;
+        }
     </style>
 </head>
 <body class="img-fluid">
@@ -84,23 +95,24 @@
                             //comprador
                             if($Login == 1){
                                 echo "<h4>Ingresa la siguiente informacion</h4>
+                                    <h5>Error<h5>
                                     <div class='container'>
                                         <div class='row'>
                                             <div class='col-md-3'>
                                             </div>
                                             <div class='col-md-6'>
-                                                <form>
+                                                <form action='' method='POST'>
                                                     <div class='form-floating mb-3'>
-                                                        <input type='text' class='form-control' id='floatingNombre' placeholder='' autofocus>
+                                                        <input type='text' name='Nombre' class='form-control' id='floatingNombre' placeholder='' autofocus>
                                                         <label for='floatingNombre'>Nombre</label>
                                                     </div>
                                                     <div class='form-floating'>
-                                                        <input type='date' class='form-control' id='floatingFecha' placeholder=''>
+                                                        <input type='date' name='Fecha' class='form-control' id='floatingFecha' placeholder=''>
                                                         <label for='floatingFecha'>Fecha de Nacimiento</label>
                                                     </div>
                                                     <br>
                                                     <div class='form-floating'>
-                                                        <select class='form-select aria-label='Default select example' id='floatingSelect'>
+                                                        <select class='form-select name='Sexo' aria-label='Default select example' id='floatingSelect'>
                                                             <option selected>Elige una opcion</option>
                                                             <option value='1'>Femenino</option>
                                                             <option value='2'>Masculino</option>
@@ -110,23 +122,23 @@
                                                     </div>
                                                     <br>    
                                                     <div class='form-floating mb-3'>
-                                                            <input type='email' class='form-control' id='floatingCorreo' placeholder='name@example.com'>
+                                                            <input type='email' name='Correo' class='form-control' id='floatingCorreo' placeholder='name@example.com'>
                                                             <label for='floatingCorreo'>Correo Electronico</label>
                                                         </div>
                                                         <div class='form-floating mb-3'>
-                                                        <input type='number' class='form-control' id='floatingTelefono' placeholder='##########'>
+                                                        <input type='number' name='Telefono' class='form-control' id='floatingTelefono' placeholder='##########'>
                                                         <label for='floatingTelefono'>Numero de Telefono</label>
                                                     </div>
                                                     <div class='form-floating'>
-                                                            <input type='password' class='form-control' id='floatingPassword' placeholder='Password'>
+                                                            <input type='password' name='Contra' class='form-control' id='floatingPassword' placeholder='Password'>
                                                             <label for='floatingPassword'>Contraseña</label>
                                                     </div>
                                                     <br>
                                                     <div class='form-floating'>
-                                                            <input type='password' class='form-control' id='floatingConfirmarPassword' placeholder='Password'>
+                                                            <input type='password' name='Contra2' class='form-control' id='floatingConfirmarPassword' placeholder='Password'>
                                                             <label for='floatingConfirmarPassword'>Confirma tu Contraseña</label>
                                                     </div>
-                                                    <button type='submit' class='Botones' name='tipo' value='nuevo'>Crear Cuenta</button>
+                                                    <button type='submit' class='Botones' name='tipo' value='Agregar'>Crear Cuenta</button>
                                                 </form>
                                             </div>
                                             <div class='col-md-3'>

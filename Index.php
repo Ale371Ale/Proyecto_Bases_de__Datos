@@ -116,11 +116,11 @@
                                                 <div class='col-md-6'>
                                                     <form>
                                                         <div class='form-floating mb-3'>
-                                                            <input type='number' class='form-control' id='floatingTelefono' placeholder='##########'>
+                                                            <input type='number' class='form-control' id='floatingTelefono' placeholder='##########' autofocus>
                                                             <label for='floatingTelefono'>Numero de Telefono</label>
                                                         </div>
                                                         <div class='form-floating'>
-                                                            <input type='password' class='form-control' id='floatingPassword' placeholder='Password'>
+                                                            <input type='password' class='form-control' id='floatingPassword' placeholder='Password' autofocus>
                                                             <label for='floatingPassword'>Contraseña</label>
                                                         </div>
                                                         <button type='submit' class='Botones'>Iniciar Sesión</button>
@@ -141,11 +141,11 @@
                                                 <div class='col-md-6'>
                                                     <form>
                                                         <div class='form-floating mb-3'>
-                                                            <input type='email' class='form-control' id='floatingCorreo' placeholder='name@example.com'>
+                                                            <input type='email' class='form-control' id='floatingCorreo' placeholder='name@example.com' autofocus>
                                                             <label for='floatingCorreo'>Correo Electronico</label>
                                                         </div>
                                                         <div class='form-floating'>
-                                                            <input type='password' class='form-control' id='floatingPassword' placeholder='Password'>
+                                                            <input type='password' class='form-control' id='floatingPassword' placeholder='Password'autofocus>
                                                             <label for='floatingPassword'>Contraseña</label>
                                                         </div>
                                                         <button type='submit' class='Botones'>Iniciar Sesión</button>
