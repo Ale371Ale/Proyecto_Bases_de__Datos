@@ -1,0 +1,44 @@
+.Formulario {
+    padding: 20px;
+    margin: 20px;
+}
+
+.Botones {
+    background-color: #a0ced9; /* Color pastel */
+    margin: 25px;
+    border-radius: 10px;
+    padding: 10px;
+    color: #4d4d4d; /* Color de texto */
+    transition: transform 0.3s ease-in-out;
+}
+
+.General {
+    margin: 20px;
+    background-color: rgba(215, 177, 114, 0.98);
+    border-radius: 20px;
+    font-family: "Lucida Console", Courier, monospace;
+}
+
+.General2 {
+    background-color: #c2edc9; /* Color pastel */
+    margin: 20px;
+    border-radius: 20px;
+}
+
+img {
+    height: 500px;
+    width: 500px;
+}
+
+body {
+    background-image: url('src/Fondo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.eslogan {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-style: italic;
+    color: #4d4d4d; /* Color de texto */
+}
