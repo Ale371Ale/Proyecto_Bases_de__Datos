@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Tienda</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #c5e1f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            width: 100%;
+        }
+
+        .carousel-container {
+            background-color: #f7e9c5;
+            padding: 30px;
+            margin: auto;
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 20%;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            width: 1.5em;
+            height: 1.5em;
+        }
+
+        .dropdown-menu,
+        .nav-item-dropdown {
+            margin: 0 10%;
+            padding: 0;
+        }
+
+        .navbar-nav {
+            margin-right: 20px; /* Ajusta el margen derecho del menú de navegación */
+            margin-left: 50%;
+        }
+
+        .form-search {
+            margin-right: 20%; /* Ajusta el margen derecho del formulario de búsqueda para alinearlo a la izquierda */
+            margin-left: 10%;
+        }
+
+        .navbar-brand,
+        .navbar-nav {
+            margin-left: 10%; /* Ajusta el margen izquierdo de "Mi Tienda" y el menú de navegación */
+        }
+
+        .navbar-toggler-icon {
+            margin-right: 10%; /* Ajusta el margen derecho del icono del botón de alternar */
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">Mi Tienda</a>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+
+            <!-- Botón de hamburguesa para el menú colapsable -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Menú colapsable -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav ml-auto">
+                    <a class="nav-link" href="#">Comestibles</a>
+                    <a class="nav-link" href="#">Tecnología</a>
+                    <a class="nav-link" href="#">Ropa</a>
+
+                    <!-- Agrega más categorías según sea necesario -->
+                </div>
+
+                <!-- Ícono de usuario con menú colapsable -->
+                <div class="nav-item-dropdown dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user"></i> Usuario <img src="Productos/User.png" alt="Logo" style="width: 20px; height: 20px;">
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Configuración</a>
+                        <a class="dropdown-item" href="#">Carrito de Compras</a>
+                        <a class="dropdown-item" href="#">Métodos de Pago</a>
+                        <a class="dropdown-item" href="#">Cerrar Sesión</a>
+
+                        <!-- Agrega más opciones según sea necesario -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenedor del Carrusel -->
+    <div class="carousel-container">
+        <!-- Carousel de productos destacados -->
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="Productos/Producto1.jpg" class="mx-auto d-block" style="width: 500px; height: 400px;" alt="Producto 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="Productos/Producto2.jpg" class="mx-auto d-block" style="width: 500px; height: 400px;" alt="Producto 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="Productos/Pordutco3.jpg" class="mx-auto d-block" style="width: 500px; height: 400px;" alt="Producto 3">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+  <!-- Sección de productos -->
+<!-- Sección de productos -->
+<div class="container mt-5">
+    <h2>Productos Destacados</h2>
+    <div class="row">
+        <!-- Tarjeta de Producto 1 -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="Productos/Producto1.jpg" class="card-img-top" style="height: 300px;" alt="Producto 1">
+                <div class="card-body">
+                    <h5 class="card-title">Tarjeta de Video Zotac NVIDIA GeForce RTX 4070 AMP AIRO SPIDER-MAN: Across the Spider-Verse, 12GB 192-bit GDDR6X, PCI Express 4.0 x16</h5>
+                    <p class="card-text" style="max-lines: 3;">Precio: $12,369.00</p>
+                    <!-- Agrega más información según sea necesario -->
+                    <a href="https://www.cyberpuerta.mx/Computo-Hardware/Componentes/Tarjetas-de-Video/Tarjeta-de-Video-Zotac-NVIDIA-GAMING-GEFORCE-RTX-4070-AMP-AIRO-SPIDER-MAN-Across-the-Spider-Verse-12GB-192-bit-GDDR6X-PCI-Express-4-0-x16.html?gclid=CjwKCAiA6byqBhAWEiwAnGCA4KBK63ULFr799S6YOwkHUuJf8BMEMDd1jbPedkca62_PsHhjvXqnbBoCDbQQAvD_BwE" class="btn btn-primary">Ver Detalles</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta de Producto 2 -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="Productos/Producto2.jpg" class="card-img-top" style="height: 325px;" alt="Producto 2">
+                <div class="card-body">
+                    <h5 class="card-title">Tarjeta de Video ASRock AMD Radeon RX 6600 XT Phantom Gaming D 8GB OC, 8GB 128-bit GDDR6, PCI Express 4.0</h5>
+                    <p class="card-text" style="max-lines: 3;">Precio: $6,089.00</p>
+                    <!-- Agrega más información según sea necesario -->
+                    <a href="https://www.cyberpuerta.mx/Computo-Hardware/Componentes/Tarjetas-de-Video/Tarjeta-de-Video-ASRock-AMD-Radeon-RX-6600-XT-Phantom-Gaming-D-8GB-OC-8GB-128-bit-GDDR6-PCI-Express-4-0.html?gclid=CjwKCAiA6byqBhAWEiwAnGCA4H-Jk4OvbC6Md9b9NQQongdsdWRtY42odeom1M6icwE4JeL3DPtUxhoC27MQAvD_BwE" class="btn btn-primary">Ver Detalles</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta de Producto 3 -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="Productos/Pordutco3.jpg" class="card-img-top" style="height: 350px;" alt="Producto 3">
+                <div class="card-body">
+                    <h5 class="card-title">Monitor XZEAL XSPMG04B LED 23.8", Full HD, 75Hz, HDMI, Negro</h5>
+                    <p class="card-text" style="max-lines: 3;">Precio: $1,499.00</p>
+                    <!-- Agrega más información según sea necesario -->
+                    <a href="https://www.cyberpuerta.mx/Computo-Hardware/Monitores/Monitores/Monitor-XZEAL-XSPMG04B-LED-23-8-Full-HD-75Hz-HDMI-Negro.html" class="btn btn-primary">Ver Detalles</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Puedes agregar más tarjetas de productos aquí -->
+    </div>
+</div>
+
+        </div>
+    </div>
+    
+
+    <!-- Footer similar a MercadoLibre -->
+    <footer class="bg-light mt-5">
+        <div class="container">
+            <!-- Contenido del pie de página -->
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Agrega tus scripts personalizados aquí -->
+</body>
+</html>

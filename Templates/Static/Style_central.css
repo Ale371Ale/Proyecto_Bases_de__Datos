@@ -1,0 +1,60 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    width: 100%;
+}
+
+.carousel-container {
+    background-color: #f7e9c5;
+    padding: 30px;
+    margin: auto;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 10%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.dropdown-menu,
+.nav-item-dropdown {
+    margin: 0 10%;
+    padding: 0;
+}
+
+.navbar-nav {
+    margin-right: 20px; /* Ajusta el margen derecho del menú de navegación */
+    margin-left: 50%;
+}
+
+.form-search {
+    margin-right: 20%; /* Ajusta el margen derecho del formulario de búsqueda para alinearlo a la izquierda */
+    margin-left: 10%;
+}
+
+.navbar-brand,
+.navbar-nav {
+    margin-left: 1%; /* Ajusta el margen izquierdo de "Mi Tienda" y el menú de navegación */
+}
+
+.navbar-toggler-icon {
+    margin-right: 10%; /* Ajusta el margen derecho del icono del botón de alternar */
+}
+
+/* Estilos personalizados para el menú de hamburguesa */
+.navbar-toggler-icon {
+    background-color: #000; /* Color del ícono de hamburguesa */
+}
+
+/* Alineación del menú desplegable hacia la izquierda */
+.navbar-collapse {
+    text-align: left;
+}

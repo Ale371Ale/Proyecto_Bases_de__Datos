@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nozama</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="Static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" href="Static/src/Logo.ico" />
+    
+    <style>
+        .Botones {
+            background-color: #7dc688;
+            margin: 25px;
+            border-radius: 10px;
+            padding: 10px;
+            color: black;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .Botones:hover {
+            transform: scale(1.1);
+        }
+
+        .Botones:active {
+            transform: scale(0.9);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .form-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-container.show {
+            max-height: 700px; /* Ajusta el valor según tus preferencias */
+        }
+    </style>
+</head>
+<body class="img-fluid">
+    <br><br><br>
+    <div class="container-xs text-center">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                <div>
+                    <a href="Index.html"><img src="Static/src/Logo.png" class="img-fluid" style="width: 300px; height: 300px;"></a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                <div class="General">
+                    <br><br>
+                    <h4>Que tipo de cuenta necesitas</h4>
+                    <form action="" method="POST">
+                        <button type="button" class="Botones" onclick="showForm('comprador')">Comprador</button>
+                        <button type="button" class="Botones" onclick="showForm('vendedor')">Vendedor</button>
+                        <!-- Agrega más botones aquí si es necesario -->
+                    </form>
+                    <div class="form-container hidden" id="compradorForm">
+                        <!-- Formulario para comprador aquí -->
+                        <h5 class='Error'></h5>
+                        <h4 class="form-title">Ingresa la siguiente informacion</h4>
+                        <div class='container'>
+                            <div class='row'>
+                                <div class='col-md-3'></div>
+                                <div class='col-md-6'>
+                                    <form action='' method='POST'>
+                                        <!-- Campos para comprador -->
+                                        <input type='hidden' name='Login' value='$Login'>
+                                        <div class='form-floating mb-3'>
+                                            <input type='text' value='' name='Nombre' class='form-control' id='floatingNombre' placeholder='' autofocus>
+                                            <label for='floatingNombre'>Nombre</label>
+                                        </div>
+                                        <div class='form-floating'>
+                                            <input type='date' name='Fecha' value='$fechaNacimiento' class='form-control' id='floatingFecha' placeholder=''>
+                                            <label for='floatingFecha'>Fecha de Nacimiento</label>
+                                        </div>
+                                        <br>
+                                        <div class='form-floating'>
+                                            <select class='form-select name='Sexo' aria-label='Default select example' id='floatingSelect'>
+                                                <option selected>Elige una opcion</option>
+                                                <option value='1'>Femenino</option>
+                                                <option value='2'>Masculino</option>
+                                                <option value='3'>Otro </option>
+                                                <option value='3'>Prefiero no decirlo </option>
+                                            </select>
+                                            <label for='floatingSelect'>Sexo</label>
+                                        </div>
+                                        <br>    
+                                        <div class='form-floating mb-3'>
+                                            <input type='email' name='Correo' class='form-control' id='floatingCorreo' placeholder='name@example.com'>
+                                            <label for='floatingCorreo'>Correo Electronico</label>
+                                        </div>
+                                        <div class='form-floating mb-3'>
+                                            <input type='number' name='Telefono' class='form-control' id='floatingTelefono' placeholder='##########'>
+                                            <label for='floatingTelefono'>Numero de Telefono</label>
+                                        </div>
+                                        <div class='form-floating position-relative'>
+                                            <input type='password' name='Contra' class='form-control' id='floatingPassword' placeholder='Password'>
+                                            <label for='floatingPassword'>Contraseña</label>
+                                        
+                                            <!-- Agregar el checkbox con la imagen de ojo cerrado -->
+                                            <div class="position-absolute end-0 top-50 translate-middle-y" style="cursor: pointer;">
+                                                <input class="form-check-input visually-hidden" type="checkbox" id="showPassword">
+                                                <label class="form-check-label" for="showPassword">
+                                                    <img src="Static/src/ojo cerrado.png" alt="Mostrar Contraseña" style="width: 20px; height: 20px; margin-right: 5px;">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                        <br>
+                                        <div class='form-floating'>
+                                            <input type='password' name='Contra2' class='form-control' id='floatingConfirmarPassword' placeholder='Password'>
+                                            <label for='floatingConfirmarPassword'>Confirma tu Contraseña</label>
+                                        </div>
+                                        <button type="submit" class="Botones" name="tipo" value="nuevo">Crear Cuenta</button>
+                                    </form>
+                                </div>
+                                <div class='col-md-3'></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Formulario para vendedor aquí -->
+                    <div class="form-container hidden" id="vendedorForm">
+                        <h4 class="form-title">Ingresa la siguiente informacion</h4>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-6">
+                                    <form>
+                                        <!-- Campos para vendedor -->
+                                        <div class="form-floating mb-3">
+                                            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                                            <label for="floatingInput">Correo Electronico</label>
+                                        </div>
+                                        <div class="form-floating">
+                                            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                                            <label for="floatingPassword">Password</label>
+                                        </div>
+                                        <button type="submit" class="Botones" name="tipo" value="nuevo">Crear Cuenta</button>
+                                    </form>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showForm(type) {
+            var compradorForm = document.getElementById('compradorForm');
+            var vendedorForm = document.getElementById('vendedorForm');
+            
+            // Verificar si el formulario ya está visible
+            var isCompradorFormVisible = compradorForm.classList.contains('show');
+            var isVendedorFormVisible = vendedorForm.classList.contains('show');
+
+            // Oculta todos los formularios si es necesario
+            if (isCompradorFormVisible) {
+                compradorForm.classList.remove('show');
+                compradorForm.classList.add('hidden');
+            }
+
+            if (isVendedorFormVisible) {
+                vendedorForm.classList.remove('show');
+                vendedorForm.classList.add('hidden');
+            }
+
+            // Muestra el formulario correspondiente si no estaba visible
+            if (type === 'comprador' && !isCompradorFormVisible) {
+                compradorForm.classList.remove('hidden');
+                compradorForm.classList.add('show');
+            } else if (type === 'vendedor' && !isVendedorFormVisible) {
+                vendedorForm.classList.remove('hidden');
+                vendedorForm.classList.add('show');
+            }
+        }
+
+        document.getElementById('showPassword').addEventListener('change', function () {
+            var passwordInput = document.getElementById('floatingPassword');
+            passwordInput.type = this.checked ? 'text' : 'password';
+
+            // Cambiar la imagen del ojo según el estado del checkbox
+            var eyeImage = this.checked ? 'Static/src/ojo abierto.png' : 'Static/src/ojo cerrado.png';
+            this.nextElementSibling.querySelector('img').src = eyeImage;
+        });
+    </script>
+</body>
+</html>
