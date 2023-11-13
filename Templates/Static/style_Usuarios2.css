@@ -1,0 +1,34 @@
+.Botones {
+    background-color: #7dc688;
+    margin: 25px;
+    border-radius: 10px;
+    padding: 10px;
+    color: black;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.Botones:hover {
+    transform: scale(1.1);
+}
+
+.Botones:active {
+    transform: scale(0.9);
+}
+
+.hidden {
+    display: none;
+}
+
+.form-container {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container.show {
+    max-height: 700px; /* Ajusta el valor según tus preferencias */
+}

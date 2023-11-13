@@ -5,47 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NOZAMA</title>
     <!-- Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="Static/style.css">
+    <link rel="stylesheet" type="text/css" href="Static/style_Usuarios.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <link rel="shortcut icon" href="Static/src/Logo.ico" />
     <link rel="shortcut icon" href="Static/src/Logo.ico" />
-    <style>
-        .Botones {
-            background-color: #7dc688;
-            margin: 25px;
-            border-radius: 10px;
-            padding: 10px;
-            color: black;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .Botones:hover {
-            transform: scale(1.1);
-        }
-
-        .Botones:active {
-            transform: scale(0.9);
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .form-container {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-out;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-container.show {
-            max-height: 700px; /* Ajusta el valor según tus preferencias */
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="Static/style_Usuarios2.css"> 
 </head>
 <body class="img-fluid">
     <br><br><br>
@@ -157,45 +122,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function showForm(type) {
-            var compradorForm = document.getElementById('compradorForm');
-            var vendedorForm = document.getElementById('vendedorForm');
-            
-            // Verificar si el formulario ya está visible
-            var isCompradorFormVisible = compradorForm.classList.contains('show');
-            var isVendedorFormVisible = vendedorForm.classList.contains('show');
-
-            // Oculta todos los formularios si es necesario
-            if (isCompradorFormVisible) {
-                compradorForm.classList.remove('show');
-                compradorForm.classList.add('hidden');
-            }
-
-            if (isVendedorFormVisible) {
-                vendedorForm.classList.remove('show');
-                vendedorForm.classList.add('hidden');
-            }
-
-            // Muestra el formulario correspondiente si no estaba visible
-            if (type === 'comprador' && !isCompradorFormVisible) {
-                compradorForm.classList.remove('hidden');
-                compradorForm.classList.add('show');
-            } else if (type === 'vendedor' && !isVendedorFormVisible) {
-                vendedorForm.classList.remove('hidden');
-                vendedorForm.classList.add('show');
-            }
-        }
-
-        document.getElementById('showPassword').addEventListener('change', function () {
-            var passwordInput = document.getElementById('floatingPassword');
-            passwordInput.type = this.checked ? 'text' : 'password';
-
-            // Cambiar la imagen del ojo según el estado del checkbox
-            var eyeImage = this.checked ? 'Static/src/ojo abierto.png' : 'Static/src/ojo cerrado.png';
-            this.nextElementSibling.querySelector('img').src = eyeImage;
-        });
-    </script>
+    <script src="Static/Agregar_Usuarios.js"></script>
 </body>
 </html>
