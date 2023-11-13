@@ -58,3 +58,63 @@ body {
 .navbar-collapse {
     text-align: left;
 }
+body {
+    background-color: #c5e1f7;
+    margin: 0;
+    padding: 0;
+}
+
+
+.carousel-container {
+    background-color: #f7e9c5;
+    padding: 30px;
+    margin: auto;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 20%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.dropdown-menu,
+.nav-item-dropdown {
+    margin: 0 20%;
+    padding: 0;
+}
+
+.navbar-nav {
+   
+    margin-left: 20%;
+    margin-right: 10%;
+}
+
+.form-search {
+    margin-right: 20%; /* Ajusta el margen derecho del formulario de búsqueda para alinearlo a la izquierda */
+    margin-left: 10%;
+}
+
+.navbar-brand
+ {
+    margin-left: 0%; /* Ajusta el margen izquierdo de "Mi Tienda" y el menú de navegación */
+}
+.dropdown-menu{
+    margin-left: 10%;
+}
+
+.navbar-toggler-icon {
+    margin-right: 10%; /* Ajusta el margen derecho del icono del botón de alternar */
+}
+.image{
+    margin:auto;
+}
+.d-flex{
+    margin-left: 10%;
+}
