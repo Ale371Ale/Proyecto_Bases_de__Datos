@@ -12,10 +12,7 @@
             padding: 0;
         }
 
-        .navbar {
-            width: 100%;
-        }
-
+      
         .carousel-container {
             background-color: #f7e9c5;
             padding: 30px;
@@ -37,13 +34,14 @@
 
         .dropdown-menu,
         .nav-item-dropdown {
-            margin: 0 10%;
+            margin: 0 20%;
             padding: 0;
         }
 
         .navbar-nav {
-            margin-right: 20px; /* Ajusta el margen derecho del menú de navegación */
-            margin-left: 50%;
+           
+            margin-left: 20%;
+            margin-right: 10%;
         }
 
         .form-search {
@@ -51,13 +49,22 @@
             margin-left: 10%;
         }
 
-        .navbar-brand,
-        .navbar-nav {
-            margin-left: 10%; /* Ajusta el margen izquierdo de "Mi Tienda" y el menú de navegación */
+        .navbar-brand
+         {
+            margin-left: 0%; /* Ajusta el margen izquierdo de "Mi Tienda" y el menú de navegación */
+        }
+        .dropdown-menu{
+            margin-left: 10%;
         }
 
         .navbar-toggler-icon {
             margin-right: 10%; /* Ajusta el margen derecho del icono del botón de alternar */
+        }
+        .image{
+            margin:auto;
+        }
+        .d-flex{
+            margin-left: 10%;
         }
     </style>
 </head>
@@ -65,7 +72,12 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="#">Mi Tienda</a>
+            <!-- Logo de la tienda -->
+            <img src = "Static/src/Logo.ico"alt="Logo" style="width: 50px; height: 50px;" class="image">    
+            <a class="navbar-brand" href="#">Nozama</a>
+            
+
+            <!-- Buscador de la Tienda -->
             <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Buscar</button>
