@@ -24,20 +24,23 @@ body {
     height: 1.5em;
 }
 
-.dropdown-menu,
+
 .nav-item-dropdown {
-    margin: 0 10%;
-    padding: 0;
+    margin-left: 1%;
+   
+}
+.dropdown-menu{
+    margin-left: 1%;
 }
 
 .navbar-nav {
-    margin-right: 20px; /* Ajusta el margen derecho del menú de navegación */
-    margin-left: 50%;
+    margin-right:1%; /* Ajusta el margen derecho del menú de navegación */
+
 }
 
 .form-search {
-    margin-right: 20%; /* Ajusta el margen derecho del formulario de búsqueda para alinearlo a la izquierda */
-    margin-left: 10%;
+   
+    margin-left: 1%;
 }
 
 .navbar-brand,
@@ -46,7 +49,7 @@ body {
 }
 
 .navbar-toggler-icon {
-    margin-right: 10%; /* Ajusta el margen derecho del icono del botón de alternar */
+    margin-right: 1%; /* Ajusta el margen derecho del icono del botón de alternar */
 }
 
 /* Estilos personalizados para el menú de hamburguesa */
@@ -86,15 +89,16 @@ body {
 
 .dropdown-menu,
 .nav-item-dropdown {
-    margin: 0 20%;
+    margin: 0 5%;
     padding: 0;
 }
 
 .navbar-nav {
    
-    margin-left: 20%;
-    margin-right: 10%;
+    margin-left: 1%;
+    margin-right: 1%;
 }
+
 
 .form-search {
     margin-right: 20%; /* Ajusta el margen derecho del formulario de búsqueda para alinearlo a la izquierda */
@@ -106,15 +110,30 @@ body {
     margin-left: 0%; /* Ajusta el margen izquierdo de "Mi Tienda" y el menú de navegación */
 }
 .dropdown-menu{
-    margin-left: 10%;
+    margin-left: 1%;
 }
 
 .navbar-toggler-icon {
-    margin-right: 10%; /* Ajusta el margen derecho del icono del botón de alternar */
+    margin-right: 1%; /* Ajusta el margen derecho del icono del botón de alternar */
 }
 .image{
     margin:auto;
 }
 .d-flex{
     margin-left: 10%;
+    margin-right: 0%;
+}
+.menu-lateral {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    background-color: #f8f9fa; /* Puedes ajustar el color de fondo según tus preferencias */
+    padding-top: 56px; /* Ajusta según el tamaño de la barra de navegación superior */
+}
+
+.menu-contenido {
+    margin-left: 250px; /* Ancho del menú lateral */
+    padding: 15px;
 }
