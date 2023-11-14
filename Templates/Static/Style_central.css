@@ -160,3 +160,11 @@ body {
 .producto-info {
     text-align: center;
 }
+.Imagecontainer{
+    background-color: #ffffff; /* Color de fondo del contenedor */
+    padding: 10px;
+    margin-left: 20%;
+    margin-right: 20%;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra para el efecto 3D */ 
+}
