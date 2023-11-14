@@ -41,6 +41,7 @@ body {
 .form-search {
    
     margin-left: 1%;
+    width: 400px;
 }
 
 .navbar-brand,
@@ -131,6 +132,8 @@ body {
 .d-flex{
     margin-left: 10%;
     margin-right: 0%;
+    width: 40%;
+    height: auto;
 }
 .menu-lateral {
     position: fixed;
