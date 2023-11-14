@@ -9,6 +9,7 @@
     transition: transform 0.3s ease-in-out;
 }
 
+
 .Botones:hover {
     transform: scale(1.1);
 }
@@ -31,4 +32,32 @@
 
 .form-container.show {
     max-height: 700px; /* Ajusta el valor según tus preferencias */
+}
+.Vista{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 25px;
+    border-radius: 10px;
+    padding: 10px;
+    color: black;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    background-color: #97948d;
+}
+.Imagecontainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 25px;
+    border-radius: 10px;
+    padding: 10px;
+    color: black;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    background-color: #97948d;
 }
