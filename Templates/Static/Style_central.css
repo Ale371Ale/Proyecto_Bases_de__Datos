@@ -87,10 +87,19 @@ body {
     height: 1.5em;
 }
 
-.dropdown-menu,
+.dropdown-menu {
+    margin: 0 5%;
+    padding: 0;
+    max-height: 300px; /* Ajusta la altura máxima según sea necesario */
+    overflow-y: auto; /* Agrega una barra de desplazamiento vertical si es necesario */
+}
+
+
 .nav-item-dropdown {
     margin: 0 5%;
     padding: 0;
+ 
+
 }
 
 .navbar-nav {
