@@ -23,7 +23,7 @@
           </div>
           <nav class="navegacion">
             <a href="#que-es" class="navegacion__link">¿Qué es?</a>
-            <a href="#" onclick="abrirVentana()"class="navegacion__link">Iniciar Sesion</a>
+            <a href="#" onclick="iniciarsesion1()"class="navegacion__link">Iniciar Sesion</a>
           </nav>
         </div>
         <div class="header__grid">
@@ -31,7 +31,7 @@
             <h1 class="header__heading">
               El poder de Ahorrar en la palma de tu mano
             </h1>
-            <a class="header__boton" href="#">Crear Cuenta</a>
+            <a class="header__boton" onclick="crearcuenta1()" href="#">Crear Cuenta</a>
           </div>
 
           <div class="header__grafico">
@@ -102,22 +102,44 @@
     </section>
      
     <script>
-       function abrirVentana() {
-        // Tamaño de la nueva ventana
-        var width = 400;
-        var height = 500;
+function abrirVentana(accion) {
+    // Tamaño de la nueva ventana
+    var width = 400;
+    var height = 500;
 
-        // Calcula la posición central de la pantalla
-        var left = (window.innerWidth - width) / 2;
-        var top = (window.innerHeight - height) / 2;
+    // Calcula la posición central de la pantalla
+    var left = (window.innerWidth - width) / 2;
+    var top = (window.innerHeight - height) / 2;
 
-        // Parámetros para la nueva ventana
-        var params = `width=${width}, height=${height}, left=${left}, top=${top}, resizable=no`;
+    // Parámetros para la nueva ventana
+    var params = `width=${width}, height=${height}, left=${left}, top=${top}, resizable=no`;
+    // Abre una nueva ventana con el contenido de formulario.html
+    var nuevaVentana = window.open('Form_de_inicio.html', '_blank', params);
+    // Espera a que la nueva ventana se cargue antes de realizar acciones en ella
+    nuevaVentana.onload = function() {
+        // Accede a los elementos de la nueva ventana y ajusta según la acción
+        var tituloVentana = nuevaVentana.document.getElementById("tituloVentana");
+        var btnIniciarSesion = nuevaVentana.document.getElementById("btnIniciarSesion");
+        var btnCrearCuenta = nuevaVentana.document.getElementById("btnCrearCuenta");
+        var mensajeCuenta = nuevaVentana.document.getElementById("mensajeCuenta");
 
-        // Abre una nueva ventana con el contenido de formulario.html
-        var nuevaVentana = window.open('Form_de_inicio.html', '_blank', params);
-        nuevaVentana.focus();
-    }
+        // Establece el título y la visibilidad de los botones y el mensaje de cuenta
+        if (accion === "crearCuenta") {
+            tituloVentana.innerText = "Crear Cuenta";
+            btnIniciarSesion.classList.add("d-none");
+            btnCrearCuenta.classList.remove("d-none");
+            mensajeCuenta.innerHTML = "¿Tienes una cuenta? <a href='#' onclick='alternarBoton()'>Iniciar Sesión</a>";
+        } else {
+            // Por defecto, asumimos "iniciarSesion"
+            tituloVentana.innerText = "Iniciar Sesión";
+            btnIniciarSesion.classList.remove("d-none");
+            btnCrearCuenta.classList.add("d-none");
+            mensajeCuenta.innerHTML = "¿No tienes cuenta? <a href='#' onclick='alternarBoton()'>Crear cuenta</a>";
+        }
+    };
+    nuevaVentana.focus();
+}
+
 
       function iniciarSesion() {
           // Lógica para iniciar sesión con correo/telefono y contraseña
@@ -128,7 +150,13 @@
           // Lógica para iniciar sesión con cuenta de Google
           alert('Iniciar sesión con cuenta de Google');
       }
-  
+      function iniciarsesion1(){
+        abrirVentana("iniciarSesion");
+      }
+      function crearcuenta1(){
+        abrirVentana("crearCuenta");
+      }
+      
       function crearCuenta() {
           // Lógica para redirigir a la página de creación de cuenta
           alert('Redirigir a la página de creación de cuenta');
