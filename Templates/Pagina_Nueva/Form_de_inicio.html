@@ -111,7 +111,23 @@
         }
 
         function IniciarSesion(){
-            
+            var correo = document.getElementById('correo').value;
+            var contrasena = document.getElementById('contrasena').value;
+
+            // Realiza una solicitud fetch para enviar los datos a Consultas.php
+            fetch('Consultas.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'correo=' + correo + '&contrasena=' + contrasena
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Maneja la respuesta del servidor
+                // Aquí puedes realizar acciones dependiendo de la respuesta del servidor
+            })
+            .catch(error => console.error('Error al realizar la solicitud:', error));
         }
 
         function iniciarSesionGoogle() {
@@ -134,7 +150,23 @@
 
         }
         function CrearCuenta(){
+            var correo = document.getElementById('correo').value;
+            var contrasena = document.getElementById('contrasena').value;
 
+            // Realiza una solicitud fetch para enviar los datos a Consultas.php
+            fetch('Consultas.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'correo=' + correo + '&contrasena=' + contrasena
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Maneja la respuesta del servidor
+                // Aquí puedes realizar acciones dependiendo de la respuesta del servidor
+            })
+            .catch(error => console.error('Error al realizar la solicitud:', error));
         }
 
     </script>
