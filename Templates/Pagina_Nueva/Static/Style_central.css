@@ -1,0 +1,206 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    width: 100%;
+}
+
+.carousel-container {
+    background-color: #1f1d1a;
+    padding: 30px;
+    margin: auto;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 10%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+
+.nav-item-dropdown {
+    margin-left: 1%;
+   
+}
+.dropdown-menu{
+    margin-left: 1%;
+}
+
+.navbar-nav {
+    margin-right:1%; /* Ajusta el margen derecho del menú de navegación */
+
+}
+
+.form-search {
+   
+    margin-left: 1%;
+    width: 400px;
+}
+
+.navbar-brand,
+.navbar-nav {
+    margin-left: 1%; /* Ajusta el margen izquierdo de "Mi Tienda" y el menú de navegación */
+}
+
+.navbar-toggler-icon {
+    margin-right: 1%; /* Ajusta el margen derecho del icono del botón de alternar */
+}
+
+/* Estilos personalizados para el menú de hamburguesa */
+.navbar-toggler-icon {
+    background-color: #000; /* Color del ícono de hamburguesa */
+}
+
+/* Alineación del menú desplegable hacia la izquierda */
+.navbar-collapse {
+    text-align: left;
+}
+body {
+    background-color: #6834a6;
+    margin: 0;
+    padding: 0;
+}
+
+
+.carousel-container {
+    background-color: #fffcf4;
+    padding: 30px;
+    margin: auto;
+    margin-top: 1%;
+    width: 60%px;
+    height: 40%px;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 20%;
+    
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 1.5em;
+    height: 1.5em;
+    filter: brightness(100) invert(1); /*CAMBIA EL COLOR DEL ICONO a Negro */
+
+   
+}
+
+.dropdown-menu {
+    margin: 0 5%;
+    padding: 0;
+    max-height: 300px; /* Ajusta la altura máxima según sea necesario */
+    overflow-y: auto; /* Agrega una barra de desplazamiento vertical si es necesario */
+}
+
+
+.nav-item-dropdown {
+    margin: 0 5%;
+    padding: 0;
+ 
+
+}
+
+.navbar-nav {
+   
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+
+.form-search {
+    margin-right: 20%; /* Ajusta el margen derecho del formulario de búsqueda para alinearlo a la izquierda */
+    margin-left: 10%;
+}
+
+.navbar-brand
+ {
+    margin-left: 0%; /* Ajusta el margen izquierdo de "Mi Tienda" y el menú de navegación */
+}
+.dropdown-menu{
+    margin-left: 1%;
+}
+
+.navbar-toggler-icon {
+    margin-right: 1%; /* Ajusta el margen derecho del icono del botón de alternar */
+}
+.image{
+    margin:auto;
+}
+.d-flex{
+    margin-left: 10%;
+    margin-right: 0%;
+    width: 40%;
+    height: auto;
+}
+
+.menu-contenido {
+    margin-left: 250px; /* Ancho del menú lateral */
+    padding: 15px;
+}
+.producto-container {
+    background-color: #ffffff; /* Color de fondo del contenedor */
+    padding: 10px;
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 0 10px rgba(30, 24, 24, 0.2); /* Sombra para el efecto 3D */
+    width: auto;
+    height: 380px;
+}
+
+.producto-info {
+    text-align: center;
+}
+.Imagecontainer{
+    background-color: #ffffff; /* Color de fondo del contenedor */
+    margin-left: 0%;
+    margin-top: 0%;
+    margin-bottom: 0%;
+    margin-right: 0%;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra para el efecto 3D */ 
+}
+.Text_Carousel_Producto{
+    background-color: #ffffff; /* Color de fondo del contenedor */
+    padding: 10px;
+    margin-top: 2%;
+    margin-bottom: 1%;
+    margin-left: 1%;
+    margin-right: 1%;
+
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra para el efecto 3D */ 
+}
+.col-md-4{
+    margin-left: 0%;
+    margin-right: 0%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    height: 600px;
+    width: auto;
+}
+.card{
+    margin-left: 0%;
+    margin-right: 0%;
+    margin-top: 0%;
+    margin-bottom: 1%;
+    height: 600px;
+    width: auto;
+}
+.container-mt-5{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+

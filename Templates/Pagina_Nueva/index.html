@@ -11,15 +11,15 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/Templates/Pagina_Nueva/css/normalize.css" />
-    <link rel="stylesheet" href="/Templates/Pagina_Nueva/css/styles.css" />
+    <link rel="stylesheet" href="http://localhost/Proyecto_Bases_de__Datos/Templates/Pagina_Nueva/css/normalize.css" />
+    <link rel="stylesheet" href="http://localhost/Proyecto_Bases_de__Datos/Templates/Pagina_Nueva/css/styles.css" />
   </head>
   <body>
-    <header class="header">
+    <header class="header" style=" background-image: url(http://localhost/Proyecto_Bases_de__Datos/Templates/img/header_bg.svg);">
       <div class="header__contenedor">
         <div class="header__barra">
           <div class="header__logo">
-            <img src="/Templates/Static/src/Logo_Sin_Fondo.png" alt="Logo NOZAMA" />
+            <img src="http://localhost/Proyecto_Bases_de__Datos/Templates/Static/src/Logo_Sin_Fondo.png" alt="Logo NOZAMA" />
           </div>
           <nav class="navegacion">
             <a href="#que-es" class="navegacion__link">¿Qué es?</a>
@@ -36,7 +36,7 @@
 
           <div class="header__grafico">
             <img
-              src="/Templates/img/a.png"
+              src="http://localhost/Proyecto_Bases_de__Datos/Templates/img/a.png"
               alt="Imagen Nuclus App"
               class="header__imagen"
             />
@@ -50,7 +50,7 @@
       <div class="nucleus__contenedor">
         <div class="nucleus__grid">
           <div class="nucleus__imagen">
-            <img src="/Templates/img/Buenfun.png" alt="Imagen nucleus app" />
+            <img src="http://localhost/Proyecto_Bases_de__Datos/Templates/img/Buenfun.png" alt="Imagen nucleus app" />
           </div>
           <div class="listado">
             <div class="listado__elemento">
@@ -95,61 +95,65 @@
           </div>
 
           <div class="seguridad__imagen">
-            <img src="/Templates/img/seguridad.png" alt="Seguridad nucleus" />
+            <img src="http://localhost/Proyecto_Bases_de__Datos/Templates/img/seguridad.png" alt="Seguridad nucleus" />
           </div>
         </div>
       </div>
     </section>
      
     <script>
-function abrirVentana(accion) {
-    // Tamaño de la nueva ventana
-    var width = 400;
-    var height = 500;
-
-    // Calcula la posición central de la pantalla
-    var left = (window.innerWidth - width) / 2;
-    var top = (window.innerHeight - height) / 2;
-
-    // Parámetros para la nueva ventana
-    var params = `width=${width}, height=${height}, left=${left}, top=${top}, resizable=no`;
-    // Abre una nueva ventana con el contenido de formulario.html
-    var nuevaVentana = window.open('Form_de_inicio.html', '_blank', params);
-    // Espera a que la nueva ventana se cargue antes de realizar acciones en ella
-    nuevaVentana.onload = function() {
-        // Accede a los elementos de la nueva ventana y ajusta según la acción
-        var tituloVentana = nuevaVentana.document.getElementById("tituloVentana");
-        var btnIniciarSesion = nuevaVentana.document.getElementById("btnIniciarSesion");
-        var btnCrearCuenta = nuevaVentana.document.getElementById("btnCrearCuenta");
-        var mensajeCuenta = nuevaVentana.document.getElementById("mensajeCuenta");
-
-        // Establece el título y la visibilidad de los botones y el mensaje de cuenta
-        if (accion === "crearCuenta") {
-            tituloVentana.innerText = "Crear Cuenta";
-            btnIniciarSesion.classList.add("d-none");
-            btnCrearCuenta.classList.remove("d-none");
-            mensajeCuenta.innerHTML = "¿Tienes una cuenta? <a href='#' onclick='alternarBoton()'>Iniciar Sesión</a>";
-        } else {
-            // Por defecto, asumimos "iniciarSesion"
-            tituloVentana.innerText = "Iniciar Sesión";
-            btnIniciarSesion.classList.remove("d-none");
-            btnCrearCuenta.classList.add("d-none");
-            mensajeCuenta.innerHTML = "¿No tienes cuenta? <a href='#' onclick='alternarBoton()'>Crear cuenta</a>";
+       if (window.location.hash === "#crearCuenta") {
+            var comboBox = document.getElementById("rol");
+            comboBox.classList.remove("d-none");
+            // También puedes agregar lógica adicional según sea necesario.
         }
-    };
-    nuevaVentana.focus();
-}
+        function abrirVentana(accion) {
+            // Tamaño de la nueva ventana
+            var width = 400;
+            var height = 500;
 
+            // Calcula la posición central de la pantalla
+            var left = (window.innerWidth - width) / 2;
+            var top = (window.innerHeight - height) / 2;
 
-      function iniciarSesion() {
-          // Lógica para iniciar sesión con correo/telefono y contraseña
-          alert('Iniciar sesión con correo/telefono y contraseña');
-      }
-  
-      function iniciarSesionGoogle() {
-          // Lógica para iniciar sesión con cuenta de Google
-          alert('Iniciar sesión con cuenta de Google');
-      }
+            // Parámetros para la nueva ventana
+            var params = `width=${width}, height=${height}, left=${left}, top=${top}, resizable=no`;
+
+            // Abre una nueva ventana con el contenido de formulario.html
+            var nuevaVentana = window.open('Form_de_inicio.html', '_blank', params);
+
+            // Espera a que la nueva ventana se cargue antes de realizar acciones en ella
+            nuevaVentana.onload = function() {
+                // Accede a los elementos de la nueva ventana y ajusta según la acción
+                var tituloVentana = nuevaVentana.document.getElementById("tituloVentana");
+                var btnIniciarSesion = nuevaVentana.document.getElementById("btnIniciarSesion");
+                var btnCrearCuenta = nuevaVentana.document.getElementById("btnCrearCuenta");
+                var mensajeCuenta = nuevaVentana.document.getElementById("mensajeCuenta");
+                var comboBox = nuevaVentana.document.getElementById("rol");
+
+                // Establece el título y la visibilidad de los botones y el mensaje de cuenta
+                if (accion === "crearCuenta") {
+                    tituloVentana.innerText = "Crear Cuenta";
+                    btnIniciarSesion.classList.add("d-none");
+                    btnCrearCuenta.classList.remove("d-none");
+                    mensajeCuenta.innerHTML = "¿Tienes una cuenta? <a href='#' onclick='alternarBoton()'>Iniciar Sesión</a>";
+
+                    // Muestra el combo box
+                    comboBox.classList.remove("d-none");
+                } else {
+                    // Por defecto, asumimos "iniciarSesion"
+                    tituloVentana.innerText = "Iniciar Sesión";
+                    btnIniciarSesion.classList.remove("d-none");
+                    btnCrearCuenta.classList.add("d-none");
+                    mensajeCuenta.innerHTML = "¿No tienes cuenta? <a href='#' onclick='alternarBoton()'>Crear cuenta</a>";
+
+                    // Oculta el combo box
+                    comboBox.classList.add("d-none");
+                }
+            };
+            nuevaVentana.focus();
+          }
+
       function iniciarsesion1(){
         abrirVentana("iniciarSesion");
       }
