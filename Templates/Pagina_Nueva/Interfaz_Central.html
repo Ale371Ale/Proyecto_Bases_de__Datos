@@ -9,7 +9,47 @@
     <link rel="shortcut icon" href="Static/src/Logo.ico" />
 </head>
 <body>
+    <style>
+        .Nozama.Box {
+  overflow: hidden;
+  position: relative;
+  width: 45px;
+  height: 45px;
+  margin-right: 5%;
+}
 
+.Nozama.Box img {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.Nozama.Box:hover img {
+  transform: scale(1.2);
+}
+
+    </style>
+   <aside id="shoppingCartContainer" class="inactive">
+    <div class="title-container">
+        <img src="http://localhost/Proyecto_Bases_de__Datos/Templates/Pagina_Nueva/icons/flechita.svg" style="width: 100px; height: 100px;" alt="arrow">
+        <p class="title">My order</p>
+    </div>
+
+    <div class="my-order-content">
+        <!-- Aquí se mostrarán los productos del carrito -->
+        <div id="cartProducts"></div>
+
+        <!-- Aquí se mostrará el total del carrito -->
+        <div class="order">
+            <p>
+                <span>Total</span>
+            </p>
+            <p id="cartTotal">$0.00</p>
+        </div>
+
+        <button class="primary-button" onclick="checkout()">Checkout</button>
+    </div>
+</aside>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <!-- Logo de la tienda -->
@@ -105,6 +145,9 @@
                 </div>
             </div>
         </div>
+        <div class="Nozama Box" id="product1">
+            <img src="http://localhost/Proyecto_Bases_de__Datos/Templates/Pagina_Nueva/img/caja.png" style="width: 45px; height: 45px; margin-right: 4%;" onclick="addToCart('product1', 'Bike', 30.00)">
+        </div>
     </nav>
 
     <!-- Contenedor del Carrusel -->
@@ -197,6 +240,7 @@
                     <p class="card-text" style="max-lines: 3;">Precio: $6,089.00</p>
                     <!-- Agrega más información según sea necesario -->
                     <a href="https://www.cyberpuerta.mx/Computo-Hardware/Componentes/Tarjetas-de-Video/Tarjeta-de-Video-ASRock-AMD-Radeon-RX-6600-XT-Phantom-Gaming-D-8GB-OC-8GB-128-bit-GDDR6-PCI-Express-4-0.html?gclid=CjwKCAiA6byqBhAWEiwAnGCA4H-Jk4OvbC6Md9b9NQQongdsdWRtY42odeom1M6icwE4JeL3DPtUxhoC27MQAvD_BwE" class="btn btn-primary">Ver Articulo</a>
+                    <a onclick="addToCart('ASRock6600XT', 'Tarjeta de Video ASRock AMD Radeon RX 6600 XT Phantom Gaming D', 6089.00)" class="btn btn-primary">Agregar a Carrito</a>
                 </div>
             </div>
         </div>
@@ -229,18 +273,82 @@
         </div>
     </footer>
     <script>
-        document.getElementById('enlaceMetodosPago').addEventListener('click', function(event) {
-          event.preventDefault(); // Evita que el enlace realice la acción predeterminada (navegar a una nueva página)
-      
-          // Realiza la solicitud al archivo PHP
-          fetch('http://localhost/Proyecto_Bases_de__Datos/Templates/Conexion_Base_Datos/Conexion.php')
-            .then(response => response.json())
-            .then(data => {
-              console.log('Resultados de la consulta:', data);
-              // Aquí puedes agregar código para manejar los resultados, por ejemplo, mostrarlos en una ventana modal.
-            })
-            .catch(error => console.error('Error al realizar la consulta:', error));
-        });
+        function addToCart(productId, productName, productPrice) {
+    // Obtén el contenedor del carrito
+    var cartContainer = document.getElementById("shoppingCartContainer");
+
+    // Verifica si el contenedor existe antes de continuar
+    if (!cartContainer) {
+        console.error("Error: No se encontró el contenedor del carrito.");
+        return;
+    }
+
+    // Crea un nuevo elemento de producto en el carrito
+    var productElement = document.createElement("div");
+    productElement.className = "shopping-cart";
+    productElement.innerHTML = `
+        <figure>
+            <img src="http://localhost/Proyecto_Bases_de__Datos/Templates/Pagina_Nueva/Productos/Producto2.png" alt="${productName}">
+        </figure>
+        <p>${productName}</p>
+        <p>$${productPrice.toFixed(2)}</p>
+        <img src="./icons/icon_close.png" alt="close" onclick="removeFromCart(this)">
+    `;
+
+    // Agrega el nuevo elemento al contenedor de productos del carrito
+    var cartProducts = document.getElementById("cartProducts");
+    cartProducts.appendChild(productElement);
+
+    // Actualiza el total del carrito
+    updateTotal();
+
+    // Muestra el carrito
+    cartContainer.classList.remove("inactive");
+}
+
+// Función para actualizar el total del carrito
+function updateTotal() {
+    // Puedes implementar lógica para calcular el total aquí
+    // En este ejemplo, simplemente sumamos todos los precios de los productos
+    var cartProducts = document.querySelectorAll(".shopping-cart");
+    var total = 0;
+
+    cartProducts.forEach(function (product) {
+        var priceElement = product.querySelector("p:last-child");
+        
+        // Verifica si el elemento existe antes de acceder a su propiedad textContent
+        if (priceElement) {
+            var price = parseFloat(priceElement.textContent.replace("$", ""));
+            total += price;
+        }
+    });
+
+    // Actualiza el total en el elemento correspondiente
+    var cartTotalElement = document.getElementById("cartTotal");
+
+    // Verifica si el elemento existe antes de acceder a su propiedad textContent
+    if (cartTotalElement) {
+        cartTotalElement.textContent = "$" + total.toFixed(2);
+    }
+}
+
+
+        // Función para eliminar un producto del carrito
+        function removeFromCart(closeButton) {
+            var cartContainer = document.getElementById("shoppingCartContainer");
+            var productElement = closeButton.parentNode;
+            
+            // Elimina el producto del DOM
+            productElement.parentNode.removeChild(productElement);
+
+            // Actualiza el total del carrito
+            updateTotal();
+
+            // Oculta el carrito si no hay productos
+            if (cartContainer.querySelectorAll(".shopping-cart").length === 0) {
+                cartContainer.classList.add("inactive");
+            }
+        }
       </script>
     <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

@@ -203,4 +203,80 @@ body {
     margin-left: 10%;
     margin-right: 10%;
 }
+.Nozama.Box {
+    overflow: hidden;
+    position: relative;
+    width: 45px;
+    height: 45px;
+  }
+  
+  .Nozama.Box img {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .Nozama.Box:hover img {
+    transform: scale(1.2);
+  }
+  #shoppingCartContainer {
+    position: fixed;
+    top: 0;
+    right: -300px; /* Inicialmente oculto fuera de la pantalla */
+    width: 300px; /* Ancho del carrito */
+    height: 100%;
+    background-color: #fff; /* Color de fondo del carrito */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease-in-out; /* Transición suave de la posición */
+}
 
+#shoppingCartContainer.active {
+    right: 0; /* Muestra el carrito al cambiar la clase a "active" */
+}
+
+.title-container {
+    background-color: #333; /* Color de fondo del encabezado */
+    color: #fff; /* Color del texto del encabezado */
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.title-container img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.my-order-content {
+    padding: 10px;
+}
+
+.shopping-cart {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc; /* Línea divisoria entre productos */
+}
+
+.shopping-cart:last-child {
+    border-bottom: none; /* Elimina la línea divisoria del último producto */
+}
+
+.order {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.primary-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50; /* Color de fondo del botón */
+    color: #fff; /* Color del texto del botón */
+    border: none;
+    cursor: pointer;
+}
+
+.primary-button:hover {
+    background-color: #45a049; /* Cambia el color de fondo al pasar el mouse */
+}
