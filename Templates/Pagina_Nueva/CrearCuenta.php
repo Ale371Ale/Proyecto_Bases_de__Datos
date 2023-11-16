@@ -7,6 +7,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $contrasena = $_POST['contrasena'];
     $comboBox = $_POST['comboBox'];
 
+    if (filter_var($correo, FILTER_VALIDATE_EMAIL)) {   
+        $rolInicio = "Correo"; 
+    } else {
+        if (is_numeric($correo)) {
+            $rolInicio = "Teléfono";
+        }
+        else {
+            //Agregar mensaje para dar alertar que no es valido ni telefono ni correo
+        }
+    }
+    
     // Validar y sanitizar datos
     $correo = filter_var($correo, FILTER_SANITIZE_EMAIL);
     $contrasena = filter_var($contrasena, FILTER_SANITIZE_STRING);
@@ -15,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rolTabla = ($comboBox === "cliente") ? "Cliente" : "Vendedor";
 
     // Utilizar sentencia preparada para evitar inyección SQL
-    $consulta = $conexion->prepare("SELECT * FROM $rolTabla WHERE Correo = ? AND contraseña = ?");
+    $consulta = $conexion->prepare("SELECT * FROM $rolTabla WHERE $rolInicio = ? AND contraseña = ?");
     $consulta->bind_param("ss", $correo, $contrasena);
     $consulta->execute();
     $resultado = $consulta->get_result();
@@ -25,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(["mensaje" => "Ya existe este usuario"]);
     } else {
         // Si no hay coincidencias, insertar nuevos datos
-        $insertar = $conexion->prepare("INSERT INTO $rolTabla (correo, contraseña) VALUES (?, ?)");
+        $insertar = $conexion->prepare("INSERT INTO $rolTabla ($rolInicio, contraseña) VALUES (?, ?)");
         $insertar->bind_param("ss", $correo, $contrasena);
 
         if ($insertar->execute()) {
@@ -38,10 +49,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Cerrar la conexión y liberar recursos
     $consulta->close();
     $insertar->close();
-} else {
-    echo json_encode(["mensaje" => "Método no permitido"]);
-}
 
+    
+    } else {
+        echo json_encode(["mensaje" => "Método no permitido"]);
+    }
 // Cierra la conexión
 $conexion->close();
 ?>

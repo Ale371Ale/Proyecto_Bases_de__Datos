@@ -6,8 +6,19 @@
       $correo = $_POST['correo'];
       $contrasena = $_POST['contrasena'];
 
+      if (filter_var($correo, FILTER_VALIDATE_EMAIL)) {   
+        $rolInicio = "Correo"; 
+      } else {
+          if (is_numeric($correo)) {
+              $rolInicio = "Teléfono";
+          }
+          else {
+              //Agregar mensaje para dar alertar que no es valido ni telefono ni correo
+          }
+      }
+
       // Realiza una consulta para verificar las credenciales
-      $consulta = "SELECT * FROM Cliente WHERE Correo = '$correo' AND contraseña = '$contrasena'";
+      $consulta = "SELECT * FROM Cliente WHERE $rolInicio = '$correo' AND contraseña = '$contrasena'";
       $resultado = $conexion->query($consulta);
 
       if ($resultado->num_rows > 0) {

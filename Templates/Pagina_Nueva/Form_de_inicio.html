@@ -55,7 +55,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       
- function habilitarBotones() {
+        function habilitarBotones() {
             var comboBox = document.getElementById('rol');
             var btnCrearCuenta = document.getElementById("btnCrearCuenta");
             var btnCrearCuentaGoogle = document.getElementById("btnCrearCuentaGoogle");
@@ -191,48 +191,48 @@
 
         }
         function CrearCuenta() {
-    var comboBox = document.getElementById('rol');
-    var correo = document.getElementById('correo').value;
-    var contrasena = document.getElementById('contrasena').value;
+            var comboBox = document.getElementById('rol');
+            var correo = document.getElementById('correo').value;
+            var contrasena = document.getElementById('contrasena').value;
 
-    if (correo === null || contrasena === null) {
-        // Puedes manejar el caso de campos nulos aquí si es necesario
-    } else {
-        // Obtén el valor seleccionado del elemento de la lista desplegable
-        var rolSeleccionado = comboBox.options[comboBox.selectedIndex].value;
+            if (correo === null || contrasena === null) {
+                // Puedes manejar el caso de campos nulos aquí si es necesario
+            } else {
+                // Obtén el valor seleccionado del elemento de la lista desplegable
+                var rolSeleccionado = comboBox.options[comboBox.selectedIndex].value;
 
-        // Realiza una solicitud fetch para enviar los datos a Consultas.php
-        fetch('CrearCuenta.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            // Envía el valor seleccionado en lugar del elemento de la lista desplegable
-            body: 'correo=' + correo + '&contrasena=' + contrasena + '&comboBox=' + rolSeleccionado
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data); // Maneja la respuesta del servidor
-            if(data['mensaje'] === "Datos guardados en la base de datos"){
-                var enlaceEspecifico = 'Interfaz_Central.html';
+                // Realiza una solicitud fetch para enviar los datos a Consultas.php
+                fetch('CrearCuenta.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    // Envía el valor seleccionado en lugar del elemento de la lista desplegable
+                    body: 'correo=' + correo + '&contrasena=' + contrasena + '&comboBox=' + rolSeleccionado
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // Maneja la respuesta del servidor
+                    if(data['mensaje'] === "Datos guardados en la base de datos"){
+                        var enlaceEspecifico = 'Interfaz_Central.html';
 
-                                // Accede a la ventana principal desde la ventana secundaria
-                        var ventanaPrincipal = window.opener;
+                                        // Accede a la ventana principal desde la ventana secundaria
+                                var ventanaPrincipal = window.opener;
 
-                    // Cambia la ubicación de la ventana principal
-                    if (ventanaPrincipal) {
-                        ventanaPrincipal.location.href = enlaceEspecifico;
-                        // Cierra la ventana secundaria (ventana de inicio de sesión)
-                        window.close();
-                    } else {
-                        // Si window.opener es nulo, puedes abrir una nueva ventana si es necesario
-                        window.open(enlaceEspecifico, '_blank');
+                            // Cambia la ubicación de la ventana principal
+                            if (ventanaPrincipal) {
+                                ventanaPrincipal.location.href = enlaceEspecifico;
+                                // Cierra la ventana secundaria (ventana de inicio de sesión)
+                                window.close();
+                            } else {
+                                // Si window.opener es nulo, puedes abrir una nueva ventana si es necesario
+                                window.open(enlaceEspecifico, '_blank');
+                            }
                     }
+                    // Aquí puedes realizar acciones dependiendo de la respuesta del servidor
+                })
+                .catch(error => console.error('Error al realizar la solicitud:', error));
             }
-            // Aquí puedes realizar acciones dependiendo de la respuesta del servidor
-        })
-        .catch(error => console.error('Error al realizar la solicitud:', error));
-    }
 }
 
 
