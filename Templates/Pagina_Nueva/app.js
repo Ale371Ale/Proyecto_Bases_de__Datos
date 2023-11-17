@@ -45,7 +45,8 @@ function addToCart(productId, productName, productPrice) {
                     <p><strong>$${productPrice.toFixed(2)}</strong></p>
                 </div>
                 <div class="quantitycontainer">
-                    <img src="./icons/icon_close.png" alt="close" onclick="removeFromCart(this)" style="margin-right: 5%; margin-bottom: 24px;">
+                    <img src="./icons/icon_close.png" alt="close" onclick="removeFromCart(this)" style="margin-right: 5%; margin-bottom: 24px; margin-left:10%; width: 20px;
+                    height: 20px;">
                     <input type="number" class="quantity" value="1" min="1" maxlength="2" onkeydown="return false;" onchange="changeQuantity(this, '${productId}', '${productPrice.toFixed(2)}')">
                 </div>
             </div>

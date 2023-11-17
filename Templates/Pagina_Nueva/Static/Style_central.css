@@ -257,8 +257,15 @@ body {
 .quantity{
     max-width: 40px;
     max-height: 40px;
+}
+.quantity img {
+    max-width: 20px;
+    transition: transform 0.3s ease-in-out;
+}
 
-
+/* Agrega esta regla CSS para aplicar la transformación en el hover */
+.quantity img:hover {
+    transform: scale(1.2); /* Puedes ajustar el factor de escala según tus preferencias */
 }
 .my-order-content{
     margin-top: 10%;
@@ -309,16 +316,24 @@ body {
     font-weight: bold;
   }
   .primary-button {
-    background-color: var(--hospital-green);
+    background-color: #FFA500;
     border-radius: 8px;
-    border: none;
-    color: var(--white);
+    border: 2px solid #000; /* Añadí un borde para mayor contraste */
+    color: #FFFFFF;
     width: 100%;
     cursor: pointer;
-    font-size: var(--md);
+    font-size: 16px; /* Ajusta según tus preferencias */
     font-weight: bold;
     height: 50px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Añade sombra */
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; /* Agrega transiciones */
   }
+
+/* Agregamos estilos para el hover */
+.primary-button:hover {
+    transform: scale(1.1); /* Hace un zoom del 10% al pasar el mouse */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
   .ParteDerecha {
     position: fixed;
     top: 0;
