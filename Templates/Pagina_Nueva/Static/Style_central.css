@@ -206,8 +206,12 @@ body {
 .Nozama.Box {
     overflow: hidden;
     position: relative;
-    width: 45px;
-    height: 45px;
+
+    width: 70px;
+    height: 50px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 0%;
   }
   
   .Nozama.Box img {
@@ -219,64 +223,126 @@ body {
   .Nozama.Box:hover img {
     transform: scale(1.2);
   }
-  #shoppingCartContainer {
-    position: fixed;
-    top: 0;
-    right: -300px; /* Inicialmente oculto fuera de la pantalla */
-    width: 300px; /* Ancho del carrito */
-    height: 100%;
-    background-color: #fff; /* Color de fondo del carrito */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    transition: right 0.3s ease-in-out; /* Transición suave de la posición */
-}
-
-#shoppingCartContainer.active {
-    right: 0; /* Muestra el carrito al cambiar la clase a "active" */
-}
-
-.title-container {
+  
+  /* ShoppingCart */
+#shoppingCartContainer {
+    padding: 0 24px;
+  }
+  .title-container {
     background-color: #333; /* Color de fondo del encabezado */
     color: #fff; /* Color del texto del encabezado */
     padding: 10px;
     display: flex;
+    align-items: center; /* Centra verticalmente el contenido */
+    justify-content: space-between;
+}
+.title12{
+    font-size: 25px;
+    font-weight: bold;
+    margin-left: 30%;
+    align-items:baseline ; /* Centra verticalmente el contenido */
+    
+}
+  .title-container21 img {
+    transform: rotate(180);
+    margin-right: 14px;
+    width: 30px; 
+    height: 30px;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .title-container21:hover img {
+    transform: scale(1.2); /* Zoom al 120% cuando se pasa el ratón sobre el elemento */
+}
+.quantity{
+    max-width: 40px;
+    max-height: 40px;
+
+
+}
+.my-order-content{
+    margin-top: 10%;
+}
+  .order {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
     align-items: center;
-    justify-content: space-between;
-}
-
-.title-container img {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-}
-
-.my-order-content {
-    padding: 10px;
-}
-
-.shopping-cart {
-    margin-bottom: 10px;
-    border-bottom: 1px solid #ccc; /* Línea divisoria entre productos */
-}
-
-.shopping-cart:last-child {
-    border-bottom: none; /* Elimina la línea divisoria del último producto */
-}
-
-.order {
+    background-color: var(--text-input-field);
+    margin-bottom: 24px;
+    border-radius: 8px;
+    padding: 0 24px;
+  }
+  .order p:nth-child(1) {
     display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-}
-
-.primary-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4caf50; /* Color de fondo del botón */
-    color: #fff; /* Color del texto del botón */
+    flex-direction: column;
+  }
+  .order p span:nth-child(1) {
+    font-size: var(--md);
+    font-weight: bold;
+  }
+  .order p:nth-child(2) {
+    text-align: end;
+    font-weight: bold;
+  }
+  .shopping-cart {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    gap: 16px;
+    margin-bottom: 24px;
+    align-items: center;
+  }
+  .shopping-cart figure {
+    margin: 0;
+  }
+  .shopping-cart figure img {
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    object-fit: cover;
+  }
+  .shopping-cart p:nth-child(2) {
+    color: var(--very-light-pink);
+  }
+  .shopping-cart p:nth-child(3) {
+    font-size: var(--md);
+    font-weight: bold;
+  }
+  .primary-button {
+    background-color: var(--hospital-green);
+    border-radius: 8px;
     border: none;
+    color: var(--white);
+    width: 100%;
     cursor: pointer;
+    font-size: var(--md);
+    font-weight: bold;
+    height: 50px;
+  }
+  .ParteDerecha {
+    position: fixed;
+    top: 0;
+    right: -400px; /* Inicialmente oculto fuera del lado derecho de la pantalla */
+    width: 400px; /* Ancho de la parte derecha, ajusta según sea necesario */
+    height: 100%; /* O ajusta la altura según sea necesario */
+    background-color: #fff; /* Color de fondo de la parte derecha */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease-in-out; /* Transición suave de la posición */
+    z-index: 999; /* Ajusta este valor para que sea mayor que z-index de otros elementos */
+}
+.cart-item {
+    display: flex;
+    align-items: center;
 }
 
-.primary-button:hover {
-    background-color: #45a049; /* Cambia el color de fondo al pasar el mouse */
+.cart-item figure {
+    margin-right: 10px; /* Ajusta este valor según tus necesidades */
+}
+
+.product-details {
+    flex-grow: 1;
+}
+
+.quantitycontainer {
+    margin-left: 10px; /* Ajusta este valor según tus necesidades */
 }
