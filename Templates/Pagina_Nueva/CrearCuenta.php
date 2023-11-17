@@ -24,12 +24,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Verificar si el rol es Cliente o Vendedor
     if($comboBox === "cliente"){
         $rolTabla = "Cliente";
+        $TipoVendedor = "";
+        
     } else if($comboBox ==="vendedor"){
         $rolTabla = "Vendedor";
         $TipoVendedor ="Minorista";
     }else{
         $rolTabla = "Vendedor";
-        $TipoVendedor ="Mayorista";
+        $TipoVendedor = "Mayorista";
     }
     // Utilizar sentencia preparada para evitar inyección SQL
     $consulta = $conexion->prepare("SELECT * FROM $rolTabla WHERE $rolInicio = ? AND contraseña = ? ");
@@ -42,12 +44,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(["mensaje" => "Ya existe este usuario"]);
     } else {
         // Si no hay coincidencias, insertar nuevos datos
-        $insertar = $conexion->prepare("INSERT INTO $rolTabla (TipoVendedor, $rolInicio, contraseña) VALUES (?, ?, ?)");
-        $insertar->bind_param("sss",$TipoVendedor, $correo, $contrasena);
-        if ($insertar->execute()) {
-            echo json_encode(["mensaje" => "Datos guardados en la base de datos"]);
-        } else {
-            echo json_encode(["mensaje" => "Error al guardar datos: " . $conexion->error]);
+        if ($TipoVendedor === "Mayorista" || $TipoVendedor === "Minorista") {
+            $insertar = $conexion->prepare("INSERT INTO $rolTabla (TipoVendedor, $rolInicio, contraseña) VALUES (?, ?, ?)");
+            $insertar->bind_param("sss",$TipoVendedor, $correo, $contrasena);
+            if ($insertar->execute()) {
+                echo json_encode(["mensaje" => "Datos guardados en la base de datos"]);
+            } else {
+                echo json_encode(["mensaje" => "Error al guardar datos: " . $conexion->error]);
+            }
+        }else{
+            $insertar = $conexion->prepare("INSERT INTO $rolTabla ($rolInicio, contraseña) VALUES (?, ?)");
+            $insertar->bind_param("ss", $correo, $contrasena);
+            if ($insertar->execute()) {
+                echo json_encode(["mensaje" => "Datos guardados en la base de datos"]);
+            } else {
+                echo json_encode(["mensaje" => "Error al guardar datos: " . $conexion->error]);
+            }
         }
     }
 
