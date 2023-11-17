@@ -15,7 +15,7 @@
 }
 </style>
 <body class="container mt-5">
-
+ 
     <div class="form-group">
 
         <label style=" margin-bottom: 10%;"  for="correo">Correo / Telefono:</label>
@@ -28,7 +28,8 @@
     <select class="form-select" id="rol" name="rol" style="margin-bottom: 10%; margin-top: -5%;max-height: 300px; max-width: 300px"onchange="habilitarBotones()">
         <option value="" disabled selected hidden>Tipo de Cuenta</option>
         <option   value="cliente">Cliente</option>
-        <option value="vendedor">Vendedor</option>
+        <option value="vendedor">Vendedor/Minorista</option>
+        <option value="vendedor2">Vendedor/Mayorista</option>
     </select>
 
     <button id="btnIniciarSesion" style="width: auto; height: 44px; margin-top: 0%;" class="btn btn-primary" onclick="IniciarSesion()">Iniciar Sesión</button>

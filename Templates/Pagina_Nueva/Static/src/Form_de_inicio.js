@@ -71,7 +71,8 @@ function alternarBotonGoogle(accion) {
         // Agrega aquí la lógica para crear cuenta con Google
         habilitarBotones();
     }
-}  habilitarBotones();
+} 
+habilitarBotones(); 
 
 function IniciarSesion(){
    
@@ -138,13 +139,13 @@ function CrearCuenta() {
     var comboBox = document.getElementById('rol');
     var correo = document.getElementById('correo').value;
     var contrasena = document.getElementById('contrasena').value;
-
     if (correo === null || contrasena === null) {
         // Puedes manejar el caso de campos nulos aquí si es necesario
     } else {
         // Obtén el valor seleccionado del elemento de la lista desplegable
         var rolSeleccionado = comboBox.options[comboBox.selectedIndex].value;
-
+  
+        correo = "" + correo;
         // Realiza una solicitud fetch para enviar los datos a Consultas.php
         fetch('CrearCuenta.php', {
             method: 'POST',
@@ -152,11 +153,13 @@ function CrearCuenta() {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             // Envía el valor seleccionado en lugar del elemento de la lista desplegable
-            body: 'correo=' + correo + '&contrasena=' + contrasena + '&comboBox=' + rolSeleccionado
+            body: 'correo=' + encodeURIComponent(correo) + '&contrasena=' + encodeURIComponent(contrasena) + '&comboBox=' + encodeURIComponent(rolSeleccionado)
+
         })
+
         .then(response => response.json())
         .then(data => {
-            console.log(data); // Maneja la respuesta del servidor
+            console.log(data);
             if(data['mensaje'] === "Datos guardados en la base de datos"){
                 var enlaceEspecifico = 'Interfaz_Central.html';
 
@@ -172,6 +175,8 @@ function CrearCuenta() {
                         // Si window.opener es nulo, puedes abrir una nueva ventana si es necesario
                         window.open(enlaceEspecifico, '_blank');
                     }
+            }else{
+               
             }
             // Aquí puedes realizar acciones dependiendo de la respuesta del servidor
         })

@@ -21,12 +21,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validar y sanitizar datos
     $correo = filter_var($correo, FILTER_SANITIZE_EMAIL);
     $contrasena = filter_var($contrasena, FILTER_SANITIZE_STRING);
-
     // Verificar si el rol es Cliente o Vendedor
-    $rolTabla = ($comboBox === "cliente") ? "Cliente" : "Vendedor";
-
+    if($comboBox === "cliente"){
+        $rolTabla = "Cliente";
+    } else if($comboBox ==="vendedor"){
+        $rolTabla = "Vendedor";
+        $TipoVendedor ="Minorista";
+    }else{
+        $rolTabla = "Vendedor";
+        $TipoVendedor ="Mayorista";
+    }
     // Utilizar sentencia preparada para evitar inyección SQL
-    $consulta = $conexion->prepare("SELECT * FROM $rolTabla WHERE $rolInicio = ? AND contraseña = ?");
+    $consulta = $conexion->prepare("SELECT * FROM $rolTabla WHERE $rolInicio = ? AND contraseña = ? ");
     $consulta->bind_param("ss", $correo, $contrasena);
     $consulta->execute();
     $resultado = $consulta->get_result();
@@ -36,9 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(["mensaje" => "Ya existe este usuario"]);
     } else {
         // Si no hay coincidencias, insertar nuevos datos
-        $insertar = $conexion->prepare("INSERT INTO $rolTabla ($rolInicio, contraseña) VALUES (?, ?)");
-        $insertar->bind_param("ss", $correo, $contrasena);
-
+        $insertar = $conexion->prepare("INSERT INTO $rolTabla (TipoVendedor, $rolInicio, contraseña) VALUES (?, ?, ?)");
+        $insertar->bind_param("sss",$TipoVendedor, $correo, $contrasena);
         if ($insertar->execute()) {
             echo json_encode(["mensaje" => "Datos guardados en la base de datos"]);
         } else {
