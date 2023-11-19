@@ -1,4 +1,4 @@
-document.getElementById("product1").addEventListener("click", mostrarCarrito);
+
 // Agrega esto en tu archivo app.js
 function toggleParteDerecha() {
     var parteDerecha = document.getElementById("parteDerecha");

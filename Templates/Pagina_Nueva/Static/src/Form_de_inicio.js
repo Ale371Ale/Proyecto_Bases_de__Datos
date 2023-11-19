@@ -81,7 +81,7 @@ function IniciarSesion(){
 
     if(correo === null || contrasena === null )
     {
-        prompt("Vacio");
+
     }else{
         //Realiza una solicitud fetch para enviar los datos a Consultas.php
         fetch('Consultas.php', {
@@ -93,7 +93,7 @@ function IniciarSesion(){
         })
         .then(response => response.json())
         .then(data => {
-            if(data['mensaje'] === "Inicio de sesión exitoso"){
+            if(data['mensaje'] === "Inicio de sesión exitoso como Cliente"){
                 var enlaceEspecifico = 'Interfaz_Central.html';
 
                         // Accede a la ventana principal desde la ventana secundaria
@@ -108,7 +108,20 @@ function IniciarSesion(){
                 // Si window.opener es nulo, puedes abrir una nueva ventana si es necesario
                 window.open(enlaceEspecifico, '_blank');
             }
-            }else if(data['mensaje'] === "Inicio de sesión Fallido"){
+            }else if(data['mensaje'] === "Inicio de sesión exitoso como Vendedor"){
+                var enlaceEspecifico = 'Pagina_Central_Vendedores.html';
+
+                // Accede a la ventana principal desde la ventana secundaria
+        var ventanaPrincipal = window.opener;
+
+    // Cambia la ubicación de la ventana principal
+    if (ventanaPrincipal) {
+        ventanaPrincipal.location.href = enlaceEspecifico;
+        // Cierra la ventana secundaria (ventana de inicio de sesión)
+    }
+        window.close();
+            }
+            else if(data['mensaje'] === "Inicio de sesión Fallido"){
                 var errorContainer = document.getElementById('errorContainer');
                 errorContainer.textContent = "Correo / Contraseña Incorrectos";
                 errorContainer.style.display = 'block';
