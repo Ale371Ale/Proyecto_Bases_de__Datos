@@ -176,8 +176,8 @@ function CrearCuenta() {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            if(data['mensaje'] === "Datos guardados en la base de datos"){
-                var enlaceEspecifico = 'Interfaz_Central.html';
+            if(data['mensaje'] === "True2"){
+                var enlaceEspecifico = 'Interfaz_Central.html?correo=' + correo;
 
                                 // Accede a la ventana principal desde la ventana secundaria
                         var ventanaPrincipal = window.opener;
@@ -191,7 +191,22 @@ function CrearCuenta() {
                         // Si window.opener es nulo, puedes abrir una nueva ventana si es necesario
                         window.open(enlaceEspecifico, '_blank');
                     }
-            }else if (data['mensaje']==="Ya existe este usuario"){
+            }else if (data['mensaje']==="True1"){
+                var enlaceEspecifico = 'Pagina_Central_Vendedores.html?correo=' + correo;
+
+                // Accede a la ventana principal desde la ventana secundaria
+        var ventanaPrincipal = window.opener;
+
+    // Cambia la ubicación de la ventana principal
+    if (ventanaPrincipal) {
+        ventanaPrincipal.location.href = enlaceEspecifico;
+        // Cierra la ventana secundaria (ventana de inicio de sesión)
+        window.close();
+    } else {
+        // Si window.opener es nulo, puedes abrir una nueva ventana si es necesario
+        window.open(enlaceEspecifico, '_blank');
+    }
+            }else{
                 var errorContainer = document.getElementById('errorContainer');
                 errorContainer.textContent = "Ya existe este usuario";
                 errorContainer.style.display = 'block';

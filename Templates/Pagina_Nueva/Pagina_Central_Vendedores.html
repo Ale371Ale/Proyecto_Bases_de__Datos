@@ -79,15 +79,15 @@
         <h3>Complete su Información Personal</h3>
         <form>
             <div class="mb-3">
-                <label for="question1" class="form-label">Nombre / Razón Social</label>
+                <label id="question1Label" for="question1" class="form-label">Nombre / Razón Social</label>
                 <input type="text" class="form-control" id="question1">
             </div>
             <div class="mb-3">
-                <label for="question2" class="form-label">Dirección</label>
+                <label id="question2Label" for="question2" class="form-label">Dirección</label>
                 <input type="text" class="form-control" id="question2">
             </div>
             <div class="mb-3">
-                <label for="question3" class="form-label">RFC</label>
+                <label id="question3Label" for="question3" class="form-label">RFC</label>
                 <input type="text" class="form-control" id="question3">
             </div>
             <div class="mb-3">
@@ -95,10 +95,10 @@
                 <input type="text" class="form-control" id="question4">
             </div>
             <div class="mb-3">
-                <label for="question5" class="form-label">Página Web</label>
+                <label id="question5Label" for="question5" class="form-label">Página Web</label>
                 <input type="text" class="form-control" id="question5">
             </div>
-            <button type="submit" class="btn btn-primary">Enviar Información</button>
+            <button type="button" onclick="enviarInformacion()" class="btn btn-primary">Enviar Información</button>
         </form>
     </div>
 <script>
@@ -109,6 +109,43 @@
 
     verificarEspaciosVacios(correo);
 });
+
+function enviarInformacion() {
+    // Capturar los valores del formulario
+    var nombre = document.getElementById('question1').value;
+    var direccion = document.getElementById('question2').value;
+    var rfc = document.getElementById('question3').value;
+    var Telefono = document.getElementById('question4').value;
+    var paginaWeb = document.getElementById('question5').value;
+
+    // Crear un objeto FormData para enviar los datos al PHP
+    var formData = new FormData();
+    formData.append('Nombre', nombre);
+    formData.append('Direccion', direccion);
+    formData.append('RFC', rfc);
+    formData.append('Telefono', Telefono);
+    formData.append('PaginaWeb', paginaWeb);
+    formData.append('Correo', correo);  // Asegúrate de que 'correo' esté definido antes de esta línea
+
+    // Enviar los datos mediante AJAX
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'Rellenador.php', true);
+
+    // Definir la función de callback para manejar la respuesta del servidor
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            // El código aquí se ejecuta cuando la solicitud es exitosa
+            var response = JSON.parse(xhr.responseText);
+            var mensaje = response.mensaje;
+            if(mensaje === "True"){
+                window.location.href = 'MisProductos.html?correo=' + correo;
+            }
+        }
+    };
+
+    // Enviar la solicitud
+    xhr.send(formData);
+}
 
 
 function verificarEspaciosVacios(correo) {

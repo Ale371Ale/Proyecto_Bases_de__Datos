@@ -10,7 +10,6 @@ if (filter_var($correo, FILTER_VALIDATE_EMAIL)) {
         $rolInicio = "Teléfono";
     }
 }
-
 $consultaCliente = "SELECT * FROM Vendedor WHERE $rolInicio = '$correo'";
 $resultado = mysqli_query($conexion, $consultaCliente);
 
@@ -22,7 +21,6 @@ if ($resultado) {
         $columna2 = $fila['PaginaWeb'];
         $columna3 = $fila['Direccion'];
         if (empty($columna1) && empty($columna2) && empty($columna3)) {
-           
             echo json_encode(["mensaje" => "Falso"]);
         } else if (!empty($columna1) && !empty($columna2) && !empty($columna3)){
             echo json_encode(["mensaje" => "True"]);

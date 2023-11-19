@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $resultado = $consulta->get_result();
 
     if ($resultado->num_rows !== 0) {
-        echo json_encode(["mensaje" => "Ya existe este usuario"]);
+        echo json_encode(["mensaje" => "Ya existe este usuario en Cliente"]);
     } else {
         // Si no hay coincidencias en Cliente, verificar en Vendedor
         $consulta = $conexion->prepare("SELECT * FROM Vendedor WHERE $rolInicio = ?");
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $resultado = $consulta->get_result();
 
         if ($resultado->num_rows !== 0) {
-            echo json_encode(["mensaje" => "Ya existe este usuario"]);
+            echo json_encode(["mensaje" => "Ya existe este usuario en Vendedor"]);
         } else {
             // Si no hay coincidencias en Cliente ni Vendedor, insertar nuevos datos
             $insertar = ($TipoVendedor === "Mayorista" || $TipoVendedor === "Minorista") ?
@@ -60,7 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $insertar->bind_param(($TipoVendedor === "Mayorista" || $TipoVendedor === "Minorista") ? "sss" : "ss", $TipoVendedor, $correo, $contrasena);
 
             if ($insertar->execute()) {
-                echo json_encode(["mensaje" => "Datos guardados en la base de datos"]);
+                // Comprobar qué sentencia se ejecutó
+                $mensaje = ($TipoVendedor === "Mayorista" || $TipoVendedor === "Minorista") ? "True1" : "True2";
+                echo json_encode(["mensaje" => $mensaje]);
             } else {
                 echo json_encode(["mensaje" => "Error al guardar datos: " . $conexion->error]);
             }
