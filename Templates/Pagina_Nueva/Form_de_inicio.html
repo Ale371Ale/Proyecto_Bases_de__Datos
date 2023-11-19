@@ -23,14 +23,15 @@
     </div>
     <div class="form-group">
         <label style="margin-top: -10%;" for="contrasena">Contraseña:</label>
-        <input type="password" class="form-control" id="contrasena" placeholder="Ingrese su contraseña" style="max-height: 300px; max-width: 300px; margin-bottom: 10%;">
+        <input type="password" class="form-control" id="contrasena" placeholder="Ingrese su contraseña" style="max-height: 300px; max-width: 300px; margin-bottom: 0%;">
     </div>
-    <select class="form-select" id="rol" name="rol" style="margin-bottom: 10%; margin-top: -5%;max-height: 300px; max-width: 300px"onchange="habilitarBotones()">
+    <select class="form-select" id="rol" name="rol" style="margin-bottom: 3%; margin-top: 5%;max-height: 300px; max-width: 300px"onchange="habilitarBotones()">
         <option value="" disabled selected hidden>Tipo de Cuenta</option>
         <option   value="cliente">Cliente</option>
         <option value="vendedor">Vendedor/Minorista</option>
         <option value="vendedor2">Vendedor/Mayorista</option>
     </select>
+    <div id="errorContainer" style="color: red; margin-bottom: 2%; margin-top: 10%;"></div>
 
     <button id="btnIniciarSesion" style="width: auto; height: 44px; margin-top: 0%;" class="btn btn-primary" onclick="IniciarSesion()">Iniciar Sesión</button>
 

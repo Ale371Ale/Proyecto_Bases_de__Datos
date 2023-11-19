@@ -12,65 +12,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         if (is_numeric($correo)) {
             $rolInicio = "Teléfono";
-        }
-        else {
-            //Agregar mensaje para dar alertar que no es valido ni telefono ni correo
+        } else {
+            echo json_encode(["mensaje" => "Correo / Teléfono Inválidos"]);
+            exit(); // Agrega exit() para detener la ejecución si hay un error
         }
     }
     
     // Validar y sanitizar datos
     $correo = filter_var($correo, FILTER_SANITIZE_EMAIL);
     $contrasena = filter_var($contrasena, FILTER_SANITIZE_STRING);
+
     // Verificar si el rol es Cliente o Vendedor
-    if($comboBox === "cliente"){
+    if ($comboBox === "cliente") {
         $rolTabla = "Cliente";
         $TipoVendedor = "";
-        
-    } else if($comboBox ==="vendedor"){
+    } else if ($comboBox === "vendedor") {
         $rolTabla = "Vendedor";
         $TipoVendedor ="Minorista";
-    }else{
+    } else {
         $rolTabla = "Vendedor";
         $TipoVendedor = "Mayorista";
     }
+
     // Utilizar sentencia preparada para evitar inyección SQL
-    $consulta = $conexion->prepare("SELECT * FROM $rolTabla WHERE $rolInicio = ? AND contraseña = ? ");
-    $consulta->bind_param("ss", $correo, $contrasena);
+    $consulta = $conexion->prepare("SELECT * FROM Cliente WHERE $rolInicio = ?");
+    $consulta->bind_param("s", $correo);
     $consulta->execute();
     $resultado = $consulta->get_result();
 
-    if ($resultado->num_rows > 0) {
-        // Si las credenciales son válidas, informar al cliente
+    if ($resultado->num_rows !== 0) {
         echo json_encode(["mensaje" => "Ya existe este usuario"]);
     } else {
-        // Si no hay coincidencias, insertar nuevos datos
-        if ($TipoVendedor === "Mayorista" || $TipoVendedor === "Minorista") {
-            $insertar = $conexion->prepare("INSERT INTO $rolTabla (TipoVendedor, $rolInicio, contraseña) VALUES (?, ?, ?)");
-            $insertar->bind_param("sss",$TipoVendedor, $correo, $contrasena);
+        // Si no hay coincidencias en Cliente, verificar en Vendedor
+        $consulta = $conexion->prepare("SELECT * FROM Vendedor WHERE $rolInicio = ?");
+        $consulta->bind_param("s", $correo);
+        $consulta->execute();
+        $resultado = $consulta->get_result();
+
+        if ($resultado->num_rows !== 0) {
+            echo json_encode(["mensaje" => "Ya existe este usuario"]);
+        } else {
+            // Si no hay coincidencias en Cliente ni Vendedor, insertar nuevos datos
+            $insertar = ($TipoVendedor === "Mayorista" || $TipoVendedor === "Minorista") ?
+                $conexion->prepare("INSERT INTO $rolTabla (TipoVendedor, $rolInicio, contraseña) VALUES (?, ?, ?)") :
+                $conexion->prepare("INSERT INTO $rolTabla ($rolInicio, contraseña) VALUES (?, ?)");
+
+            $insertar->bind_param(($TipoVendedor === "Mayorista" || $TipoVendedor === "Minorista") ? "sss" : "ss", $TipoVendedor, $correo, $contrasena);
+
             if ($insertar->execute()) {
                 echo json_encode(["mensaje" => "Datos guardados en la base de datos"]);
             } else {
                 echo json_encode(["mensaje" => "Error al guardar datos: " . $conexion->error]);
             }
-        }else{
-            $insertar = $conexion->prepare("INSERT INTO $rolTabla ($rolInicio, contraseña) VALUES (?, ?)");
-            $insertar->bind_param("ss", $correo, $contrasena);
-            if ($insertar->execute()) {
-                echo json_encode(["mensaje" => "Datos guardados en la base de datos"]);
-            } else {
-                echo json_encode(["mensaje" => "Error al guardar datos: " . $conexion->error]);
-            }
+
+            // Cerrar la conexión y liberar recursos
+            $insertar->close();
         }
     }
 
     // Cerrar la conexión y liberar recursos
     $consulta->close();
-    $insertar->close();
+    $conexion->close();
 
-    
-    } else {
-        echo json_encode(["mensaje" => "Método no permitido"]);
-    }
-// Cierra la conexión
-$conexion->close();
+} else {
+    echo json_encode(["mensaje" => "Método no permitido"]);
+}
 ?>

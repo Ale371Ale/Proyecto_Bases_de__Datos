@@ -93,7 +93,6 @@ function IniciarSesion(){
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data); // Maneja la respuesta del servidor
             if(data['mensaje'] === "Inicio de sesión exitoso"){
                 var enlaceEspecifico = 'Interfaz_Central.html';
 
@@ -109,8 +108,12 @@ function IniciarSesion(){
                 // Si window.opener es nulo, puedes abrir una nueva ventana si es necesario
                 window.open(enlaceEspecifico, '_blank');
             }
+            }else if(data['mensaje'] === "Inicio de sesión Fallido"){
+                var errorContainer = document.getElementById('errorContainer');
+                errorContainer.textContent = "Correo / Contraseña Incorrectos";
+                errorContainer.style.display = 'block';
+                errorContainer.style.marginTop = "0%";
             }
-            // Aquí puedes realizar acciones dependiendo de la respuesta del servidor
         })
         .catch(error => console.error('Error al realizar la solicitud:', error));
     }
@@ -175,8 +178,10 @@ function CrearCuenta() {
                         // Si window.opener es nulo, puedes abrir una nueva ventana si es necesario
                         window.open(enlaceEspecifico, '_blank');
                     }
-            }else{
-               
+            }else if (data['mensaje']==="Ya existe este usuario"){
+                var errorContainer = document.getElementById('errorContainer');
+                errorContainer.textContent = "Ya existe este usuario";
+                errorContainer.style.display = 'block';
             }
             // Aquí puedes realizar acciones dependiendo de la respuesta del servidor
         })
