@@ -68,21 +68,21 @@
                 <h2>Mis Productos</h2>
 
                 <div id="listaProductos">
-                    <!-- Este es un contenedor que se llenará dinámicamente con los productos del vendedor -->
+
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Supongamos que tienes un arreglo de productos del vendedor
+
         var productosVendedor = [
             { nombre: "Producto 1", categoria: "electronica" },
             { nombre: "Producto 2", categoria: "ropa" },
-            // Agrega más productos según sea necesario
+
         ];
 
-        // Función para mostrar los productos del vendedor
+
         function mostrarProductos() {
             var listaProductos = document.getElementById('listaProductos');
             listaProductos.innerHTML = '';
@@ -94,7 +94,6 @@
             });
         }
 
-        // Función para filtrar productos por categoría
         function filtrarProductos(event) {
             var categoriaSeleccionada = event.target.getAttribute('data-categoria');
 
@@ -108,11 +107,11 @@
                 });
             }
 
-            // Muestra la lista actualizada de productos
+
             mostrarProductos(productosFiltrados);
         }
 
-        // Llama a la función para mostrar los productos al cargar la página
+
         mostrarProductos();
     </script>
 

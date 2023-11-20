@@ -12,17 +12,14 @@
 
 <body>
 
-    <!-- Barra superior con logo y botones -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <!-- Logo de la tienda -->
             <a class="navbar-brand" href="#">
                 <img src="Static/src/Logo_Sin_Fondo.png" alt="Logo" style="width: 100px; height: 50px;" class="image">
             </a>
 
-            <!-- Botones en la barra superior -->
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto"> <!-- Mover los elementos a la derecha con ms-auto -->
+                <ul class="navbar-nav ms-auto"> 
                     <li class="nav-item">
                         <a class="nav-link" href="#">Mis Productos</a>
                     </li>
@@ -32,7 +29,6 @@
                 </ul>
             </div>
 
-            <!-- Ícono de usuario con menú colapsable -->
             <div class="nav-item-dropdown dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -49,13 +45,11 @@
         </div>
     </nav>
 
-    <!-- Modal para agregar nuevo producto -->
     <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
-                    <!-- Formulario para agregar nuevo producto -->
                     <form>
                         <div class="mb-3">
                             <label for="productName" class="form-label">Nombre del Producto</label>
@@ -65,7 +59,6 @@
                             <label for="productPrice" class="form-label">Precio del Producto</label>
                             <input type="text" class="form-control" id="productPrice">
                         </div>
-                        <!-- ... Agrega más campos según sea necesario ... -->
                         <button type="submit" class="btn btn-primary">Agregar Producto</button>
                     </form>
                 </div>
@@ -73,7 +66,6 @@
         </div>
     </div>
 
-    <!-- Formulario de preguntas -->
     <h2 style="margin-left: 20%;margin-top: 2%;">Al ser su primera vez debera rellenar este cuestionario para poder darle servicio</h2>
     <div class="container mt-5">
         <h3>Complete su Información Personal</h3>
@@ -111,30 +103,24 @@
 });
 
 function enviarInformacion() {
-    // Capturar los valores del formulario
     var nombre = document.getElementById('question1').value;
     var direccion = document.getElementById('question2').value;
     var rfc = document.getElementById('question3').value;
     var Telefono = document.getElementById('question4').value;
     var paginaWeb = document.getElementById('question5').value;
 
-    // Crear un objeto FormData para enviar los datos al PHP
     var formData = new FormData();
     formData.append('Nombre', nombre);
     formData.append('Direccion', direccion);
     formData.append('RFC', rfc);
     formData.append('Telefono', Telefono);
     formData.append('PaginaWeb', paginaWeb);
-    formData.append('Correo', correo);  // Asegúrate de que 'correo' esté definido antes de esta línea
+    formData.append('Correo', correo);
 
-    // Enviar los datos mediante AJAX
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'Rellenador.php', true);
-
-    // Definir la función de callback para manejar la respuesta del servidor
     xhr.onload = function () {
         if (xhr.status === 200) {
-            // El código aquí se ejecuta cuando la solicitud es exitosa
             var response = JSON.parse(xhr.responseText);
             var mensaje = response.mensaje;
             if(mensaje === "True"){
@@ -142,8 +128,6 @@ function enviarInformacion() {
             }
         }
     };
-
-    // Enviar la solicitud
     xhr.send(formData);
 }
 
@@ -158,9 +142,9 @@ function verificarEspaciosVacios(correo) {
     })
     .then(response => response.json())
     .then(data => {
-        // Verifica la respuesta del servidor
+
         if (data['mensaje'] === "True") {
-    // Ocultar el formulario y redirigir a 'Mis Productos'
+
             document.getElementById('addProductModal').style.display = 'none';
             window.location.href = 'MisProductos.html?correo=' + correo;
       
@@ -183,9 +167,8 @@ function esNumero(valor) {
     return typeof valor === 'number' && isFinite(valor);
 }
 
-// Función para verificar si es un correo electrónico
+
 function esCorreoElectronico(valor) {
-    // Expresión regular para validar el formato de un correo electrónico básico
     var regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regexCorreo.test(valor);
 }
