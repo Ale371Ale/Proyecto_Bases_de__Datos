@@ -26,12 +26,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($comboBox === "cliente") {
         $rolTabla = "Cliente";
         $TipoVendedor = "";
+        $insertar = $conexion->prepare("INSERT INTO $rolTabla ($rolInicio, contraseña) VALUES (?, ?)");
+        $insertar->bind_param("ss", $correo, $contrasena);
     } else if ($comboBox === "vendedor") {
         $rolTabla = "Vendedor";
-        $TipoVendedor ="Minorista";
+        $TipoVendedor = ($comboBox === "vendedor" && $comboBox === "mayorista") ? "Mayorista" : "Minorista";
+        $insertar = $conexion->prepare("INSERT INTO $rolTabla (TipoVendedor, $rolInicio, contraseña) VALUES (?, ?, ?)");
+        $insertar->bind_param("sss", $TipoVendedor, $correo, $contrasena);
     } else {
-        $rolTabla = "Vendedor";
-        $TipoVendedor = "Mayorista";
+        echo json_encode(["mensaje" => "Opción no válida"]);
+        exit();
     }
 
     // Utilizar sentencia preparada para evitar inyección SQL
@@ -52,16 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($resultado->num_rows !== 0) {
             echo json_encode(["mensaje" => "Ya existe este usuario en Vendedor"]);
         } else {
-            // Si no hay coincidencias en Cliente ni Vendedor, insertar nuevos datos
-            $insertar = ($TipoVendedor === "Mayorista" || $TipoVendedor === "Minorista") ?
-                $conexion->prepare("INSERT INTO $rolTabla (TipoVendedor, $rolInicio, contraseña) VALUES (?, ?, ?)") :
-                $conexion->prepare("INSERT INTO $rolTabla ($rolInicio, contraseña) VALUES (?, ?)");
-
-            $insertar->bind_param(($TipoVendedor === "Mayorista" || $TipoVendedor === "Minorista") ? "sss" : "ss", $TipoVendedor, $correo, $contrasena);
-
             if ($insertar->execute()) {
                 // Comprobar qué sentencia se ejecutó
-                $mensaje = ($TipoVendedor === "Mayorista" || $TipoVendedor === "Minorista") ? "True1" : "True2";
+                $mensaje = ($rolTabla === "Vendedor") ? "True1" : "True2";
                 echo json_encode(["mensaje" => $mensaje]);
             } else {
                 echo json_encode(["mensaje" => "Error al guardar datos: " . $conexion->error]);
