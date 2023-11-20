@@ -24,7 +24,7 @@
                         <a class="nav-link" href="#">Mis Productos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Nuevos Productos</a>
+                        <a id="nuevosProductosLink" class="nav-link" href="#">Nuevos Productos</a>
                     </li>
                 </ul>
             </div>
@@ -46,25 +46,39 @@
     </nav>
 
     <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="productName" class="form-label">Nombre del Producto</label>
-                            <input type="text" class="form-control" id="productName">
-                        </div>
-                        <div class="mb-3">
-                            <label for="productPrice" class="form-label">Precio del Producto</label>
-                            <input type="text" class="form-control" id="productPrice">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Agregar Producto</button>
-                    </form>
-                </div>
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="ImageArchive" class="form-label">Adjunta la imagen</label>
+                        <input type="file" class="form-control" id="ImageArchive" accept="image/*">
+                        <!-- 'accept="image/*"' limita la selección de archivos solo a imágenes -->
+                    </div>
+                    <div class="mb-3">
+                        <label for="productName" class="form-label">Nombre del Producto</label>
+                        <input type="text" class="form-control" id="productName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="DescriptionProuct" class="form-label">Descripcion del Producto</label>
+                        <input type="text" class="form-control" id="productPrice">
+                    </div>
+                    <div class="mb-3">
+                        <label for="LinkProduct" class="form-label">Link del Producto</label>
+                        <input type="text" class="form-control" id="productPrice">
+                    </div>
+                    <div class="mb-3">
+                        <label for="productPrice" class="form-label">Precio del Producto</label>
+                        <input type="text" class="form-control" id="productPrice">
+                    </div>
+                    <button type="button" class="btn btn-primary">Agregar Producto</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
 
     <h2 style="margin-left: 20%;margin-top: 2%;">Al ser su primera vez debera rellenar este cuestionario para poder darle servicio</h2>
     <div class="container mt-5">
@@ -93,6 +107,8 @@
             <button type="button" onclick="enviarInformacion()" class="btn btn-primary">Enviar Información</button>
         </form>
     </div>
+
+
 <script>
     var urlParams = new URLSearchParams(window.location.search);
     var correo = urlParams.get('correo');
@@ -173,10 +189,21 @@ function esCorreoElectronico(valor) {
     return regexCorreo.test(valor);
 }
 </script>
-    <script src="http://localhost/Proyecto_Bases_de__Datos/Templates/Pagina_Nueva/app.js"></script>
+ 
     <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Obtener el enlace "Nuevos Productos" por su ID
+            var nuevosProductosLink = document.getElementById('nuevosProductosLink');
+            nuevosProductosLink.addEventListener('click', function () {
+                // Obtener el modal por su ID y mostrarlo
+                var addProductModal = new bootstrap.Modal(document.getElementById('addProductModal'));
+                addProductModal.show();
+            });
+        });
+    </script>
+    <script src="http://localhost/Proyecto_Bases_de__Datos/Templates/Pagina_Nueva/app.js"></script>
 </body>
 
 </html>
