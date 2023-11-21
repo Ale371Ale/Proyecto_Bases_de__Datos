@@ -28,9 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $TipoVendedor = "";
         $insertar = $conexion->prepare("INSERT INTO $rolTabla ($rolInicio, contraseña) VALUES (?, ?)");
         $insertar->bind_param("ss", $correo, $contrasena);
-    } else if ($comboBox === "vendedor") {
+    } else if ($comboBox != "cliente") {
         $rolTabla = "Vendedor";
-        $TipoVendedor = ($comboBox === "vendedor" && $comboBox === "mayorista") ? "Mayorista" : "Minorista";
+        $TipoVendedor = ($rolTabla === "Vendedor" && $comboBox === "mayorista") ? "Mayorista" : "Minorista";
         $insertar = $conexion->prepare("INSERT INTO $rolTabla (TipoVendedor, $rolInicio, contraseña) VALUES (?, ?, ?)");
         $insertar->bind_param("sss", $TipoVendedor, $correo, $contrasena);
     } else {
