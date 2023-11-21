@@ -11,6 +11,29 @@
 </head>
 
 <body>
+    <style>
+        .Container-m2 {
+    background-color: #f5e1da; /* Color pastel de fondo */
+    padding: 20px; /* Espaciado interno del contenedor */
+    border-radius: 10px; /* Bordes redondeados */
+    margin: auto; /* Centrar el contenedor en la página */
+    width: 60%; /* Ancho del contenedor */
+}
+
+form {
+    max-width: 600px; /* Ancho máximo del formulario */
+    margin: auto; /* Centrar el formulario dentro del contenedor */
+}
+
+/* Estilos adicionales según tus necesidades */
+h2 {
+    text-align: center; /* Centrar el título */
+}
+
+h3 {
+    color: #345; /* Color del título */
+}
+    </style>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
@@ -79,8 +102,8 @@
     </div>
 </div>
 
-
-    <h2 style="margin-left: 20%;margin-top: 2%;">Al ser su primera vez debera rellenar este cuestionario para poder darle servicio</h2>
+<div class="Container-m2">
+    <h2 style="margin-top: 2%;">Al ser su primera vez debera rellenar este cuestionario para poder darle servicio</h2>
     <div class="container mt-5">
         <h3>Complete su Información Personal</h3>
         <form>
@@ -107,7 +130,7 @@
             <button type="button" onclick="enviarInformacion()" class="btn btn-primary">Enviar Información</button>
         </form>
     </div>
-
+</div>
 
 <script>
     var urlParams = new URLSearchParams(window.location.search);
