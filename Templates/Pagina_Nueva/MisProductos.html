@@ -12,15 +12,12 @@
 
 <body>
 
-    <!-- Barra superior con logo y botones -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <!-- Logo de la tienda -->
             <a class="navbar-brand" href="#">
                 <img src="Static/src/Logo_Sin_Fondo.png" alt="Logo" style="width: 100px; height: 50px;" class="image">
             </a>
 
-            <!-- Botones en la barra superior -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -32,7 +29,6 @@
                 </ul>
             </div>
 
-            <!-- Ícono de usuario con menú colapsable -->
             <div class="nav-item-dropdown dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -50,73 +46,223 @@
     </nav>
 
     <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="ImageArchive" class="form-label">Adjunta la imagen</label>
-                        <input type="file" class="form-control" id="ImageArchive" accept="image/*">
-                        <!-- 'accept="image/*"' limita la selección de archivos solo a imágenes -->
-                    </div>
-                    <div class="mb-3">
-                        <label for="productName" class="form-label">Nombre del Producto</label>
-                        <input type="text" class="form-control" id="productName">
-                    </div>
-                    <div class="mb-3">
-                        <label for="DescriptionProuct" class="form-label">Descripcion del Producto</label>
-                        <input type="text" class="form-control" id="productPrice">
-                    </div>
-                    <div class="mb-3">
-                        <label for="LinkProduct" class="form-label">Link del Producto</label>
-                        <input type="text" class="form-control" id="productPrice">
-                    </div>
-                    <div class="mb-3">
-                        <label for="productPrice" class="form-label">Precio del Producto</label>
-                        <input type="text" class="form-control" id="productPrice">
-                    </div>
-                    <button type="button" class="btn btn-primary">Agregar Producto</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <!-- Contenido de la página -->
-    <div class="container mt-5" style="margin-left: 1%;">
-        <div class="row">
-            <!-- Lista de categorías -->
-            <div class="col-md-3">
-                <h4>Filtrar</h4>
-                <ul id="filtroCategorias" class="list-unstyled" onclick="filtrarProductos()">
-                    <li data-categoria="todos">Todos</li>
-                    <li data-categoria="electronica">Electrónica</li>
-                    <li data-categoria="ropa">Ropa</li>
-                    <!-- Agrega más opciones según sea necesario -->
-                </ul>
-            </div>
-
-            <!-- Lista de productos del vendedor -->
-            <div class="col-md-9 mx-auto">
-                <h2>Mis Productos</h2>
-
-                <div id="listaProductos">
-
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="ImageArchive" class="form-label">Adjunta la imagen</label>
+                            <input type="file" class="form-control" id="ImageArchive" accept="image/*">
+                        </div>
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">Nombre del Producto</label>
+                            <input type="text" class="form-control" id="productName">
+                        </div>
+                        <div class="mb-3">
+                            <label for="DescriptionProuct" class="form-label">Descripción del Producto</label>
+                            <input type="text" class="form-control" id="DescriptionProuct">
+                        </div>
+                        <div class="mb-3">
+                            <label for="LinkProduct" class="form-label">Enlace del Producto</label>
+                            <input type="text" class="form-control" id="LinkProduct">
+                        </div>
+                        <div class="mb-3">
+                            <label for="productPrice" class="form-label">Precio del Producto</label>
+                            <input type="text" class="form-control" id="productPrice">
+                        </div>
+                        <button type="button"  id="btnAgregarProducto" class="btn btn-primary">Agregar Producto</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Contenido de la página con fondos de color pastel -->
+    <div class="container mt-5" style="margin-left: 1%;">
+
+        <!-- Fila con dos columnas para "Filtrar" y "Mis Productos" -->
+        <div class="row">
+            <div class="col-md-3 mb-3" style="background-color: #FFD6C1; padding: 20px; border-radius: 10px; max-width: fit-content;">
+                <h4>Filtrar</h4>
+                <ul id="filtroCategorias" class="list-unstyled" onclick="filtrarProductos()">
+                    <li data-categoria="todos">Todos</li>
+                    <li data-categoria="electronica">Electrónica</li>
+                    <li data-categoria="ropa">Ropa</li>
+                </ul>
+            </div>
+
+            <!-- Lista de productos del vendedor con otro fondo de color pastel -->
+            <div class="col-md-9" style="background-color: #F3EFEF; padding: 20px; border-radius: 10px; margin-left: 5%;">
+                <h2>Mis Productos</h2>
+                <div id="listaProductos"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-    var urlParams = new URLSearchParams(window.location.search);
-    var correo = urlParams.get('correo');
+
+
+
+
+        var urlParams = new URLSearchParams(window.location.search);
+        var correo = urlParams.get('correo');
+    
+        async function GuardarProductos() {
+    try {
+        // Obtener los valores del formulario
+        var nombreProducto = $('#productName').val();
+        var descripcionProducto = $('#DescriptionProuct').val();
+        var enlaceProducto = $('#LinkProduct').val();
+        var precioProducto = $('#productPrice').val();
+
+        // Leer la imagen y convertirla a base64
+        var inputImage = document.getElementById('ImageArchive');
+        var file = inputImage.files[0];
+
+        if (!file) {
+            prompt('Por favor selecciona una imagen');
+            return;
+        }
+
+        var imagenBase64 = await readImageAsBase64(file);
+
+        // Obtener el ID del vendedor
+        await obtenerId();
+        var datosProducto = {
+    idVendedor: window.idVendedor,
+    nombre: nombreProducto,
+    descripcion: descripcionProducto,
+    enlace: enlaceProducto,
+    precio: precioProducto,
+    imagen: imagenBase64
+};
+
+const response = await fetch('SubirProductos.php', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(datosProducto),
+});
+
+        if (!response.ok) {
+            throw new Error('Respuesta no exitosa: ' + response.statusText);
+        }
+        
+        const responseData = await response.json();
+
+        // Manejar la respuesta del servidor (puede ser un mensaje de éxito o error)
+        console.log(responseData);
+    } catch (error) {
+        console.error('Error en la función GuardarProductos:', error);
+    }
+}
+
+function readImageAsBase64(file) {
+    return new Promise((resolve, reject) => {
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            resolve(reader.result);
+        };
+        reader.onerror = function (error) {
+            reject(error);
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+    // Asigna la función GuardarProductos al evento click del botón
+    $(document).ready(function () {
+        $('#btnAgregarProducto').on('click', GuardarProductos);
+    });
+
+    async function LeerProductos() {
+    try {
+        await obtenerId(); // Esperar a que obtenerId se complete antes de continuar
+        // Realizar la solicitud fetch para obtener productos
+        const response = await fetch('LeerProductos.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ idVendedor: window.idVendedor }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Respuesta no exitosa: ' + response.statusText);
+        }
+
+        const productos = await response.json();
+
+        // Limpiar el contenedor donde se mostrarán los productos
+        $('#listaProductos').empty();
+
+        // Iterar sobre los productos y mostrarlos
+        for (var i = 0; i < productos.length; i++) {
+            var producto = productos[i];
+
+            // Crear un elemento para mostrar el producto
+            var elementoProducto = $('<div></div>').html(
+                '<strong>' + producto.Nombre + '</strong> - ' +
+                'Descripción: ' + producto.Descripcion + ', ' +
+                'Precio: ' + producto.Precio + ', ' +
+                'Vistas: ' + producto.Vistas
+                // Puedes agregar más campos según tus necesidades
+            );
+
+            // Agregar la imagen si está presente
+            if (producto.Imagen) {
+                var imagenElemento = $('<img>').attr('src', 'data:image/png;base64,' + producto.Imagen);
+                elementoProducto.append(imagenElemento);
+            }
+
+            // Agregar el elemento del producto al contenedor
+            $('#listaProductos').append(elementoProducto);
+        }
+    } catch (error) {
+        console.error('Error al obtener productos:', error);
+    }
+}
+
+async function obtenerId() {
+    try {
+        const response = await fetch('obtenerID.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'Correo=' + correo,
+        });
+
+        const data = await response.json();
+
+        if (data.idVendedor) {
+            window.idVendedor = data.idVendedor;
+            console.log("ID del Vendedor: " + window.idVendedor);
+            idVendedor = window.idVendedor;
+
+
+        } else {
+            console.log("Usuario no encontrado en Vendedor");
+        }
+    } catch (error) {
+        console.error('Error al obtener el ID:', error);
+    }
+}
+
+$(document).ready(function () {
+  
+    LeerProductos();
+});
+
+
+
         var productosVendedor = [
-            { nombre: "Producto 1", categoria: "electronica" },
-            { nombre: "Producto 2", categoria: "ropa" },
-
+           
         ];
-
 
         function mostrarProductos() {
             var listaProductos = document.getElementById('listaProductos');
@@ -142,26 +288,24 @@
                 });
             }
 
-
             mostrarProductos(productosFiltrados);
         }
 
-
         mostrarProductos();
     </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Obtener el enlace "Nuevos Productos" por su ID
             var nuevosProductosLink = document.getElementById('nuevosProductosLink');
             nuevosProductosLink.addEventListener('click', function () {
-                // Obtener el modal por su ID y mostrarlo
                 var addProductModal = new bootstrap.Modal(document.getElementById('addProductModal'));
                 addProductModal.show();
             });
         });
+            // Llamar a la función al cargar la página (puedes ajustar esto según tus necesidades)
+ 
     </script>
-    <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </body>
 
