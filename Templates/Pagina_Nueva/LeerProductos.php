@@ -23,7 +23,7 @@ try {
     }
 
     // Consultar todos los productos del vendedor
-    $query = "SELECT Producto.idProducto, Producto.Nombre, Producto.Descripcion, Producto.precio, Producto.URL, Producto.Imagen, Producto.Vistas, Producto.Fechadecarga
+    $query = "SELECT Producto.idProducto, Producto.Nombre, Producto.Descripcion, Producto.precio, Producto.DireccionWeb, Producto.Imagen, Producto.Vistas, Producto.Fechadecarga
               FROM Producto
               INNER JOIN RegistrodeProductos ON Producto.idProducto = RegistrodeProductos.Producto_idProducto
               WHERE  RegistrodeProductos.Vendedor_IdVendedor = ?";

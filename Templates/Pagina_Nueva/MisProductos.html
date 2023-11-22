@@ -5,13 +5,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Productos - NOZAMA</title>
-    <link rel="stylesheet" type="text/css" href="Static/style_Central.css">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
     <link rel="shortcut icon" href="Static/src/Logo.ico" />
 </head>
 
 <body>
+<style>
+  /* Estilos generales */
+.container-mt-5 {
+    margin-top: 5%;
+}
 
+/* Estilo para el contenedor de productos */
+#listaProductos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Ajusta según sea necesario */
+}
+
+/* Estilo para las tarjetas de productos */
+.card {
+    width: 100%; /* Ocupa el 100% del ancho del contenedor */
+    margin-bottom: 20px;
+}
+
+/* Estilo para la imagen en las tarjetas de productos */
+.card-img-top {
+    height: 150px; /* Ajusta la altura de la imagen según sea necesario */
+    object-fit: cover; /* Escala la imagen para llenar completamente el contenedor */
+}
+
+/* Estilo para el cuerpo de las tarjetas de productos */
+.card-body {
+    text-align: center;
+}
+
+/* Estilo para los botones en las tarjetas de productos */
+.btn-primary {
+    margin-top: 10px;
+}
+
+/* Cambiar cursor al pasar sobre la imagen */
+.card-img-top:hover {
+    cursor: pointer;
+}
+
+/* Estilo para el contenedor de la lista de productos del vendedor */
+#listaProductosContainer {
+    background-color: #F3EFEF;
+    padding: 20px;
+    border-radius: 10px;
+    margin-left: 5%;
+}
+
+</style>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" href="#">
@@ -102,210 +150,10 @@
 
     <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
+    <script src="MisProductos.js"></script>
 
-
-
-
-        var urlParams = new URLSearchParams(window.location.search);
-        var correo = urlParams.get('correo');
-    
-        async function GuardarProductos() {
-    try {
-        // Obtener los valores del formulario
-        var nombreProducto = $('#productName').val();
-        var descripcionProducto = $('#DescriptionProuct').val();
-        var enlaceProducto = $('#LinkProduct').val();
-        var precioProducto = $('#productPrice').val();
-
-        // Leer la imagen y convertirla a base64
-        var inputImage = document.getElementById('ImageArchive');
-        var file = inputImage.files[0];
-
-        if (!file) {
-            prompt('Por favor selecciona una imagen');
-            return;
-        }
-
-        var imagenBase64 = await readImageAsBase64(file);
-
-        // Obtener el ID del vendedor
-        await obtenerId();
-        var datosProducto = {
-    idVendedor: window.idVendedor,
-    nombre: nombreProducto,
-    descripcion: descripcionProducto,
-    enlace: enlaceProducto,
-    precio: precioProducto,
-    imagen: imagenBase64
-};
-
-const response = await fetch('SubirProductos.php', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(datosProducto),
-});
-
-        if (!response.ok) {
-            throw new Error('Respuesta no exitosa: ' + response.statusText);
-        }
-        
-        const responseData = await response.json();
-
-        // Manejar la respuesta del servidor (puede ser un mensaje de éxito o error)
-        console.log(responseData);
-    } catch (error) {
-        console.error('Error en la función GuardarProductos:', error);
-    }
-}
-
-function readImageAsBase64(file) {
-    return new Promise((resolve, reject) => {
-        var reader = new FileReader();
-        reader.onloadend = function () {
-            resolve(reader.result);
-        };
-        reader.onerror = function (error) {
-            reject(error);
-        };
-        reader.readAsDataURL(file);
-    });
-}
-
-    // Asigna la función GuardarProductos al evento click del botón
-    $(document).ready(function () {
-        $('#btnAgregarProducto').on('click', GuardarProductos);
-    });
-
-    async function LeerProductos() {
-    try {
-        await obtenerId(); // Esperar a que obtenerId se complete antes de continuar
-        // Realizar la solicitud fetch para obtener productos
-        const response = await fetch('LeerProductos.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ idVendedor: window.idVendedor }),
-        });
-
-        if (!response.ok) {
-            throw new Error('Respuesta no exitosa: ' + response.statusText);
-        }
-
-        const productos = await response.json();
-
-        // Limpiar el contenedor donde se mostrarán los productos
-        $('#listaProductos').empty();
-
-        // Iterar sobre los productos y mostrarlos
-        for (var i = 0; i < productos.length; i++) {
-            var producto = productos[i];
-
-            // Crear un elemento para mostrar el producto
-            var elementoProducto = $('<div></div>').html(
-                '<strong>' + producto.Nombre + '</strong> - ' +
-                'Descripción: ' + producto.Descripcion + ', ' +
-                'Precio: ' + producto.Precio + ', ' +
-                'Vistas: ' + producto.Vistas
-                // Puedes agregar más campos según tus necesidades
-            );
-
-            // Agregar la imagen si está presente
-            if (producto.Imagen) {
-                var imagenElemento = $('<img>').attr('src', 'data:image/png;base64,' + producto.Imagen);
-                elementoProducto.append(imagenElemento);
-            }
-
-            // Agregar el elemento del producto al contenedor
-            $('#listaProductos').append(elementoProducto);
-        }
-    } catch (error) {
-        console.error('Error al obtener productos:', error);
-    }
-}
-
-async function obtenerId() {
-    try {
-        const response = await fetch('obtenerID.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: 'Correo=' + correo,
-        });
-
-        const data = await response.json();
-
-        if (data.idVendedor) {
-            window.idVendedor = data.idVendedor;
-            console.log("ID del Vendedor: " + window.idVendedor);
-            idVendedor = window.idVendedor;
-
-
-        } else {
-            console.log("Usuario no encontrado en Vendedor");
-        }
-    } catch (error) {
-        console.error('Error al obtener el ID:', error);
-    }
-}
-
-$(document).ready(function () {
-  
-    LeerProductos();
-});
-
-
-
-        var productosVendedor = [
-           
-        ];
-
-        function mostrarProductos() {
-            var listaProductos = document.getElementById('listaProductos');
-            listaProductos.innerHTML = '';
-
-            productosVendedor.forEach(function (producto) {
-                var elementoProducto = document.createElement('div');
-                elementoProducto.innerHTML = '<strong>' + producto.nombre + '</strong> - Categoría: ' + producto.categoria;
-                listaProductos.appendChild(elementoProducto);
-            });
-        }
-
-        function filtrarProductos(event) {
-            var categoriaSeleccionada = event.target.getAttribute('data-categoria');
-
-            var productosFiltrados = [];
-
-            if (categoriaSeleccionada === 'todos') {
-                productosFiltrados = productosVendedor;
-            } else {
-                productosFiltrados = productosVendedor.filter(function (producto) {
-                    return producto.categoria === categoriaSeleccionada;
-                });
-            }
-
-            mostrarProductos(productosFiltrados);
-        }
-
-        mostrarProductos();
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var nuevosProductosLink = document.getElementById('nuevosProductosLink');
-            nuevosProductosLink.addEventListener('click', function () {
-                var addProductModal = new bootstrap.Modal(document.getElementById('addProductModal'));
-                addProductModal.show();
-            });
-        });
-            // Llamar a la función al cargar la página (puedes ajustar esto según tus necesidades)
- 
-    </script>
-
+<script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

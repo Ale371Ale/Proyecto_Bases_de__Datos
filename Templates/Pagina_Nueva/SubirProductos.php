@@ -7,9 +7,8 @@ $idVendedor = $data['idVendedor'];
 $nombre = $data['nombre'];
 $descripcion = $data['descripcion'];
 $precio = $data['precio'];
-$url = $data['enlace'];
+$url = $conexion->real_escape_string($data['enlace']); // Escapar caracteres especiales en la URL
 $imagenBase64 = $data['imagen'];
-
 // Verificar si todos los datos necesarios están presentes
 if (empty($idVendedor) || empty($nombre) || empty($descripcion) || empty($precio) || empty($url) || empty($imagenBase64)) {
     echo json_encode(["mensaje" => "Todos los campos son obligatorios"]);
@@ -24,26 +23,22 @@ if (!$resultadoRegistro) {
     exit();
 }
 
+$imagenBlob = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagenBase64));
 
-// Convertir la imagen de base64 a un blob
-$imagenBlob = base64_decode(str_replace('data:image/png;base64,', '', $imagenBase64));
 
 // Obtener el IdProducto recién insertado
 $idProducto = $conexion->insert_id;
 
-// Insertar en Producto
-$stmt = $conexion->prepare("INSERT INTO Producto (Nombre, Descripcion, precio, URL, Imagen, vistas, Fechadecarga)
-                            VALUES ( ?, ?, ?, ?, ?, '0', NOW())");
-$stmt->bind_param("sssbs", $nombre, $descripcion, $precio, $url, $imagenBlob);
+$stmt = $conexion->prepare("INSERT INTO Producto (Nombre, Descripcion, precio, DireccionWeb, Imagen, vistas, Fechadecarga)
+                            VALUES (?, ?, ?, ?, ?, '0', NOW())");
+$stmt->bind_param("sssss", $nombre, $descripcion, $precio, $url, $imagenBlob);
 
 if ($stmt->execute()) {
     echo json_encode(["mensaje" => "Producto agregado con éxito"]);
 } else {
-    
     echo json_encode(["mensaje" => "Error al agregar el producto"]);
 }
 
 $stmt->close();
-$conexion->close();  
-
+$conexion->close();
 ?>
