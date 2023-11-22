@@ -168,7 +168,7 @@ function mostrarProductos() {
                 var img = document.createElement('img');
                 img.src = producto.imagen;
                 img.className = 'card-img-top';
-                img.style = 'height: 200px; object-fit: contain; cursor: pointer;';
+                img.style = 'height: 200px; object-fit: contain; cursor: pointer; margin-top: 5%;';
                 img.alt = producto.nombre;
                 img.onclick = function () {
                     window.location.href = producto.enlace;
@@ -195,7 +195,7 @@ function mostrarProductos() {
                     addToCart(producto.imagen, producto.nombre, producto.precio);
                 };
                 addButton.className = 'btn btn-primary btn-sm';
-                addButton.textContent = 'Agregar a Carrito';
+                addButton.textContent = 'Modificar';
 
                 cardBody.appendChild(title);
                 cardBody.appendChild(price);
