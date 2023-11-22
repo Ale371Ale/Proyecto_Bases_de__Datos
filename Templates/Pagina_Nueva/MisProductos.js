@@ -132,7 +132,9 @@ async function LeerProductos() {
         }
 
         const productos = await response.json();
+
         productosVendedor = productos.map(producto => ({
+            id: producto.idProducto,
             nombre: producto.Nombre,
             descripcion: producto.Descripcion,
             precio: producto.precio,
@@ -145,7 +147,6 @@ async function LeerProductos() {
         console.error('Error al obtener productos:', error);
     }
 }
-
 
 function mostrarProductos() {
     try {
@@ -190,17 +191,17 @@ function mostrarProductos() {
                 viewButton.className = 'btn btn-primary btn-sm';
                 viewButton.textContent = 'Ver Artículo';
 
-                var addButton = document.createElement('a');
-                addButton.onclick = function () {
-                    addToCart(producto.imagen, producto.nombre, producto.precio);
+                var modifyButton = document.createElement('a');
+                modifyButton.onclick = function () {
+                    showModifyProductForm(producto.id);
                 };
-                addButton.className = 'btn btn-primary btn-sm';
-                addButton.textContent = 'Modificar';
+                modifyButton.className = 'btn btn-warning btn-sm';
+                modifyButton.textContent = 'Modificar';
 
                 cardBody.appendChild(title);
                 cardBody.appendChild(price);
                 cardBody.appendChild(viewButton);
-                cardBody.appendChild(addButton);
+                cardBody.appendChild(modifyButton);
 
                 card.appendChild(img);
                 card.appendChild(cardBody);
@@ -218,6 +219,7 @@ function mostrarProductos() {
     }
 }
 
+
     function filtrarProductos(event) {
         var categoriaSeleccionada = event.target.getAttribute('data-categoria');
 
@@ -233,7 +235,128 @@ function mostrarProductos() {
 
         mostrarProductos(productosFiltrados);
     }
+    function showModifyProductForm(productoId) {
+        // Buscar el producto en la variable productosVendedor por su ID
+        var producto = productosVendedor.find(p => p.id === productoId);
+    
+        if (!producto) {
+            console.error('Producto no encontrado');
+            return;
+        }
+    
+        // Obtener los elementos del formulario de modificación, incluyendo el nuevo campo para la imagen y la URL
+        var nuevoNombreInput = document.getElementById('nuevoNombre');
+        var nuevaDescripcionInput = document.getElementById('nuevaDescripcion');
+        var nuevoPrecioInput = document.getElementById('nuevoPrecio');
+        var nuevaImagenInput = document.getElementById('nuevaImagen'); // Nuevo campo para la imagen
+        var nuevaURLInput = document.getElementById('nuevaURL'); // Nuevo campo para la URL
+    
+        
+        // Cargar los datos del producto en el formulario
+        nuevoNombreInput.value = producto.nombre;
+        nuevaDescripcionInput.value = producto.descripcion;
+        nuevoPrecioInput.value = producto.precio;
+        nuevaURLInput.value = producto.enlace;
+    
+        // Lógica para abrir el formulario de modificación
+        var modifyProductModal = new bootstrap.Modal(document.getElementById('modifyProductModal'));
+        modifyProductModal.show();
+    
+        // Ejemplo de cómo puedes enviar los datos modificados al servidor al hacer clic en "Modificar"
+        var modifyButton = document.getElementById('modifyButton');
+        modifyButton.addEventListener('click', function () {
+            // Obtener los nuevos datos del formulario de modificación
+            var nuevoNombre = nuevoNombreInput.value;
+            var nuevaDescripcion = nuevaDescripcionInput.value;
+            var nuevoPrecio = nuevoPrecioInput.value;
+            var nuevaImagen = nuevaImagenInput.files[0]; // Nueva imagen seleccionada
+            var nuevaURL = nuevaURLInput.value; // Nueva URL ingresada
+           
+            if (nuevaImagen) {
+                // Si hay una nueva imagen seleccionada, codifícala a base64
+                const reader = new FileReader();
+                reader.onloadend = function () {
+                    nuevaImagen = reader.result;
+                   
+                };
+                reader.readAsDataURL(nuevaImagen);
+            } else {
+                nuevaImagen = producto.imagen; // Utilizar la imagen existente
+            }
+    
+            // Construir el objeto con los nuevos datos y el ID del producto
+            var datosModificados = {
+                id: productoId,
+                nuevoNombre: nuevoNombre,
+                nuevaDescripcion: nuevaDescripcion,
+                nuevoPrecio: nuevoPrecio,
+                nuevaImagen: nuevaImagen, // Agregar la nueva imagen al objeto
+                nuevaURL: nuevaURL // Agregar la nueva URL al objeto
+            };
+           
+            // Llamar a la función que envía la solicitud fetch al PHP para modificar el producto
+            modificarProducto(datosModificados);
+    
+            // Cerrar el modal después de modificar el producto
+            modifyProductModal.hide();
+        });
 
+
+
+
+
+        var modifyButton = document.getElementById('deleteButton');
+        modifyButton.addEventListener('click', function () {
+            eliminarProducto(productoId);
+            modifyProductModal.hide();
+        });
+    }
+
+   async function modificarProducto(datosModificados) {
+        console.log('Imagen recibida en PHP:', datosModificados.nuevaImagen);
+        var imagenBase64 = await readImageAsBase64(datosModificados.nuevaImagen);
+        fetch('EditarProductos.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: datosModificados.id,
+                nuevoNombre: datosModificados.nuevoNombre,
+                nuevaDescripcion: datosModificados.nuevaDescripcion,
+                nuevoPrecio: datosModificados.nuevoPrecio,
+                nuevaImagen: imagenBase64,
+                nuevaURL: datosModificados.nuevaURL,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            mostrarProductos();
+        })
+        .catch(error => console.error('Error al modificar el producto:', error));
+    }
+    
+    function eliminarProducto(productoId) {
+       
+        fetch('EliminarProducto.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: productoId }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Lógica para manejar la respuesta del servidor después de eliminar el producto
+            console.log(data);
+            // Recargar o actualizar la lista de productos después de la eliminación
+            mostrarProductos();
+        })
+        .catch(error => console.error('Error al eliminar el producto:', error));
+    }
+    
+    
     mostrarProductos();
 
     document.addEventListener('DOMContentLoaded', function () {

@@ -128,7 +128,43 @@
             </div>
         </div>
     </div>
-
+    <div class="modal fade" id="modifyProductModal" tabindex="-1" aria-labelledby="modifyProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form>
+                        <!-- Nuevo campo para seleccionar la nueva imagen -->
+                        <div class="mb-3">
+                            <label for="nuevaImagen" class="form-label">Imagen del Producto</label>
+                            <input type="file" class="form-control" id="nuevaImagen" accept="image/*">
+                        </div>
+                        <div class="mb-3">
+                            <label for="nuevoNombre" class="form-label">Nombre del Producto</label>
+                            <input type="text" class="form-control" id="nuevoNombre">
+                        </div>
+                        <div class="mb-3">
+                            <label for="nuevaDescripcion" class="form-label">Descripción del Producto</label>
+                            <input type="text" class="form-control" id="nuevaDescripcion">
+                        </div>
+                        <!-- Nuevo campo para la URL -->
+                        <div class="mb-3">
+                            <label for="nuevaURL" class="form-label">URL del Producto</label>
+                            <input type="text" class="form-control" id="nuevaURL">
+                        </div>
+                        <div class="mb-3">
+                            <label for="nuevoPrecio" class="form-label">Precio del Producto</label>
+                            <input type="text" class="form-control" id="nuevoPrecio">
+                        </div>
+                        
+                        <button type="button" id="modifyButton" class="btn btn-primary">Modificar Producto</button>
+                        <button type="button" id="deleteButton" class="btn btn-danger">Eliminar Producto</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
     <div class="container mt-5" style="margin-left: 1%;">
 
         <!-- Fila con dos columnas para "Filtrar" y "Mis Productos" -->
