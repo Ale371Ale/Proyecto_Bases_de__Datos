@@ -44,6 +44,6 @@ if ($stmt->execute()) {
 }
 
 $stmt->close();
-$onexion->close();
+$conexion->close();  
 
 ?>
