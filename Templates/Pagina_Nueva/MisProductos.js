@@ -197,7 +197,7 @@ function mostrarProductos() {
                 };
                 modifyButton.className = 'btn btn-warning btn-sm';
                 modifyButton.textContent = 'Modificar';
-
+                modifyButton.style = 'margin-left: 10px;';
                 cardBody.appendChild(title);
                 cardBody.appendChild(price);
                 cardBody.appendChild(viewButton);
