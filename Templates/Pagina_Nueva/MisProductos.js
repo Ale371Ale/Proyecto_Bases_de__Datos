@@ -56,6 +56,7 @@ if (responseData['mensaje'] === "Producto agregado con éxito")  {
     $('#LinkProduct').val('');
     $('#productPrice').val('');
     $('#ImageArchive').val('');
+    $('#addProductModal').modal('hide');
     mostrarProductos();
 }else{
     alert(responseData['mensaje']);
@@ -144,7 +145,8 @@ async function LeerProductos() {
         }));
 
     } catch (error) {
-        console.error('Error al obtener productos:', error);
+            productosVendedor = [];
+       
     }
 }
 
@@ -157,6 +159,29 @@ function mostrarProductos() {
             // Crear un contenedor principal para las columnas
             var contenedorColumnas = document.createElement('div');
             contenedorColumnas.className = 'row';
+if(productosVendedor.length === 0){
+//imprimir un mensaje de que no hay productos   
+      // Crear un elemento para la tarjeta de mensaje
+    var elementoMensaje = document.createElement('div');
+    elementoMensaje.className = 'col-md-4 mb-4'; // Añadir clase mb-4 para agregar espacio entre las tarjetas
+
+    var card = document.createElement('div');
+    card.className = 'card h-100';
+    var cardBody = document.createElement('div');
+    cardBody.className = 'card-body';
+
+    var message = document.createElement('h5');
+    message.className = 'card-title';
+    message.textContent = 'Sin productos';
+
+    cardBody.appendChild(message);
+    card.appendChild(cardBody);
+    elementoMensaje.appendChild(card);
+
+    // Agregar el elemento de la tarjeta al contenedor de columnas
+    contenedorColumnas.appendChild(elementoMensaje);
+    listaProductos.appendChild(contenedorColumnas);       
+}else{
 
             productosVendedor.forEach(producto => {
                 // Crear un elemento para cada tarjeta de producto
@@ -213,10 +238,12 @@ function mostrarProductos() {
             });
 
             listaProductos.appendChild(contenedorColumnas);
-        });
+    }});
+    
     } catch (error) {
         console.error('Error al mostrar productos:', error);
     }
+
 }
 
 
