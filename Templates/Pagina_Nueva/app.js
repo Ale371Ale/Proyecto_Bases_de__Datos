@@ -123,5 +123,82 @@ function updateTotal() {
         cartTotalElement.textContent = "$" + total.toFixed(2);
     }
 }
+var productosVendedor = [];
+async function LeerProductos() {
+    try {
+        const response = await fetch('LeerProductosGeneral.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Respuesta no exitosa: ' + response.statusText);
+        }
+
+        const productos = await response.json();
+
+        productosVendedor = productos.map(producto => ({
+            id: producto.idProducto,
+            nombre: producto.Nombre,
+            descripcion: producto.Descripcion,
+            precio: producto.precio,
+            vistas: producto.Vistas,
+            enlace: producto.DireccionWeb,
+            imagen: producto.Imagen ? 'data:image/png;base64,' + producto.Imagen : null,
+        }));
+
+    } catch (error) {
+        console.error('Error:', error);
+        productosVendedor = [];
+    }
+}
 
 
+async function mostrarProductosEnTarjetas() {
+await LeerProductos();
+    // Obtén el contenedor donde se mostrarán los productos
+    var listaProductosContainer = document.getElementById("listaProductos");
+
+    // Verifica si el contenedor existe antes de continuar
+    if (!listaProductosContainer) {
+        console.error("Error: No se encontró el contenedor de productos.");
+        return;
+    }
+
+    // Limpia el contenido actual del contenedor
+    listaProductosContainer.innerHTML = "";
+
+    // Verifica si hay productos para mostrar
+    if (productosVendedor.length === 0) {
+        // Muestra un mensaje indicando que no hay productos
+        listaProductosContainer.innerHTML = "<p>No hay productos disponibles.</p>";
+        return;
+    }
+
+    // Itera sobre la lista de productos y crea una tarjeta para cada uno
+    productosVendedor.forEach(function (producto) {
+        var cardElement = document.createElement("div");
+        cardElement.className = "col-md-4";
+        
+        cardElement.innerHTML = `
+            <div class="card">
+                <img src="${producto.imagen}" class="card-img-top" style="height: 300px;" alt="${producto.nombre}">
+                <div class="card-body">
+                    <h5 class="card-title">${producto.nombre}</h5>
+                    <p class="card-text">Descripción: ${producto.descripcion}</p>
+                    <p class="card-text">Precio: $${producto.precio}</p>
+                    <a href="${producto.enlace}" class="btn btn-primary">Ver Artículo</a>
+                    <a onclick="addToCart('${producto.imagen}', '${producto.nombre}', ${producto.precio})" class="btn btn-primary">Agregar a Carrito</a>
+                </div>
+            </div>
+        `;
+
+        // Agrega la tarjeta al contenedor de productos
+        listaProductosContainer.appendChild(cardElement);
+    });
+}
+
+// Llama a la función para mostrar los productos en tarjetas
+mostrarProductosEnTarjetas();

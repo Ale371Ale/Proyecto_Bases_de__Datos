@@ -208,59 +208,13 @@
 <!-- Sección de productos -->
 <div class="container-mt-5">
     <h2>Productos Destacados</h2>
-    <div class="row">
-        <!-- Tarjeta de Producto 1 -->
-        <div class="col-md-4">
-            <div class="card">
-                <img src="Productos/Producto1.jpg" class="card-img-top" style="height: 300px;" alt="Producto 1">
-                <div class="card-body">
-                    <h5 class="card-title">Tarjeta de Video Zotac NVIDIA GeForce RTX 4070 AMP AIRO SPIDER-MAN: Across the Spider-Verse, 12GB 192-bit GDDR6X, PCI Express 4.0 x16</h5>
-                    <p class="card-text" style="max-lines: 3;">Precio: $12,369.00</p>
-                    <!-- Agrega más información según sea necesario -->
-                    <a href="https://www.cyberpuerta.mx/Computo-Hardware/Componentes/Tarjetas-de-Video/Tarjeta-de-Video-Zotac-NVIDIA-GAMING-GEFORCE-RTX-4070-AMP-AIRO-SPIDER-MAN-Across-the-Spider-Verse-12GB-192-bit-GDDR6X-PCI-Express-4-0-x16.html?gclid=CjwKCAiA6byqBhAWEiwAnGCA4KBK63ULFr799S6YOwkHUuJf8BMEMDd1jbPedkca62_PsHhjvXqnbBoCDbQQAvD_BwE" class="btn btn-primary">Ver Articulo</a>
-                    <a  style="margin-left: 40%; margin-right: 1%;"  onclick="addToCart('Productos/Producto1.jpg', 'Tarjeta de Video Zotac NVIDIA GeForce RTX 4070 AMP AIRO SPIDER-MAN', 12369.00)" class="btn btn-primary">Agregar a Carrito</a>
-               
-                </div>
-            </div>
-        </div>
-
-        <!-- Tarjeta de Producto 2 -->
-        <div class="col-md-4">
-            <div class="card">
-                <img src="Productos/Producto2.png" class="card-img-top" style="height: 325px;" alt="Producto 2">
-                <div class="card-body">
-                    <h5 class="card-title">Tarjeta de Video ASRock AMD Radeon RX 6600 XT Phantom Gaming D 8GB OC, 8GB 128-bit GDDR6, PCI Express 4.0</h5>
-                    <p class="card-text" style="max-lines: 3;">Precio: $6,089.00</p>
-                    <!-- Agrega más información según sea necesario -->
-                    <a href="https://www.cyberpuerta.mx/Computo-Hardware/Componentes/Tarjetas-de-Video/Tarjeta-de-Video-ASRock-AMD-Radeon-RX-6600-XT-Phantom-Gaming-D-8GB-OC-8GB-128-bit-GDDR6-PCI-Express-4-0.html?gclid=CjwKCAiA6byqBhAWEiwAnGCA4H-Jk4OvbC6Md9b9NQQongdsdWRtY42odeom1M6icwE4JeL3DPtUxhoC27MQAvD_BwE" class="btn btn-primary">Ver Articulo</a>
-                    <a  style="margin-left: 40%; margin-right: 1%;"  onclick="addToCart('Productos/Producto2.png', 'Tarjeta de Video ASRock AMD Radeon RX 6600 XT Phantom Gaming D', 6089.00)" class="btn btn-primary">Agregar a Carrito</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tarjeta de Producto 3 -->
-        <div class="col-md-4">
-            <div class="card">
-                <img src="Productos/Pordutco3.png" class="card-img-top" style="height: 350px;" alt="Producto 3">
-                <div class="card-body">
-                    <h5 class="card-title">Monitor XZEAL XSPMG04B LED 23.8", Full HD, 75Hz, HDMI, Negro</h5>
-                    <p class="card-text" style="max-lines: 3;">Precio: $1,499.00</p>
-                    <!-- Agrega más información según sea necesario -->
-                    <a href="https://www.cyberpuerta.mx/Computo-Hardware/Monitores/Monitores/Monitor-XZEAL-XSPMG04B-LED-23-8-Full-HD-75Hz-HDMI-Negro.html" class="btn btn-primary">Ver Articulo</a>
-                    <a  style="margin-left: 40%; margin-right: 1%;"  onclick="addToCart('Productos/Pordutco3.png', 'Monitor XZEAL XSPMG04B LED 23.8', 1499.00)" class="btn btn-primary">Agregar a Carrito</a>
-               
-                </div>
-            </div>
-        </div>
-
-        <!-- Puedes agregar más tarjetas de productos aquí -->
+    <div class="row" id="listaProductos">
+        <!-- Aquí se generarán dinámicamente las tarjetas de productos -->
     </div>
 </div>
 
         </div>
     </div>
-    
-
     <!-- Footer similar a MercadoLibre -->
     <footer class="bg-light mt-5">
         <div class="container">
