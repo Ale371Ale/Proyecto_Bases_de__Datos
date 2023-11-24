@@ -2,6 +2,14 @@ body {
     margin: 0;
     padding: 0;
 }
+.form-control {
+    font-size: 14px; /* Ajusta el tamaño del texto en el campo de entrada */
+}
+
+.btn {
+    font-size: 12px; /* Ajusta el tamaño del texto en el botón */
+    padding: 5px 10px; /* Ajusta el relleno del botón */
+}
 
 .navbar {
     width: 100%;

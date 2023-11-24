@@ -15,6 +15,19 @@
 .container-mt-5 {
     margin-top: 5%;
 }
+#Categoria {
+    position: relative; /* Para posicionar el borde */
+    text-decoration: none; /* Para eliminar el subrayado predeterminado */
+}
+
+#Categoria::after {
+    content: ''; /* Contenido generado */
+    position: absolute; /* Posición absoluta con respecto al enlace */
+    bottom: -3px; /* Ajuste para la línea debajo del texto */
+    left: 0; /* Posición izquierda */
+    width: 63%; /* Ancho completo */
+    border-bottom: 2px solid gray; /* Grosor, color y estilo de la línea */
+}
 
 /* Estilo para el contenedor de productos */
 
@@ -66,6 +79,10 @@
                             <label for="productName" class="form-label">Nombre del Producto</label>
                             <input type="text" class="form-control" id="productName">
                         </div>
+                        <div>
+                            <label for="productName" class="form-label">Categoria</label>
+                            <select class="form-select" id="opcionesSelect" name="rol" style="margin-bottom: 3%; margin-top: 0%;max-height: 300px; max-width: 500px"onchange="habilitarBotones()"></select>
+                        </div>
                         <div class="mb-3">
                             <label for="DescriptionProuct" class="form-label">Descripción del Producto</label>
                             <input type="text" class="form-control" id="DescriptionProuct">
@@ -98,6 +115,10 @@
                             <label for="nuevoNombre" class="form-label">Nombre del Producto</label>
                             <input type="text" class="form-control" id="nuevoNombre">
                         </div>
+                        <div>
+                            <label for="productName" class="form-label">Categoria</label>
+                            <select class="form-select" id="opcionesSelect" name="rol" style="margin-bottom: 3%; margin-top: 0%;max-height: 300px; max-width: 500px"onchange="habilitarBotones()"></select>
+                        </div>
                         <div class="mb-3">
                             <label for="nuevaDescripcion" class="form-label">Descripción del Producto</label>
                             <input type="text" class="form-control" id="nuevaDescripcion">
@@ -127,10 +148,16 @@
         <div class="row">
             <div class="col-md-3 mb-3" style="background-color: #FFD6C1; padding: 20px; border-radius: 10px; max-width: 250px;">
                 <h4 style="font-size: 20px;">Filtrar</h4>
-                <ul id="filtroCategorias" class="list-unstyled" onclick="filtrarProductos()">
-                    <li data-categoria="todos">Todos</li>
-                    <li data-categoria="electronica">Electrónica</li>
-                    <li data-categoria="ropa">Ropa</li>
+                <ul id="listaCategoria" class="list-unstyled" onclick="filtrarProductos()">
+                    <li class="nav-item" id="Categoria">
+                        <a id="nuevosProductosLink" class="nav-link" href="#" onclick="mostrarInput()">Agregar Categoria</a>
+                        <div id="inputCategoria" style="display: none;">
+                            <form id="formCategoria" onsubmit="agregarCategoria(event)">
+                                <input type="text" id="nuevaCategoriaInput" name="nuevaCategoria" placeholder="Nueva categoría">
+                                <button type="submit">Agregar</button>
+                            </form>
+                        </div>
+                    </li>
                 </ul>
             </div>
     
