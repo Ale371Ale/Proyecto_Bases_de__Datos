@@ -375,70 +375,109 @@ document.addEventListener('DOMContentLoaded', function () {
         addProductModal.show();
     });
 });
-// Llamar a la función al cargar la página (puedes ajustar esto según tus necesidades)
-function mostrarInput() {
-    var inputCategoria = document.getElementById('inputCategoria');
-    if (inputCategoria.style.display === 'none' || inputCategoria.style.display === '') {
-        inputCategoria.style.display = 'block';
-    } else {
-        inputCategoria.style.display = 'none';
-    }
-}
 
-function agregarCategoria(event) {
-    event.preventDefault(); // Evitar el envío del formulario por defecto
+
+function agregarCategoria() {
     
-    var form = document.getElementById('formCategoria');
-    var formData = new FormData(form);
-
-    fetch('AgregarCategoria.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        return response.text();
-    })
-    .then(data => {
-        console.log('Respuesta del servidor:', data);
-        
-        var mensajeExito = document.createElement('p');
-        mensajeExito.textContent = 'Nueva categoría agregada correctamente';
-        document.getElementById('inputCategoria').appendChild(mensajeExito);
-        
-        
-        setTimeout(() => {
-            var inputCategoria = document.getElementById('inputCategoria');
-            inputCategoria.style.display = 'none';
-
-            // Restablecer el formulario después de ocultar el área
-            form.reset();
-            mensajeExito.remove(); // Eliminar el mensaje de éxito después de resetear el formulario
-        }, 3000);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-    location.reload();
+        event.preventDefault(); 
+    
+        // Your existing code for handling the form submission
+        var form = document.getElementById('formCategoria');
+        var formData = new FormData(form);
+    
+        fetch('AgregarCategoria.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log('Respuesta del servidor:', data);
+    
+            mostrarMensaje('Nueva categoría agregada correctamente');
+     
+            obtenerDatosLista();
+            obtenerDatos();
+            setTimeout(() => {
+                var inputCategoria = document.getElementById('inputCategoria');
+                inputCategoria.style.display = 'none';
+    
+                // Restablecer el formulario después de ocultar el área
+                form.reset();
+                mensajeExito.remove(); // Eliminar el mensaje de éxito después de resetear el formulario
+            }, 3000);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    
 }
 
+function mostrarMensaje(mensaje) {
+    var mensajeFlotante = document.getElementById('mensajeFlotante');
+    var mensajeTexto = document.getElementById('mensajeTexto');
+
+    // Actualizar el texto del mensaje
+    mensajeTexto.textContent = mensaje;
+
+    // Agregar la clase de animación para mostrar el mensaje
+    mensajeFlotante.classList.add('mostrar');
+
+    // Mostrar el mensaje flotante
+    mensajeFlotante.style.display = 'block';
+
+    // Ocultar el mensaje después de 3000 ms (3 segundos)
+    setTimeout(() => {
+        // Quitar la clase de animación para ocultar el mensaje
+        mensajeFlotante.classList.remove('mostrar');
+        mensajeFlotante.classList.add('ocultar');
+
+        // Ocultar el mensaje después de completar la animación
+        setTimeout(() => {
+            mensajeFlotante.style.display = 'none';
+            mensajeFlotante.classList.remove('ocultar');
+        }, 500); // 500 ms coincide con la duración de la animación
+    }, 3000);
+}
+// Agregar el evento input al campo de entrada
+var inputCategoria = document.getElementById('inputCategoria');
+inputCategoria.addEventListener('keypress', agregarCategoria);
+
+function mostrarInput() {
+    var inputCategoria = document.getElementById("inputCategoria");
+    inputCategoria.style.display = "block";  // Mostrar el formulario
+    setTimeout(function () {
+        inputCategoria.classList.toggle("active");
+    }, 10); // Retrasar la aplicación de la clase para permitir la visualización de la animación
+}
+
+// Agregar el evento keydown al campo de entrada
+var inputCategoria = document.getElementById('inputCategoria');
+inputCategoria.addEventListener('keydown', agregarCategoria);
 function obtenerDatos() {
     fetch('ObtenerCategorias.php')
         .then(response => response.json())
         .then(data => {
             var select = document.getElementById('opcionesSelect');
+            var select2 = document.getElementById('opcionesSelect2');
+
+            // Limpiar opciones anteriores
+            select.innerHTML = '';
+            select2.innerHTML = '';
+
+            // Agregar nuevas opciones
             data.forEach(item => {
                 var option = document.createElement('option');
                 option.textContent = item.Categoria;
+
+                // Agregar opciones a ambos select
                 select.appendChild(option);
+                select2.appendChild(option.cloneNode(true));
             });
         })
         .catch(error => {
             console.error('Error:', error);
         });
 }
-document.addEventListener('DOMContentLoaded', function() {
-    obtenerDatos();
-});
 
 function obtenerDatosLista() {
     fetch('ObtenerCategorias.php')
@@ -446,6 +485,47 @@ function obtenerDatosLista() {
         .then(data => {
             var ul = document.getElementById('listaCategoria');
 
+            // Vaciar la lista antes de agregar nuevos elementos
+            ul.innerHTML = "";
+
+            // Añadir el elemento "Agregar Categoría"
+            var liAgregarCategoria = document.createElement('li');
+            liAgregarCategoria.className = "nav-item";
+            liAgregarCategoria.id = "Categoria";
+
+            var aAgregarCategoria = document.createElement('a');
+            aAgregarCategoria.className = "nav-link";
+            aAgregarCategoria.href = "#";
+            aAgregarCategoria.onclick = mostrarInput;
+            aAgregarCategoria.textContent = "Agregar Categoria";
+
+            liAgregarCategoria.appendChild(aAgregarCategoria);
+
+            var divInputCategoria = document.createElement('div');
+            divInputCategoria.id = "inputCategoria";
+            divInputCategoria.style.display = "none";
+
+            var formCategoria = document.createElement('form');
+            formCategoria.className = "form";
+            formCategoria.id = "formCategoria";
+            formCategoria.onsubmit = function(event) {
+                agregarCategoria(event);
+            };
+
+            var inputNuevaCategoria = document.createElement('input');
+            inputNuevaCategoria.className = "Textito";
+            inputNuevaCategoria.type = "text";
+            inputNuevaCategoria.id = "nuevaCategoriaInput";
+            inputNuevaCategoria.name = "nuevaCategoria";
+            inputNuevaCategoria.placeholder = "Nueva categoría";
+
+            formCategoria.appendChild(inputNuevaCategoria);
+            divInputCategoria.appendChild(formCategoria);
+            liAgregarCategoria.appendChild(divInputCategoria);
+
+            ul.appendChild(liAgregarCategoria);
+
+            // Agregar otras categorías
             data.forEach(item => {
                 var li = document.createElement('li');
                 li.textContent = item.Categoria; // Asegúrate de tener la propiedad correcta para el nombre de la categoría
@@ -458,5 +538,6 @@ function obtenerDatosLista() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    obtenerDatos();
     obtenerDatosLista();
 });

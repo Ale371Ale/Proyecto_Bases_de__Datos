@@ -15,6 +15,29 @@
 .container-mt-5 {
     margin-top: 5%;
 }
+.mensaje-flotante {
+    position: fixed;
+    top: -50px; /* Inicia fuera de la pantalla */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #87CEFA; /* Color pastel de ejemplo */
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    display: none;
+    z-index: 1000; /* Asegura que esté encima de otros elementos */
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.mostrar {
+    top: 0;
+    opacity: 1;
+}
+
+.ocultar {
+    top: -50px;
+    opacity: 0;
+}
 #Categoria {
     position: relative; /* Para posicionar el borde */
     text-decoration: none; /* Para eliminar el subrayado predeterminado */
@@ -28,8 +51,40 @@
     width: 63%; /* Ancho completo */
     border-bottom: 2px solid gray; /* Grosor, color y estilo de la línea */
 }
+#inputCategoria {
+        display: none;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-in-out;
+    }
 
-/* Estilo para el contenedor de productos */
+    #inputCategoria.active {
+        max-height: 1000px; /* O un valor suficientemente grande para cubrir el contenido del formulario */
+        transition: max-height 0.5s ease-in-out;
+    }
+    #nuevaCategoriaInput:focus {
+        border-color: #4CAF50;
+    }
+
+.textito {
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    width: 100%;
+    padding: 12px 16px;
+    box-sizing: border-box;
+
+
+}
+.form {
+    width: 100%;
+    max-width: 500px;
+    padding: 1px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    border-radius: 10px;
+    align-items: left;
+}
 
 </style>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -117,7 +172,7 @@
                         </div>
                         <div>
                             <label for="productName" class="form-label">Categoria</label>
-                            <select class="form-select" id="opcionesSelect" name="rol" style="margin-bottom: 3%; margin-top: 0%;max-height: 300px; max-width: 500px"onchange="habilitarBotones()"></select>
+                            <select class="form-select" id="opcionesSelect2" name="rol" style="margin-bottom: 3%; margin-top: 0%;max-height: 300px; max-width: 500px"onchange="habilitarBotones()"></select>
                         </div>
                         <div class="mb-3">
                             <label for="nuevaDescripcion" class="form-label">Descripción del Producto</label>
@@ -140,7 +195,9 @@
             </div>
         </div>
     </div>
-    
+    <div id="mensajeFlotante" class="mensaje-flotante">
+        <p id="mensajeTexto"></p>
+    </div>
     
     <div class="container mt-5" style="margin-left: 1%;">
 
@@ -152,9 +209,8 @@
                     <li class="nav-item" id="Categoria">
                         <a id="nuevosProductosLink" class="nav-link" href="#" onclick="mostrarInput()">Agregar Categoria</a>
                         <div id="inputCategoria" style="display: none;">
-                            <form id="formCategoria" onsubmit="agregarCategoria(event)">
-                                <input type="text" id="nuevaCategoriaInput" name="nuevaCategoria" placeholder="Nueva categoría">
-                                <button type="submit">Agregar</button>
+                            <form class="form" id="formCategoria" onsubmit="agregarCategoria(event)">
+                                <input class="Textito" type="text" id="nuevaCategoriaInput" name="nuevaCategoria" placeholder="Nueva categoría">
                             </form>
                         </div>
                     </li>

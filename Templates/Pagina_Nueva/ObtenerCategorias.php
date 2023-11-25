@@ -12,7 +12,7 @@
         die("Conexión fallida: " . $conexion->connect_error);
     }
     // Consulta SQL para obtener datos
-    $sql = "SELECT Categoria FROM CategoriaProducto"; // Reemplaza 'tabla', 'valor' y 'texto' con tus nombres reales
+    $sql = "SELECT Categoria FROM CategoriaProducto"; 
 
     $resultado = $conexion->query($sql);
 
