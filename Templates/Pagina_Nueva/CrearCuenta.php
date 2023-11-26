@@ -28,6 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $TipoVendedor = "";
         $insertar = $conexion->prepare("INSERT INTO $rolTabla ($rolInicio, contraseña) VALUES (?, ?)");
         $insertar->bind_param("ss", $correo, $contrasena);
+        // Obtener el ID del cliente recién insertado
+        $nuevoClienteId = $insertar->insert_id;
     } else if ($comboBox != "cliente") {
         $rolTabla = "Vendedor";
         $TipoVendedor = ($rolTabla === "Vendedor" && $comboBox === "mayorista") ? "Mayorista" : "Minorista";
