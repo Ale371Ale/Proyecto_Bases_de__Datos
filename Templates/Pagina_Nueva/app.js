@@ -60,32 +60,6 @@ function addToCart(productId, productName, productPrice) {
     updateTotal();
 }
 
-function removeFromCart(closeButton) {
-    var cartContainer = document.getElementById("shoppingCartContainer");
-    var productElement = closeButton.closest(".shopping-cart");
-
-    productElement.parentNode.removeChild(productElement);
-    updateTotal();
-
-    if (cartContainer.querySelectorAll(".shopping-cart").length === 0) {
-        cartContainer.classList.add("inactive");
-    }
-}
-
-
-function changeQuantity(input, productId, productPrice) {
-    var newQuantity = parseInt(input.value, 10);
-
-    // Verificar que la cantidad sea un número válido
-    if (isNaN(newQuantity) || newQuantity <= 0) {
-        alert("Por favor, ingrese una cantidad válida mayor a 0.");
-        input.value = 1;
-        return;
-    }
-
-    // Actualizar la cantidad y el total
-    updateTotal();
-}
 function obtenerDatosLista() {
     fetch('ObtenerCategorias.php')
         .then(response => response.json())
@@ -123,6 +97,32 @@ obtenerDatosLista();
 
 
 
+function removeFromCart(closeButton) {
+    var cartContainer = document.getElementById("shoppingCartContainer");
+    var productElement = closeButton.closest(".shopping-cart");
+
+    productElement.parentNode.removeChild(productElement);
+    updateTotal();
+
+    if (cartContainer.querySelectorAll(".shopping-cart").length === 0) {
+        cartContainer.classList.add("inactive");
+    }
+}
+
+
+function changeQuantity(input, productId, productPrice) {
+    var newQuantity = parseInt(input.value, 10);
+
+    // Verificar que la cantidad sea un número válido
+    if (isNaN(newQuantity) || newQuantity <= 0) {
+        alert("Por favor, ingrese una cantidad válida mayor a 0.");
+        input.value = 1;
+        return;
+    }
+
+    // Actualizar la cantidad y el total
+    updateTotal();
+}
 function findProductInCart(productId) {
     // Buscar el producto por ID en el carrito
     var cartProducts = document.querySelectorAll(".shopping-cart");

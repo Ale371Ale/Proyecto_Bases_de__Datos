@@ -151,7 +151,7 @@ function iniciarSesionGoogle() {
 function CrearCuentaGoogle(){
 
 }
-function CrearCuenta() {
+async function CrearCuenta() {
     var comboBox = document.getElementById('rol');
     var correo = document.getElementById('correo').value;
     var contrasena = document.getElementById('contrasena').value;
@@ -163,7 +163,7 @@ function CrearCuenta() {
   
         correo = "" + correo;
         // Realiza una solicitud fetch para enviar los datos a Consultas.php
-        fetch('CrearCuenta.php', {
+       await fetch('CrearCuenta.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -175,44 +175,73 @@ function CrearCuenta() {
 
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            if(data['mensaje'] === "True2"){
-                var enlaceEspecifico = 'Interfaz_Central.html?correo=' + correo;
 
-                                // Accede a la ventana principal desde la ventana secundaria
-                        var ventanaPrincipal = window.opener;
-
-                    // Cambia la ubicación de la ventana principal
-                    if (ventanaPrincipal) {
-                        ventanaPrincipal.location.href = enlaceEspecifico;
-                        // Cierra la ventana secundaria (ventana de inicio de sesión)
-                        window.close();
-                    } else {
-                        // Si window.opener es nulo, puedes abrir una nueva ventana si es necesario
-                        window.open(enlaceEspecifico, '_blank');
-                    }
-            }else if (data['mensaje']==="True1"){
-                var enlaceEspecifico = 'Pagina_Central_Vendedores.html?correo=' + correo;
-
-                // Accede a la ventana principal desde la ventana secundaria
-        var ventanaPrincipal = window.opener;
-
-    // Cambia la ubicación de la ventana principal
-    if (ventanaPrincipal) {
-        ventanaPrincipal.location.href = enlaceEspecifico;
-        // Cierra la ventana secundaria (ventana de inicio de sesión)
-        window.close();
-    } else {
-        // Si window.opener es nulo, puedes abrir una nueva ventana si es necesario
-        window.open(enlaceEspecifico, '_blank');
-    }
-            }else{
-                var errorContainer = document.getElementById('errorContainer');
-                errorContainer.textContent = "Ya existe este usuario";
-                errorContainer.style.display = 'block';
-            }
-            // Aquí puedes realizar acciones dependiendo de la respuesta del servidor
+            window.datamensaje =  data['mensaje'];
+            
         })
         .catch(error => console.error('Error al realizar la solicitud:', error));
     }
+
+     await fetch('ObtenerIDCliente.php',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({Correo:correo})
+    }).then(response => response.json()).then(data => {
+        window.correito = data;
+    }).catch(error => console.error('Error al realizar la solicitud:', error));
+
+    console.log(window.correito);
+
+
+    await fetch('CrearCarrito.php',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({IDCliente : window.correito})
+    }).then(response => response.json()).then(data => {
+        console.log(data);
+        window.datamensaje2 = data['mensaje'];
+    }).catch(error => console.error('Error al realizar la solicitud:', error));
+  
+    if(window.datamensaje === "True2" && window.datamensaje2=== "Carrito creado"){
+        var enlaceEspecifico = 'Interfaz_Central.html?correo=' + correo;
+    
+                                // Accede a la ventana principal desde la ventana secundaria
+                                var ventanaPrincipal = window.opener;
+
+                                // Cambia la ubicación de la ventana principal
+                                if (ventanaPrincipal) {
+                                    ventanaPrincipal.location.href = enlaceEspecifico;
+                                    // Cierra la ventana secundaria (ventana de inicio de sesión)
+                                    window.close();
+                                } else {
+                                    // Si window.opener es nulo, puedes abrir una nueva ventana si es necesario
+                                    window.open(enlaceEspecifico, '_blank');
+                                }
+                        }else if (window.datamensaje==="True1"){
+                            var enlaceEspecifico = 'Pagina_Central_Vendedores.html?correo=' + correo;
+            
+                            // Accede a la ventana principal desde la ventana secundaria
+                    var ventanaPrincipal = window.opener;
+            
+                // Cambia la ubicación de la ventana principal
+                if (ventanaPrincipal) {
+                    ventanaPrincipal.location.href = enlaceEspecifico;
+                    // Cierra la ventana secundaria (ventana de inicio de sesión)
+                    window.close();
+                } else {
+                    // Si window.opener es nulo, puedes abrir una nueva ventana si es necesario
+                    window.open(enlaceEspecifico, '_blank');
+                }
+                        }else{
+                            var errorContainer = document.getElementById('errorContainer');
+                            errorContainer.textContent = "Ya existe este usuario";
+                            errorContainer.style.display = 'block';
+                        }
+                        // Aquí puedes realizar acciones dependiendo de la respuesta del servidor
+
+
 }
