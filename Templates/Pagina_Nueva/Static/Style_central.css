@@ -199,13 +199,9 @@ body {
     height: 600px;
     width: auto;
 }
-.card{
-    margin-left: 0%;
-    margin-right: 0%;
-    margin-top: 0%;
-    margin-bottom: 1%;
-    height: 600px;
-    width: auto;
+
+.card-img-top{
+    height: 200px; object-fit: contain; cursor: pointer; margin-top: 5%;
 }
 .container-mt-5{
     margin-left: 10%;

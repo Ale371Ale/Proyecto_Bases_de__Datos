@@ -86,6 +86,42 @@ function changeQuantity(input, productId, productPrice) {
     // Actualizar la cantidad y el total
     updateTotal();
 }
+function obtenerDatosLista() {
+    fetch('ObtenerCategorias.php')
+        .then(response => response.json())
+        .then(data => {
+            var dropdownMenu = document.querySelector('.dropdown-menu .col2');
+
+            // Limpiar el contenido actual del menú desplegable
+            dropdownMenu.innerHTML = '';
+
+            // Agregar otras categorías al menú desplegable
+            data.forEach(item => {
+                var li = document.createElement('li');
+                var a = document.createElement('a');
+                a.href = '#'; // Puedes establecer el enlace adecuado aquí si es necesario
+                a.textContent = item.Categoria; // Asegúrate de tener la propiedad correcta para el nombre de la categoría
+                a.style.color = 'black'; // Establecer el color del texto
+
+                // Estilos adicionales para mejorar el diseño
+                a.style.textDecoration = 'none'; // Eliminar subrayado
+                a.style.padding = '8px 16px'; // Añadir padding
+                a.style.display = 'block'; // Hacer enlaces bloques para mejor presentación
+
+                li.appendChild(a);
+                dropdownMenu.appendChild(li);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+// Llamada a la función
+obtenerDatosLista();
+
+
+
 
 function findProductInCart(productId) {
     // Buscar el producto por ID en el carrito
@@ -184,12 +220,12 @@ await LeerProductos();
         
         cardElement.innerHTML = `
             <div class="card">
-                <img src="${producto.imagen}" class="card-img-top" style="height: 300px;" alt="${producto.nombre}">
+                <img src="${producto.imagen}" class="card-img-top"  alt="${producto.nombre}">
                 <div class="card-body">
                     <h5 class="card-title">${producto.nombre}</h5>
                     <p class="card-text">Descripción: ${producto.descripcion}</p>
                     <p class="card-text">Precio: $${producto.precio}</p>
-                    <a href="${producto.enlace}" class="btn btn-primary">Ver Artículo</a>
+                    <a href="${producto.enlace}" class="btn btn-primary" style="margin-right:50px;">Ver Artículo</a>
                     <a onclick="addToCart('${producto.imagen}', '${producto.nombre}', ${producto.precio})" class="btn btn-primary">Agregar a Carrito</a>
                 </div>
             </div>
