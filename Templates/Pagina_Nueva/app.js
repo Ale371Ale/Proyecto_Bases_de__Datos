@@ -1,4 +1,5 @@
-
+var urlParams = new URLSearchParams(window.location.search);
+var correo = urlParams.get('correo');
 // Agrega esto en tu archivo app.js
 function toggleParteDerecha() {
     var parteDerecha = document.getElementById("parteDerecha");
@@ -12,52 +13,108 @@ function toggleParteDerecha() {
     // Muestra u oculta la parte derecha alternando la posición
     parteDerecha.style.right = (parseInt(parteDerecha.style.right, 10) === 0) ? `-${parteDerecha.offsetWidth}px` : "0";
 }
-function addToCart(productId, productName, productPrice) {
-    var cartContainer = document.getElementById("shoppingCartContainer");
+async function addToCart(id) {
+    try {
+        const response = await fetch('ObtenerIDCliente.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: JSON.stringify({ Correo: correo }),
+        });
 
-    if (!cartContainer) {
-        console.error("Error: No se encontró el contenedor del carrito.");
-        return;
+        const data = await response.json();
+        console.log(data);
+        window.iDCLIENTE = data.idVendedor;
+      
+
+        // Verificar si el producto ya está en el carrito
+        const existingProduct = await findProductInCart(id, window.iDCLIENTE);
+ 
+        if (existingProduct !== null || existingProduct === "a") {
+            changeQuantity(id,window.iDCLIENTE);
+
+        } else {
+           
+            // Realizar fetch para obtener la información actualizada del producto desde CarritoProducto.php
+           await fetch('CarritoProducto.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify({ IDProducto: id, IDCliente: window.iDCLIENTE}),
+            }).then(response => response.json()).then(data => {
+                console.log(data);
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+
+            // Realizar fetch para obtener la información actualizada del carrito desde ObtenerCarritoProductos.php
+            const cartResponse = await fetch('ObtenerCarritoProductos.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify({ IDCliente: window.iDCLIENTE }),
+            });
+
+            const cartData = await cartResponse.json();
+
+           // Verificar si hay productos en la respuesta
+if (cartData.productos && cartData.productos.length > 0) {
+    // Obtener el contenedor de productos del carrito
+    var cartProductsContainer = document.getElementById('cartProducts12');
+
+    // Limpiar solo la sección de productos del carrito
+    cartProductsContainer.innerHTML = "";
+
+    // Iterar sobre cada producto en la respuesta
+    cartData.productos.forEach(producto => {
+        const imageBase64 = producto.Imagen;
+        const productName = producto.Nombre;
+        const productId = producto.idProducto;
+        const productPrice = parseInt(producto.precio);
+
+        // Crear un nuevo elemento para el producto
+        var productElement = document.createElement('div');
+   // Crear un nuevo elemento para el producto
+var productElement = document.createElement('div');
+productElement.classList.add('cart-item');
+
+// Asignar el valor de productId como ID al elemento div
+productElement.id = `${productId}`;
+
+productElement.innerHTML = `
+    <figure>
+        <img src="data:image/png;base64, ${imageBase64}" alt="${productName}" style="width: 70px; height: 70px; margin-top: 20%;">
+    </figure>
+    <div>
+        <p>${productName}</p>
+        <p><strong>$${productPrice.toFixed(2)}</strong></p>
+    </div>
+    <div class="quantitycontainer" id="${productId}">
+        <img src="./icons/icon_close.png" alt="close" onclick="removeFromCart(this)" style="margin-right: 5%; margin-bottom: 24px; margin-left:10%; width: 20px; height: 20px;">
+        <input type="number" id="Contadorcito" class="quantity" value="1" min="1" maxlength="2" onkeydown="return false;" oninput="changeQuantity(this, '${productId}')">
+
+    </div>
+`;
+
+
+        // Agregar el nuevo elemento al contenedor de productos del carrito
+        cartProductsContainer.appendChild(productElement);
+   
+
+                });
+
+                // Actualizar el total después de agregar los productos
+                updateTotal();
+            } else {
+                console.error('La respuesta del servidor no contiene productos válidos.');
+            }
+        }
+    } catch (error) {
+        console.error('Error al agregar el producto al carrito:', error);
     }
-
-    // Verificar si el producto ya está en el carrito
-    var existingProduct = findProductInCart(productId);
-
-    if (existingProduct) {
-        // Incrementar la cantidad si ya existe en el carrito
-        var quantityInput = existingProduct.querySelector(".quantity");
-        var currentQuantity = parseInt(quantityInput.value, 10);
-        quantityInput.value = currentQuantity + 1;
-    } else {
-        // Crear un nuevo elemento si no existe en el carrito
-        var productElement = document.createElement("div");
-        productElement.className = "shopping-cart";
-
-        var imageUrl = productId;
-
-        productElement.innerHTML = `
-            <div class="cart-item">
-                <figure>
-                    <img src="${imageUrl}" alt="${productName}" style="width: 70px; height: 70px; margin-top: 20%;">
-                </figure>
-                <div>
-                    <p>${productName}</p>
-                    <p><strong>$${productPrice.toFixed(2)}</strong></p>
-                </div>
-                <div class="quantitycontainer">
-                    <img src="./icons/icon_close.png" alt="close" onclick="removeFromCart(this)" style="margin-right: 5%; margin-bottom: 24px; margin-left:10%; width: 20px;
-                    height: 20px;">
-                    <input type="number" class="quantity" value="1" min="1" maxlength="2" onkeydown="return false;" onchange="changeQuantity(this, '${productId}', '${productPrice.toFixed(2)}')">
-                </div>
-            </div>
-        `;
-
-        // Agregar el nuevo elemento antes de la sección de total y el botón
-        var orderContent = document.querySelector(".my-order-content");
-        orderContent.insertBefore(productElement, orderContent.firstChild);
-    }
-
-    updateTotal();
 }
 
 function obtenerDatosLista() {
@@ -108,45 +165,122 @@ function removeFromCart(closeButton) {
         cartContainer.classList.add("inactive");
     }
 }
+function changeQuantity(inputElement, productId) {
+    var newQuantity = parseInt(inputElement.value, 10);
+    var currentQuantity = parseInt(inputElement.getAttribute('data-current-value'), 10) || 1;
 
+    // Actualiza el atributo 'data-current-value' con el nuevo valor
+    inputElement.setAttribute('data-current-value', newQuantity);
 
-function changeQuantity(input, productId, productPrice) {
-    var newQuantity = parseInt(input.value, 10);
-
-    // Verificar que la cantidad sea un número válido
-    if (isNaN(newQuantity) || newQuantity <= 0) {
-        alert("Por favor, ingrese una cantidad válida mayor a 0.");
-        input.value = 1;
-        return;
+    // Determina si el valor está aumentando o disminuyendo
+    if (newQuantity > currentQuantity) {
+        // Llama a la función cuando el valor aumenta
+        increaseQuantityFunction(productId);
+    } else if (newQuantity < currentQuantity) {
+        // Llama a la función cuando el valor disminuye
+        decreaseQuantityFunction(productId);
     }
+}
+
+async function increaseQuantityFunction(productId) {
+    await fetch('ActualizarCantidadCarrito.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({ IDProducto: productId, IDCliente: window.iDCLIENTE, }),
+    }).then(response => response.json()).then(data => {
+        console.log(data);
+        console.log(data['cantidad']);
+
+
+
+    }).catch(error => {console.log(error);});
+    //obtener elemento del producto
+    var productElement = document.getElementById(productId);
+    // Obtener el elemento de cantidad
+    var quantityInput = productElement.querySelector(".quantity");
+    // Obtener la cantidad actual
+    var currentQuantity = parseInt(quantityInput.value, 10);
+    // Obtener la cantidad nueva
+    var newQuantity = currentQuantity;
+    // Actualizar la cantidad
+    quantityInput.value = newQuantity;
 
     // Actualizar la cantidad y el total
     updateTotal();
 }
-function findProductInCart(productId) {
-    // Buscar el producto por ID en el carrito
-    var cartProducts = document.querySelectorAll(".shopping-cart");
 
-    for (var i = 0; i < cartProducts.length; i++) {
-        var product = cartProducts[i];
-        var productIdAttribute = product.querySelector("img").getAttribute("src");
+async function decreaseQuantityFunction(productId) {
+    await fetch('ActualizarCantidadCarritomenos.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({ IDProducto: productId, IDCliente: window.iDCLIENTE, }),
+    }).then(response => response.json()).then(data => {
+        console.log(data);
+        console.log(data['cantidad']);
 
-        if (productIdAttribute === productId) {
-            return product;
-        }
-    }
 
-    return null;
+
+    }).catch(error => {console.log(error);});
+    //obtener elemento del producto
+    var productElement = document.getElementById(productId);
+    // Obtener el elemento de cantidad
+    var quantityInput = productElement.querySelector(".quantity");
+    // Obtener la cantidad actual
+    var currentQuantity = parseInt(quantityInput.value, 10);
+    // Obtener la cantidad nueva
+    var newQuantity = currentQuantity ;
+    // Actualizar la cantidad
+    quantityInput.value = newQuantity;
+
+    // Actualizar la cantidad y el total
+    updateTotal();
 }
+
+
+async function findProductInCart(productId,idCliente) {
+ 
+    // Realizar fetch para verificar si el producto ya está en el carrito en el servidor
+    return fetch('leerCarritoProductos.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({ IDProducto: productId, IDCliente: idCliente})
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Si el producto está en el carrito, devolver el elemento correspondiente
+        if (data['mensaje'] ==="Producto ya existe") {
+            return "a";
+        }else if(data['mensaje'] === "Producto no existe"){
+        // Si el producto no está en el carrito, devolver null
+        return null;
+        }
+
+      
+    })
+    .catch(error => {
+        console.error('Error al verificar el producto en el carrito:', error);
+        return null;
+    });
+}
+
 function updateTotal() {
-    var cartProducts = document.querySelectorAll(".shopping-cart");
+    console.log("Entró en updateTotal");
+
+    var cartProducts = document.querySelectorAll(".my-order-content");
     var total = 0;
 
     cartProducts.forEach(function (product) {
-        var priceElement = product.querySelector("div p:nth-child(2) strong"); // Ruta ajustada para obtener el precio
+        var priceElement = product.querySelector(".price");
         var quantityInput = product.querySelector(".quantity");
 
         if (priceElement && quantityInput) {
+            console.log("Entró en el bucle forEach");
             var price = parseFloat(priceElement.textContent.replace("$", ""));
             var quantity = parseInt(quantityInput.value, 10);
             total += price * quantity;
@@ -158,7 +292,10 @@ function updateTotal() {
     if (cartTotalElement) {
         cartTotalElement.textContent = "$" + total.toFixed(2);
     }
+
+    console.log("Total actualizado:", total);
 }
+
 var productosVendedor = [];
 async function LeerProductos() {
     try {
@@ -212,25 +349,27 @@ await LeerProductos();
         listaProductosContainer.innerHTML = "<p>No hay productos disponibles.</p>";
         return;
     }
-
+ 
+    var i=0;
     // Itera sobre la lista de productos y crea una tarjeta para cada uno
     productosVendedor.forEach(function (producto) {
+   
         var cardElement = document.createElement("div");
         cardElement.className = "col-md-4";
         
         cardElement.innerHTML = `
-            <div class="card">
+            <div class="card" id="${producto.idProducto}">
                 <img src="${producto.imagen}" class="card-img-top"  alt="${producto.nombre}">
                 <div class="card-body">
                     <h5 class="card-title">${producto.nombre}</h5>
                     <p class="card-text">Descripción: ${producto.descripcion}</p>
                     <p class="card-text">Precio: $${producto.precio}</p>
                     <a href="${producto.enlace}" class="btn btn-primary" style="margin-right:50px;">Ver Artículo</a>
-                    <a onclick="addToCart('${producto.imagen}', '${producto.nombre}', ${producto.precio})" class="btn btn-primary">Agregar a Carrito</a>
+                    <a onclick="addToCart(${productosVendedor[i].id})" class="btn btn-primary">Agregar a Carrito</a>
                 </div>
             </div>
         `;
-
+        i++;
         // Agrega la tarjeta al contenedor de productos
         listaProductosContainer.appendChild(cardElement);
     });
