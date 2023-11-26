@@ -3,7 +3,7 @@ include('Conexion.php');
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-// Verificar la existencia de los campos necesarios
+
 $camposFaltantes = [];
 
 if (empty($data['id'])) {
@@ -36,7 +36,6 @@ $url = $data['nuevaURL'];
 $imagenBase64 = $data['nuevaImagen'];
 $Categoria = $data['nuevaCategoria'];
 
-
 $imagenBlob = null;
 if (!empty($imagenBase64)) {
     $imagenBlob = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagenBase64));
@@ -45,11 +44,11 @@ if (!empty($imagenBase64)) {
 if($Categoria != null){
     $stmt = $conexion->prepare("UPDATE CategoriasdeProductos
                             SET Categoria = ?
-                            WHERE idProducto = ?");
+                            WHERE Producto_idProducto = ?");
 
-    $stmt->bind_param("si",  $Categoria, $idProducto);
+    $stmt->bind_param("si", $Categoria, $idProducto);
     if($stmt->execute()){
-        echo json_encode(["mensaje" => "Categoria actualizada con éxito"]);
+       
     }
 }
 

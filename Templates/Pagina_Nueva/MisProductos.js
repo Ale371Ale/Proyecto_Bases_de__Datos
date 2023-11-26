@@ -344,6 +344,7 @@ var Categoria;
             reader.readAsDataURL(nuevaImagen);
         } else {
             nuevaImagen = producto.imagen; // Utilizar la imagen existente
+       
         }
 
         // Construir el objeto con los nuevos datos y el ID del producto
@@ -371,7 +372,7 @@ var Categoria;
 }
 
 async function modificarProducto(datosModificados) {
-    var imagenBase64 = await readImageAsBase64(datosModificados.nuevaImagen);
+    var imagenBase64 = datosModificados.nuevaImagen;
     fetch('EditarProductos.php', {
         method: 'POST',
         headers: {
@@ -384,6 +385,7 @@ async function modificarProducto(datosModificados) {
             nuevoPrecio: datosModificados.nuevoPrecio,
             nuevaImagen: imagenBase64,
             nuevaURL: datosModificados.nuevaURL,
+            nuevaCategoria: datosModificados.nuevaCategoria
         }),
     })
     .then(response => response.json())
@@ -449,7 +451,7 @@ function agregarCategoria() {
     
                 // Restablecer el formulario después de ocultar el área
                 form.reset();
-                mensajeExito.remove(); // Eliminar el mensaje de éxito después de resetear el formulario
+
             }, 3000);
         })
         .catch(error => {
