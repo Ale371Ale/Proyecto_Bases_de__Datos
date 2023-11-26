@@ -34,13 +34,26 @@ $descripcion = $data['nuevaDescripcion'];
 $precio = $data['nuevoPrecio'];
 $url = $data['nuevaURL'];
 $imagenBase64 = $data['nuevaImagen'];
-
+$Categoria = $data['nuevaCategoria'];
 
 
 $imagenBlob = null;
 if (!empty($imagenBase64)) {
     $imagenBlob = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagenBase64));
 }
+
+if($Categoria != null){
+    $stmt = $conexion->prepare("UPDATE CategoriasdeProductos
+                            SET Categoria = ?
+                            WHERE idProducto = ?");
+
+    $stmt->bind_param("si",  $Categoria, $idProducto);
+    if($stmt->execute()){
+        echo json_encode(["mensaje" => "Categoria actualizada con éxito"]);
+    }
+}
+
+
 
 $stmt = $conexion->prepare("UPDATE Producto
                             SET Nombre = ?, Descripcion = ?, precio = ?, DireccionWeb = ?, Imagen = ?

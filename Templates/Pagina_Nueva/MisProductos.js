@@ -11,6 +11,7 @@ var nombreProducto = $('#productName').val();
 var descripcionProducto = $('#DescriptionProuct').val();
 var enlaceProducto = $('#LinkProduct').val();
 var precioProducto = $('#productPrice').val();
+var CategoriaProducto = $('#opcionesSelect').val();
 
 // Leer la imagen y convertirla a base64
 var inputImage = document.getElementById('ImageArchive');
@@ -20,7 +21,10 @@ if (!file) {
     prompt('Por favor selecciona una imagen');
     return;
 }
-var imagenBase64 = await readImageAsBase64(file);
+var imagenBase64;
+imagenBase64 = await readImageAsBase64(file);
+
+
 // Obtener el ID del vendedor
 await obtenerId();
 var datosProducto = {
@@ -29,7 +33,8 @@ nombre: nombreProducto,
 descripcion: descripcionProducto,
 enlace: enlaceProducto,
 precio: precioProducto,
-imagen: imagenBase64
+imagen: imagenBase64,
+categoria: CategoriaProducto
 };
 const response = await fetch('SubirProductos.php', {
 method: 'POST',
@@ -60,6 +65,7 @@ if (responseData['mensaje'] === "Producto agregado con éxito")  {
 console.error('Error en la función GuardarProductos:', error);
 }
 }
+
 
 function readImageAsBase64(file) {
     console.log('Tipo de archivo:', file.type);
@@ -251,9 +257,34 @@ function filtrarProductos(event) {
     mostrarProductos(productosFiltrados);
 }
 
-function showModifyProductForm(productoId) {
+async function showModifyProductForm(productoId) {
     // Buscar el producto en la variable productosVendedor por su ID
     var producto = productosVendedor.find(p => p.id === productoId);
+
+    //Obtenemos la categoria del producto
+var Categoria;
+
+
+// Hacer la solicitud Fetch
+ await fetch('Leer_Categoria_Producto.php', {
+
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ id: productoId })
+})
+    .then(response => response.json())
+    .then(data => {
+       
+        // Manejar la respuesta del servidor
+        window.Categoria12 = data.categoria;
+        console.log(window.Categoria12);
+        // Aquí puedes hacer lo que quieras con la categoría, por ejemplo, almacenarla en una variable global.
+    })
+    .catch(error => {
+        console.error("Error en la solicitud Fetch:", error);
+    });
 
     if (!producto) {
         console.error('Producto no encontrado');
@@ -266,19 +297,32 @@ function showModifyProductForm(productoId) {
     var nuevoPrecioInput = document.getElementById('nuevoPrecio');
     var nuevaImagenInput = document.getElementById('nuevaImagen'); // Nuevo campo para la imagen
     var nuevaURLInput = document.getElementById('nuevaURL'); // Nuevo campo para la URL
-
+    var CategoriaInput = document.getElementById('opcionesSelect2'); //Campo para la categoria
     
-    // Cargar los datos del producto en el formulario
+    // Cargar los datos del producto en el formularioCategoria
     nuevoNombreInput.value = producto.nombre;
     nuevaDescripcionInput.value = producto.descripcion;
     nuevoPrecioInput.value = producto.precio;
     nuevaURLInput.value = producto.enlace;
 
+
+    for (var i = 0; i < CategoriaInput.options.length; i++) {
+        if (CategoriaInput.options[i].value === window.Categoria12) {
+            CategoriaInput.selectedIndex = i;
+           
+            break;  
+        }
+    }
+
+
+    
+ 
+  
+   
     // Lógica para abrir el formulario de modificación
     var modifyProductModal = new bootstrap.Modal(document.getElementById('modifyProductModal'));
     modifyProductModal.show();
 
-    // Ejemplo de cómo puedes enviar los datos modificados al servidor al hacer clic en "Modificar"
     var modifyButton = document.getElementById('modifyButton');
     modifyButton.addEventListener('click', function () {
         // Obtener los nuevos datos del formulario de modificación
@@ -287,7 +331,9 @@ function showModifyProductForm(productoId) {
         var nuevoPrecio = nuevoPrecioInput.value;
         var nuevaImagen = nuevaImagenInput.files[0]; // Nueva imagen seleccionada
         var nuevaURL = nuevaURLInput.value; // Nueva URL ingresada
-        
+
+        var nuevaCategoria = CategoriaInput.value;
+   
         if (nuevaImagen) {
             // Si hay una nueva imagen seleccionada, codifícala a base64
             const reader = new FileReader();
@@ -307,7 +353,8 @@ function showModifyProductForm(productoId) {
             nuevaDescripcion: nuevaDescripcion,
             nuevoPrecio: nuevoPrecio,
             nuevaImagen: nuevaImagen, // Agregar la nueva imagen al objeto
-            nuevaURL: nuevaURL // Agregar la nueva URL al objeto
+            nuevaURL: nuevaURL, // Agregar la nueva URL al objeto
+            nuevaCategoria: nuevaCategoria
         };
         
         // Llamar a la función que envía la solicitud fetch al PHP para modificar el producto
@@ -324,7 +371,6 @@ function showModifyProductForm(productoId) {
 }
 
 async function modificarProducto(datosModificados) {
-    console.log('Imagen recibida en PHP:', datosModificados.nuevaImagen);
     var imagenBase64 = await readImageAsBase64(datosModificados.nuevaImagen);
     fetch('EditarProductos.php', {
         method: 'POST',
