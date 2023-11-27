@@ -1,5 +1,23 @@
 var urlParams = new URLSearchParams(window.location.search);
 var correo = urlParams.get('correo');
+
+async function ObtenerIDCliente(){
+    await fetch('ObtenerIDCliente.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({ Correo: correo }),
+    }).then(response => response.json()).then(data => {
+        console.log(data);
+        window.iDCLIENTE34 = data.idVendedor;
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+
+}
+
+
 // Agrega esto en tu archivo app.js
 function toggleParteDerecha() {
     var parteDerecha = document.getElementById("parteDerecha");
@@ -14,6 +32,7 @@ function toggleParteDerecha() {
     parteDerecha.style.right = (parseInt(parteDerecha.style.right, 10) === 0) ? `-${parteDerecha.offsetWidth}px` : "0";
 }
 async function addToCart(id) {
+
     try {
         const response = await fetch('ObtenerIDCliente.php', {
             method: 'POST',
@@ -117,6 +136,73 @@ productElement.innerHTML = `
     }
 }
 
+async function CargarCarrito(){
+    await ObtenerIDCliente();
+    const cartResponse = await fetch('ObtenerCarritoProductos.php', {
+        method: 'POST', // Fix: 'method' instead of 'ethod'
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({ IDCliente: window.iDCLIENTE34 }),
+    });
+
+    const cartData = await cartResponse.json();
+
+            // Verificar si hay productos en la respuesta
+            if (cartData.productos && cartData.productos.length > 0) {
+            // Obtener el contenedor de productos del carrito
+            var cartProductsContainer = document.getElementById('cartProducts12');
+
+            // Limpiar solo la sección de productos del carrito
+            cartProductsContainer.innerHTML = "";
+
+            // Iterar sobre cada producto en la respuesta
+            cartData.productos.forEach(producto => {
+            const imageBase64 = producto.Imagen;
+            const productName = producto.Nombre;
+            const productId = producto.idProducto;
+            const productPrice = parseInt(producto.precio);
+
+            // Crear un nuevo elemento para el producto
+            var productElement = document.createElement('div');
+            // Crear un nuevo elemento para el producto
+            var productElement = document.createElement('div');
+            productElement.classList.add('cart-item');
+
+            // Asignar el valor de productId como ID al elemento div
+            productElement.id = `${productId}`;
+
+            productElement.innerHTML = `
+            <figure>
+            <img src="data:image/png;base64, ${imageBase64}" alt="${productName}" style="width: 70px; height: 70px; margin-top: 20%;">
+            </figure>
+            <div>
+            <p>${productName}</p>
+            <p><strong>$${productPrice.toFixed(2)}</strong></p>
+            </div>
+            <div class="quantitycontainer" id="${productId}">
+            <img src="./icons/icon_close.png" alt="close" onclick="removeFromCart(this)" style="margin-right: 5%; margin-bottom: 24px; margin-left:10%; width: 20px; height: 20px;">
+            <input type="number" id="Contadorcito" class="quantity" value="1" min="1" maxlength="2" onkeydown="return false;" oninput="changeQuantity(this, '${productId}')">
+
+            </div>
+            `;
+
+
+            // Agregar el nuevo elemento al contenedor de productos del carrito
+            cartProductsContainer.appendChild(productElement);
+
+
+                    });
+
+                    // Actualizar el total después de agregar los productos
+                    updateTotal();
+
+
+
+}}
+
+
+
 function obtenerDatosLista() {
     fetch('ObtenerCategorias.php')
         .then(response => response.json())
@@ -165,12 +251,27 @@ function removeFromCart(closeButton) {
         cartContainer.classList.add("inactive");
     }
 }
-function changeQuantity(inputElement, productId) {
+function changeQuantity( productId,inputElement) {
     var newQuantity = parseInt(inputElement.value, 10);
-    var currentQuantity = parseInt(inputElement.getAttribute('data-current-value'), 10) || 1;
+    console.log(typeof inputElement);
+
+    // Check if 'dataset' is defined and if 'currentValue' exists
+    var currentQuantity = parseInt(inputElement.dataset && inputElement.dataset.currentValue, 10) || 1;
+
+    // If 'data-current-value' attribute is not set, set it to the initial value
+    if (isNaN(currentQuantity)) {
+        currentQuantity = 1;
+        // Check if 'dataset' is defined before setting 'currentValue'
+        if (inputElement.dataset) {
+            inputElement.dataset.currentValue = currentQuantity;
+        }
+    }
 
     // Actualiza el atributo 'data-current-value' con el nuevo valor
-    inputElement.setAttribute('data-current-value', newQuantity);
+    // Check if 'dataset' is defined before setting 'currentValue'
+    if (inputElement.dataset) {
+        inputElement.dataset.currentValue = newQuantity;
+    }
 
     // Determina si el valor está aumentando o disminuyendo
     if (newQuantity > currentQuantity) {
@@ -179,8 +280,11 @@ function changeQuantity(inputElement, productId) {
     } else if (newQuantity < currentQuantity) {
         // Llama a la función cuando el valor disminuye
         decreaseQuantityFunction(productId);
+    } else {
+        increaseQuantityFunction2(productId);
     }
 }
+
 
 async function increaseQuantityFunction(productId) {
     await fetch('ActualizarCantidadCarrito.php', {
@@ -204,6 +308,36 @@ async function increaseQuantityFunction(productId) {
     var currentQuantity = parseInt(quantityInput.value, 10);
     // Obtener la cantidad nueva
     var newQuantity = currentQuantity;
+    // Actualizar la cantidad
+    quantityInput.value = newQuantity;
+
+    // Actualizar la cantidad y el total
+    updateTotal();
+}
+
+async function increaseQuantityFunction2(productId) {
+    await fetch('ActualizarCantidadCarrito.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({ IDProducto: productId, IDCliente: window.iDCLIENTE, }),
+    }).then(response => response.json()).then(data => {
+        console.log(data);
+        console.log(data['cantidad']);
+
+
+
+    }).catch(error => {console.log(error);});
+    //obtener elemento del producto
+
+    var productElement = document.getElementById(productId);
+    // Obtener el elemento de cantidad
+    var quantityInput = productElement.querySelector(".quantity");
+    // Obtener la cantidad actual
+    var currentQuantity = parseInt(quantityInput.value, 10);
+    // Obtener la cantidad nueva
+    var newQuantity = currentQuantity + 1;
     // Actualizar la cantidad
     quantityInput.value = newQuantity;
 
@@ -241,6 +375,8 @@ async function decreaseQuantityFunction(productId) {
 }
 
 
+
+
 async function findProductInCart(productId,idCliente) {
  
     // Realizar fetch para verificar si el producto ya está en el carrito en el servidor
@@ -268,6 +404,8 @@ async function findProductInCart(productId,idCliente) {
         return null;
     });
 }
+
+
 
 function updateTotal() {
     console.log("Entró en updateTotal");
@@ -297,6 +435,8 @@ function updateTotal() {
 }
 
 var productosVendedor = [];
+
+
 async function LeerProductos() {
     try {
         const response = await fetch('LeerProductosGeneral.php', {
@@ -329,6 +469,8 @@ async function LeerProductos() {
 }
 
 
+
+
 async function mostrarProductosEnTarjetas() {
 await LeerProductos();
     // Obtén el contenedor donde se mostrarán los productos
@@ -353,7 +495,7 @@ await LeerProductos();
     var i=0;
     // Itera sobre la lista de productos y crea una tarjeta para cada uno
     productosVendedor.forEach(function (producto) {
-   
+
         var cardElement = document.createElement("div");
         cardElement.className = "col-md-4";
         
@@ -365,7 +507,7 @@ await LeerProductos();
                     <p class="card-text">Descripción: ${producto.descripcion}</p>
                     <p class="card-text">Precio: $${producto.precio}</p>
                     <a href="${producto.enlace}" class="btn btn-primary" style="margin-right:50px;">Ver Artículo</a>
-                    <a onclick="addToCart(${productosVendedor[i].id})" class="btn btn-primary">Agregar a Carrito</a>
+                    <a onclick="addToCart(${producto.id})" class="btn btn-primary">Agregar a Carrito</a>
                 </div>
             </div>
         `;
@@ -374,6 +516,8 @@ await LeerProductos();
         listaProductosContainer.appendChild(cardElement);
     });
 }
-
+document.addEventListener('DOMContentLoaded', function() {
 // Llama a la función para mostrar los productos en tarjetas
 mostrarProductosEnTarjetas();
+CargarCarrito();
+});
