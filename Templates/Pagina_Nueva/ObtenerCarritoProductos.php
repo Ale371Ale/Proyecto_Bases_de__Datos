@@ -20,6 +20,7 @@ if ($LeerProductos->error) {
 
         while ($row = $Resultado->fetch_assoc()) {
             $idProducto = $row['Producto_idProducto'];
+            $cantidad = $row['Cantidad'];
 
             $LeerDetallesProducto->bind_param("i", $idProducto);
             $LeerDetallesProducto->execute();
@@ -39,7 +40,8 @@ if ($LeerProductos->error) {
                             "DirreccionWeb" => $detalleRow['DireccionWeb'],
                             "Imagen" => base64_encode($detalleRow['Imagen']),
                             "Vistas" => $detalleRow['Vistas'],
-                            "FechadeCarga" => $detalleRow['Fechadecarga']
+                            "FechadeCarga" => $detalleRow['Fechadecarga'],
+                            "Cantidad" => $cantidad,
                         );
                         $arrayProductos[] = $producto;
                     }

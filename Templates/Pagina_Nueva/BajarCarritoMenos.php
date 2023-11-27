@@ -14,7 +14,7 @@ $VerificarExistencia->store_result();
 
 if ($VerificarExistencia->num_rows > 0) {
     // Ya existe un registro, actualizar la cantidad agregándole 1
-    $ActualizarCantidad = $conexion->prepare("UPDATE RegistrodeCarro SET Cantidad = Cantidad - 1 WHERE CajaCarrito_idCajaCarrito = ? AND Producto_idProducto = ?");
+    $ActualizarCantidad = $conexion->prepare("UPDATE RegistrodeCarro SET Cantidad = Cantidad -1 WHERE CajaCarrito_idCajaCarrito = ? AND Producto_idProducto = ?");
     $ActualizarCantidad->bind_param("ii", $idCliente, $idProducto);
 
     // Uso de transacción
