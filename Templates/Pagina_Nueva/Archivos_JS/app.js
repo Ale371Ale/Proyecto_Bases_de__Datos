@@ -48,7 +48,7 @@ async function addToCart(id) {
         const existingProduct = await findProductInCart(id, window.iDCLIENTE);
  
         if (existingProduct !== null || existingProduct === "a") {
-            changeQuantity(id,0,0);
+            changeQuantity(id,0,0,false);
 
         } else {
            
@@ -78,7 +78,7 @@ async function addToCart(id) {
            // Verificar si hay productos en la respuesta
 if (cartData.productos && cartData.productos.length > 0) {
     // Obtener el contenedor de productos del carrito
-    var cartProductsContainer = document.getElementById('cartProducts12');
+    var cartProductsContainer = document.getElementById('cartProducts');
 
     // Limpiar solo la sección de productos del carrito
     cartProductsContainer.innerHTML = "";
@@ -109,7 +109,7 @@ productElement.innerHTML = `
     </div>
     <div class="quantitycontainer" id="${productId}">
         <img src="./icons/icon_close.png" alt="close" onclick="removeFromCart(${productId})" style="margin-right: 5%; margin-bottom: 24px; margin-left:10%; width: 20px; height: 20px;">
-        <input type="number" id="Contadorcito" class="quantity" value="1" min="1" maxlength="2" onkeydown="return false;" oninput="changeQuantity(${productId},${productQuantity},this.value)">
+        <input type="number" id="Contadorcito" class="quantity" value="1" min="1" maxlength="2" onkeydown="return false;" oninput="changeQuantity(${productId},${productQuantity},this.value,true)">
 
     </div>
 `;
@@ -146,7 +146,7 @@ async function CargarCarrito(){
             // Verificar si hay productos en la respuesta
             if (cartData.productos && cartData.productos.length > 0) {
             // Obtener el contenedor de productos del carrito
-            var cartProductsContainer = document.getElementById('cartProducts12');
+            var cartProductsContainer = document.getElementById('cartProducts');
 
             // Limpiar solo la sección de productos del carrito
             cartProductsContainer.innerHTML = "";
@@ -178,7 +178,7 @@ async function CargarCarrito(){
             </div>
             <div class="quantitycontainer" id="${productId}">
             <img src="./icons/icon_close.png" alt="close" onclick="removeFromCart(${productId})" style="margin-right: 5%; margin-bottom: 24px; margin-left:10%; width: 20px; height: 20px;">
-            <input type="number" id="Contadorcito" class="quantity" value="${productQuantity}" min="1" maxlength="2" onkeydown="return false;" oninput="changeQuantity(${productId},${productQuantity}, this.value )">
+            <input type="number" id="Contadorcito" class="quantity" value="${productQuantity}" min="1" maxlength="2" onkeydown="return false;" oninput="changeQuantity(${productId},${productQuantity}, this.value,true )">
 
 
             </div>
@@ -193,7 +193,7 @@ async function CargarCarrito(){
 
  await updateTotal();
 }else{
-    var cartProductsContainer = document.getElementById('cartProducts12');
+    var cartProductsContainer = document.getElementById('cartProducts');
     cartProductsContainer.innerHTML = "";
     await updateTotal();
 
@@ -253,9 +253,28 @@ async function removeFromCart(idProducto) {
     CargarCarrito();
 }
 
-function changeQuantity( id,ValorInicial,inputElement) {
+function changeQuantity( id,ValorInicial,inputElement, origen) {
     // Obtener el elemento de cantidad
+    console.log(id + "  "+ ValorInicial + "  "+ inputElement);
 
+        if(origen === "true"){
+             // Actualiza el atributo 'data-current-value' con el nuevo valor
+    // Check if 'dataset' is defined before setting 'currentValue'
+    if (inputElement.dataset) {
+        inputElement.dataset.currentValue = newQuantity;
+    }
+
+    // Determina si el valor está aumentando o disminuyendo
+    if (newQuantity > currentQuantity) {
+        // Llama a la función cuando el valor aumenta
+        increaseQuantityFunction(id);
+    } else if (newQuantity < currentQuantity) {
+        // Llama a la función cuando el valor disminuye
+        decreaseQuantityFunction(id);
+    } else if(newQuantity === currentQuantity) {
+        decreaseQuantityFunction(id);
+    }
+        }
     var newQuantity = inputElement;
     // Check if 'dataset' is defined and if 'currentValue' exists
     var currentQuantity = ValorInicial;
