@@ -11,7 +11,19 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 </head>
 <body>
-
+<style>.mensaje-sin-coincidencias {
+    display: none; /* Por defecto, oculto */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 0, 0, 0.7); /* Fondo rojo con opacidad */
+    color: #fff; /* Texto blanco */
+    padding: 10px;
+    font-size: 18px;
+    text-align: center;
+    z-index: 1000; /* Asegura que esté encima de otros elementos */
+}</style>
 <div  class="ParteDerecha" id="parteDerecha">
     <aside id="shoppingCartContainer" class="inactive">
         <div class="title-container">
@@ -46,15 +58,15 @@
         <div class="container">
             <!-- Logo de la tienda -->
         <div class="Icono">
-            <a href="Interfaz_Central.html">
+            <a href="Interfaz_Central.html" id="enlaceLogo">
                 <img src="Static/src/Logo_Sin_Fondo.png" alt="Logo" style="width: 100px; height: 50px;" class="image">
-            </a>   
+            </a>
        
         </div>
 
             <!-- Buscador de la Tienda -->
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+            <form id="formBusqueda" class="d-flex">
+                <input class="form-control me-2"  id="inputBusqueda" type="search" placeholder="Buscar" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Buscar</button>
             </form>
 
@@ -112,7 +124,9 @@
         <!-- Aquí se generarán dinámicamente las tarjetas de productos -->
     </div>
 </div>
-
+<div id="mensajeSinCoincidencias" class="mensaje-sin-coincidencias">
+    Sin Coincidencias
+</div>
         </div>
     </div>
     <!-- Footer similar a MercadoLibre -->

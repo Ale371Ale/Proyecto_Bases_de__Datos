@@ -222,7 +222,10 @@ function obtenerDatosLista() {
                 a.style.textDecoration = 'none'; // Eliminar subrayado
                 a.style.padding = '8px 16px'; // Añadir padding
                 a.style.display = 'block'; // Hacer enlaces bloques para mejor presentación
-
+                // Agregar evento de clic para cargar productos por categoría
+                a.addEventListener('click', function() {
+                    cargarProductosPorCategoria(item.Categoria);
+                });
                 li.appendChild(a);
                 dropdownMenu.appendChild(li);
             });
@@ -665,9 +668,136 @@ async function CargarProductosRecientes() {
 }
 
 
+async function cargarProductosPorCategoria(categoria) {
+    await MostrarProductosIndexados(categoria);
+    // Ocultar el carrusel
+    document.querySelector('.carousel-container').style.display = 'none';
+    
+    // Mostrar solo la fila de productos
+    document.querySelector('#listaProductos').style.display = 'flex';
 
 
+    
+}
+async function MostrarProductosIndexados(categoria) {
+    try {
+        console.log(categoria);
+        const response = await fetch('Archivos_PHP/Obtener_Productos_Indexados.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ Categoria: categoria }),
+        });
+     
+        if (!response.ok) {
+            throw new Error('Respuesta no exitosa: ' + response.statusText);
+        }
+        const productos = await response.json();
+                // Limpiar la sección de productos
+        const listaProductos = document.getElementById('listaProductos');
+        listaProductos.innerHTML = '';
+        // Mostrar los productos obtenidos
+        productos.forEach(producto => {
+            const productoCard = document.createElement('div');
+            productoCard.classList.add('col-md-4', 'mb-4');
+
+            // Crear el contenido de la tarjeta del producto (puedes personalizar esto según tu diseño)
+            productoCard.innerHTML = `
+                <div class="card">
+                    <img src="${producto.Imagen}" class="card-img-top" alt="${producto.Nombre}">
+                    <div class="card-body">
+                        <h5 class="card-title">${producto.Nombre}</h5>
+                        <p class="card-text">${producto.Descripcion}</p>
+                        <p class="card-text">Precio: $${producto.precio}</p>
+                        <button class="btn btn-primary" onclick="addToCart(${producto.idProducto})">Agregar al Carrito</button>
+                    </div>
+                </div>
+            `;
+
+            listaProductos.appendChild(productoCard);
+        });
+        const tituloProductos = document.querySelector('.container-mt-5 h2');
+        tituloProductos.textContent = categoria;
+        tituloProductos.style.marginTop = '50px';
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function mostrarResultadosBusqueda( terminoBusqueda) {
+    try {
+        const response = await fetch('Archivos_PHP/Obtener_Productos_Indexando.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({  TerminoBusqueda: terminoBusqueda }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Respuesta no exitosa: ' + response.statusText);
+        }
+
+        const productos = await response.json();
+        
 
 
+        
+        try{
+            // Limpiar la sección de productos
+            const listaProductos = document.getElementById('listaProductos');
+            listaProductos.innerHTML = '';
+             // Mostrar los productos obtenidos
+        productos.forEach(producto => {
+            const productoCard = document.createElement('div');
+            productoCard.classList.add('col-md-4', 'mb-4');
+
+              // Crear el contenido de la tarjeta del producto (puedes personalizar esto según tu diseño)
+              productoCard.innerHTML = `
+              <div class="card">
+                  <img src="${producto.Imagen}" class="card-img-top" alt="${producto.Nombre}">
+                  <div class="card-body">
+                      <h5 class="card-title">${producto.Nombre}</h5>
+                      <p class="card-text">${producto.Descripcion}</p>
+                      <p class="card-text">Precio: $${producto.precio}</p>
+                      <button class="btn btn-primary" onclick="addToCart(${producto.idProducto})">Agregar al Carrito</button>
+                  </div>
+              </div>
+          `;
+
+            listaProductos.appendChild(productoCard);
+            document.getElementById('mensajeSinCoincidencias').style.display = 'none';
+        });
+        }catch(error){
+             // Mostrar el mensaje si no hay coincidencias
+             document.getElementById('mensajeSinCoincidencias').style.display = 'block';
+        }
+       
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// Capturar el evento de envío del formulario
+document.getElementById('formBusqueda').addEventListener('submit', async function (event) {
+    event.preventDefault(); // Evitar el comportamiento predeterminado de recarga de la página
+
+    // Obtener el valor del término de búsqueda
+    const terminoBusqueda = document.getElementById('inputBusqueda').value;
+  
+    // Llamar a la función para mostrar los resultados de la búsqueda
+    await mostrarResultadosBusqueda(terminoBusqueda);
+    // Ocultar el carrusel
+    document.querySelector('.carousel-container').style.display = 'none';
+    
+    // Mostrar solo la fila de productos
+    document.querySelector('#listaProductos').style.display = 'flex';
+});
+
+document.getElementById('enlaceLogo').addEventListener('click', function (event) {
 
 
+    // Agrega el correo como parámetro al enlace
+    this.href = "Interfaz_Central.html?correo=" + encodeURIComponent(correo);
+});
