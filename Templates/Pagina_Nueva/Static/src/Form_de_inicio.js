@@ -84,7 +84,7 @@ function IniciarSesion(){
 
     }else{
         //Realiza una solicitud fetch para enviar los datos a Consultas.php
-        fetch('Consultas.php', {
+        fetch('Archivos_PHP/Consultas.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -163,7 +163,7 @@ async function CrearCuenta() {
   
         correo = "" + correo;
         // Realiza una solicitud fetch para enviar los datos a Consultas.php
-       await fetch('CrearCuenta.php', {
+       await fetch('Archivos_PHP/CrearCuenta.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -182,7 +182,7 @@ async function CrearCuenta() {
         .catch(error => console.error('Error al realizar la solicitud:', error));
     }
 
-     await fetch('ObtenerIDCliente.php',{
+     await fetch('Archivos_PHP/ObtenerIDCliente.php',{
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -195,7 +195,7 @@ async function CrearCuenta() {
     console.log(window.correito);
 
 
-    await fetch('CrearCarrito.php',{
+    await fetch('Archivos_PHP/CrearCarrito.php',{
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',

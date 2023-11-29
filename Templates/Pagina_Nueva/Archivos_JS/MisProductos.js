@@ -36,7 +36,7 @@ precio: precioProducto,
 imagen: imagenBase64,
 categoria: CategoriaProducto
 };
-const response = await fetch('SubirProductos.php', {
+const response = await fetch('Archivos_PHP/SubirProductos.php', {
 method: 'POST',
 headers: {
 'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ $('#btnAgregarProducto').on('click', GuardarProductos);
 
 async function obtenerId() {
 try {
-const response = await fetch('obtenerID.php', {
+const response = await fetch('Archivos_PHP/obtenerID.php', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -111,7 +111,7 @@ var productosVendedor2 = [];
 async function LeerProductosFiltrados(Filtro) {
     try {
         await obtenerId();
-        const response = await fetch('LeerProductos2.php', {
+        const response = await fetch('Archivos_PHP/LeerProductos2.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -147,7 +147,7 @@ var productosVendedor = [];
 async function LeerProductos() {
     try {
         await obtenerId();
-        const response = await fetch('LeerProductos.php', {
+        const response = await fetch('Archivos_PHP/LeerProductos.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -388,7 +388,7 @@ var Categoria;
 
 
 // Hacer la solicitud Fetch
- await fetch('Leer_Categoria_Producto.php', {
+ await fetch('Archivos_PHP/Leer_Categoria_Producto.php', {
 
     method: 'POST',
     headers: {
@@ -434,13 +434,7 @@ var Categoria;
             break;  
         }
     }
-
-
-    
- 
-  
-   
-    // Lógica para abrir el formulario de modificación
+      // Lógica para abrir el formulario de modificación
     var modifyProductModal = new bootstrap.Modal(document.getElementById('modifyProductModal'));
     modifyProductModal.show();
 
@@ -494,7 +488,7 @@ var Categoria;
 
 async function modificarProducto(datosModificados) {
     var imagenBase64 = datosModificados.nuevaImagen;
-    fetch('EditarProductos.php', {
+    fetch('Archivos_PHP/EditarProductos.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -518,7 +512,7 @@ async function modificarProducto(datosModificados) {
 
 function eliminarProducto(productoId) {
     
-    fetch('EliminarProducto.php', {
+    fetch('Archivos_PHP/EliminarProducto.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',addProductModal
@@ -550,7 +544,7 @@ function agregarCategoria() {
         var form = document.getElementById('formCategoria');
         var formData = new FormData(form);
     
-        fetch('AgregarCategoria.php', {
+        fetch('Archivos_PHP/AgregarCategoria.php', {
             method: 'POST',
             body: formData
         })
@@ -618,7 +612,7 @@ function mostrarInput() {
 var inputCategoria = document.getElementById('inputCategoria');
 inputCategoria.addEventListener('keydown', agregarCategoria);
 function obtenerDatos() {
-    fetch('ObtenerCategorias.php')
+    fetch('Archivos_PHP/ObtenerCategorias.php')
         .then(response => response.json())
         .then(data => {
             var select = document.getElementById('opcionesSelect');
@@ -643,7 +637,7 @@ function obtenerDatos() {
         });
 }
 function obtenerDatosLista() {
-    fetch('ObtenerCategorias.php')
+    fetch('Archivos_PHP/ObtenerCategorias.php')
         .then(response => response.json())
         .then(data => {
             var ul = document.getElementById('listaCategoria');

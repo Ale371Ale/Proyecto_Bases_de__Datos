@@ -24,8 +24,8 @@
         </div>
     
         <div class="my-order-content">
-            <div id="cartProducts12"></div>
-            <div class="order" id="order12">
+            <div id="cartProducts"></div>
+            <div class="order">
                 <p>
                     <span>Total</span>
                 </p>
@@ -69,7 +69,53 @@
             <div class="dropdown-menu row" aria-labelledby="navbarDropdown2">
                 <!-- Primera columna -->
                 <div class="col2">
-                  
+                    <a class="dropdown-item"><strong>Electrónicos</strong></a>
+                    <a class="dropdown-item" href="#">Teléfonos Móviles y Accesorios</a>
+                    <a class="dropdown-item" href="#">Laptops y Computadoras</a>
+                    <a class="dropdown-item" href="#">Cámaras y Fotografía</a>
+                    <a class="dropdown-item" href="#">Audio y Altavoces</a>
+                    <!-- Agrega más subcategorías según sea necesario -->
+                    <a class="dropdown-item"><strong>Tecnología</strong></a>
+                    <a class="dropdown-item" href="#">Gadgets y Dispositivos</a>
+                    <a class="dropdown-item" href="#">Accesorios de Computadora</a>
+                    <a class="dropdown-item" href="#">Impresoras y Escáneres</a>
+                    <a class="dropdown-item" href="#">Software y Aplicaciones</a>
+                    <a class="dropdown-item"><strong>Hogar y Jardín</strong></a>
+                    <a class="dropdown-item" href="#">Muebles y Decoración</a>
+                    <a class="dropdown-item" href="#">Electrodomésticos</a>
+                    <a class="dropdown-item" href="#">Herramientas y Mejoras para el Hogar</a>
+                    <a class="dropdown-item" href="#">Jardinería y Exteriores</a>
+                    <!-- Agrega más subcategorías según sea necesario -->
+                    <a class="dropdown-item"><strong>Moda y Accesorios</strong></a>
+                    <a class="dropdown-item" href="#">Ropa Hombres/Mujeres/Niños</a>
+                    <a class="dropdown-item" href="#">Calzado</a>
+                    <a class="dropdown-item" href="#">Joyería y Relojes</a>
+                    <a class="dropdown-item" href="#">Bolsos y Accesorios</a>
+                    <!-- Agrega más subcategorías según sea necesario -->
+                    <a class="dropdown-item"><strong>Deportes y Aire Libre</strong></a>
+                    <a class="dropdown-item" href="#">Ropa Deportiva</a>
+                    <a class="dropdown-item" href="#">Equipamiento de Ejercicio</a>
+                    <a class="dropdown-item" href="#">Camping y Senderismo</a>
+                    <a class="dropdown-item" href="#">Artículos de Deporte</a>
+                    <!-- Agrega más subcategorías según sea necesario -->
+                    <a class="dropdown-item"><strong>Salud y Belleza</strong></a>
+                    <a class="dropdown-item" href="#">Cuidado de la Piel y Maquillaje</a>
+                    <a class="dropdown-item" href="#">Vitaminas y Suplementos</a>
+                    <a class="dropdown-item" href="#">Equipos Médicos</a>
+                    <a class="dropdown-item" href="#">Perfumes y Fragancias</a>
+                    <!-- Agrega más subcategorías según sea necesario -->
+                    <a class="dropdown-item"><strong>Alimentos y Bebidas</strong></a>
+                    <a class="dropdown-item" href="#">Comestibles</a>
+                    <a class="dropdown-item" href="#">Bebidas</a>
+                    <a class="dropdown-item" href="#">Dulces y Snacks</a>
+                    <a class="dropdown-item" href="#">Vinos y Licores</a>
+                    <!-- Agrega más subcategorías según sea necesario -->
+                    <a class="dropdown-item"><strong>Juguetes y Entretenimiento</strong></a>
+                    <a class="dropdown-item" href="#">Juguetes para Niños</a>
+                    <a class="dropdown-item" href="#">Juegos de Mesa y Rompecabezas</a>
+                    <a class="dropdown-item" href="#">Equipos de Entretenimiento</a>
+                    <a class="dropdown-item" href="#">Libros y Revistas</a>
+                    <!-- Agrega más subcategorías según sea necesario -->
                 </div>
             </div>
         </div>
@@ -81,7 +127,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#">Configuración</a>
-                        <a class="dropdown-item" onclick="toggleParteDerecha()">Nozama Box</a>
+                        <a class="dropdown-item" href="#">Nozama Box</a>
                         <a class="dropdown-item" href="http://localhost/Proyecto_Bases_de__Datos/Templates/Pagina_Nueva/index.html">Cerrar Sesión</a>
 
                         <!-- Agrega más opciones según sea necesario -->
@@ -176,13 +222,17 @@
         </div>
     </footer>
    
-    <script src="http://localhost/Proyecto_Bases_de__Datos/Templates/Pagina_Nueva/app.js"></script>
+    <script src="Archivos_JS/app.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Asegúrate de que el DOM se haya cargado
         document.addEventListener("DOMContentLoaded", async function () {
+          // Llama a la función para mostrar los productos en tarjetas
           await mostrarProductosEnTarjetas();
+      
+          // Ahora que los productos están cargados, puedes mostrar la barra superior y el carrusel si es necesario
+          // Aquí puedes llamar a funciones adicionales para mostrar otros elementos si es necesario
         });
       </script>
 </body>

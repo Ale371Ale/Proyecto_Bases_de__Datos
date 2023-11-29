@@ -2,7 +2,7 @@ var urlParams = new URLSearchParams(window.location.search);
 var correo = urlParams.get('correo');
 
 async function ObtenerIDCliente(){
-    await fetch('ObtenerIDCliente.php', {
+    await fetch('Archivos_PHP/ObtenerIDCliente.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -15,7 +15,6 @@ async function ObtenerIDCliente(){
     });
 
 }
-
 
 // Agrega esto en tu archivo app.js
 function toggleParteDerecha() {
@@ -33,7 +32,7 @@ function toggleParteDerecha() {
 async function addToCart(id) {
 
     try {
-        const response = await fetch('ObtenerIDCliente.php', {
+        const response = await fetch('Archivos_PHP/ObtenerIDCliente.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -54,7 +53,7 @@ async function addToCart(id) {
         } else {
            
             // Realizar fetch para obtener la información actualizada del producto desde CarritoProducto.php
-           await fetch('CarritoProducto.php', {
+           await fetch('Archivos_PHP/CarritoProducto.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -66,7 +65,7 @@ async function addToCart(id) {
             });
 
             // Realizar fetch para obtener la información actualizada del carrito desde ObtenerCarritoProductos.php
-            const cartResponse = await fetch('ObtenerCarritoProductos.php', {
+            const cartResponse = await fetch('Archivos_PHP/ObtenerCarritoProductos.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -114,8 +113,6 @@ productElement.innerHTML = `
 
     </div>
 `;
-
-
         // Agregar el nuevo elemento al contenedor de productos del carrito
         cartProductsContainer.appendChild(productElement);
    
@@ -136,7 +133,7 @@ productElement.innerHTML = `
 
 async function CargarCarrito(){
     await ObtenerIDCliente();
-    const cartResponse = await fetch('ObtenerCarritoProductos.php', {
+    const cartResponse = await fetch('Archivos_PHP/ObtenerCarritoProductos.php', {
         method: 'POST', // Fix: 'method' instead of 'ethod'
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -195,8 +192,6 @@ async function CargarCarrito(){
  // Actualizar el total después de agregar los productos
 
  await updateTotal();
-
-
 }else{
     var cartProductsContainer = document.getElementById('cartProducts12');
     cartProductsContainer.innerHTML = "";
@@ -206,10 +201,8 @@ async function CargarCarrito(){
 
 }
 
-
-
 function obtenerDatosLista() {
-    fetch('ObtenerCategorias.php')
+    fetch('Archivos_PHP/ObtenerCategorias.php')
         .then(response => response.json())
         .then(data => {
             var dropdownMenu = document.querySelector('.dropdown-menu .col2');
@@ -239,15 +232,11 @@ function obtenerDatosLista() {
         });
 }
 
-
-
-
-
 async function removeFromCart(idProducto) {
     try {
         const idCliente = window.iDCLIENTE34;
 
-        const response = await fetch('BorrarProductodeCarrito.php', {
+        const response = await fetch('Archivos_PHP/BorrarProductodeCarrito.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -263,9 +252,6 @@ async function removeFromCart(idProducto) {
     }
     CargarCarrito();
 }
-
-
-
 
 function changeQuantity( id,ValorInicial,inputElement) {
     // Obtener el elemento de cantidad
@@ -301,9 +287,8 @@ function changeQuantity( id,ValorInicial,inputElement) {
     }
 }
 
-
 async function increaseQuantityFunction(productId) {
-    await fetch('ActualizarCantidadCarrito.php', {
+    await fetch('Archivos_PHP/ActualizarCantidadCarrito.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -332,16 +317,13 @@ async function increaseQuantityFunction(productId) {
 }
 
 async function increaseQuantityFunction2(productId) {
-    await fetch('ActualizarCantidadCarrito.php', {
+    await fetch('Archivos_PHP/ActualizarCantidadCarrito.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: JSON.stringify({ IDProducto: productId, IDCliente: window.iDCLIENTE34, }),
     }).then(response => response.json()).then(data => {
-
-
-
 
     }).catch(error => {console.log(error);});
     //obtener elemento del producto
@@ -361,16 +343,13 @@ async function increaseQuantityFunction2(productId) {
 }
 
 async function decreaseQuantityFunction(productId) {
-    await fetch('BajarCarritoMenos.php', {
+    await fetch('Archivos_PHP/BajarCarritoMenos.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: JSON.stringify({ IDProducto: productId, IDCliente: window.iDCLIENTE34, }),
     }).then(response => response.json()).then(data => {
-
-
-
 
     }).catch(error => {console.log(error);});
     //obtener elemento del producto
@@ -388,13 +367,10 @@ async function decreaseQuantityFunction(productId) {
     updateTotal();
 }
 
-
-
-
 async function findProductInCart(productId,idCliente) {
  
     // Realizar fetch para verificar si el producto ya está en el carrito en el servidor
-    return fetch('leerCarritoProductos.php', {
+    return fetch('Archivos_PHP/leerCarritoProductos.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -442,21 +418,12 @@ function updateTotal() {
     }
 }
 
-
-
-
-
-
-
-
-
-
 var productosVendedor = [];
 
 
 async function LeerProductos() {
     try {
-        const response = await fetch('LeerProductosGeneral.php', {
+        const response = await fetch('Archivos_PHP/LeerProductosGeneral.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -484,9 +451,6 @@ async function LeerProductos() {
         productosVendedor = [];
     }
 }
-
-
-
 
 async function mostrarProductosEnTarjetas() {
 await LeerProductos();
