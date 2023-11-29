@@ -49,7 +49,6 @@ if (!response.ok) {
 }
 const responseData = await response.json();
 // Manejar la respuesta del servidor (puede ser un mensaje de éxito o error)
-console.log(responseData);
 if (responseData['mensaje'] === "Producto agregado con éxito")  {
     $('#productName').val('');
     $('#DescriptionProuct').val('');
@@ -68,7 +67,6 @@ console.error('Error en la función GuardarProductos:', error);
 
 
 function readImageAsBase64(file) {
-    console.log('Tipo de archivo:', file.type);
 
     return new Promise((resolve, reject) => {
         var reader = new FileReader();
@@ -104,12 +102,46 @@ if (data.idVendedor) {
 
 
 } else {
-    console.log("Usuario no encontrado en Vendedor");
 }
 } catch (error) {
 console.error('Error al obtener el ID:', error);
 }
 }
+var productosVendedor2 = [];
+async function LeerProductosFiltrados(Filtro) {
+    try {
+        await obtenerId();
+        const response = await fetch('LeerProductos2.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ idVendedor: Filtro ,
+            id: window.idVendedor}),
+        });
+
+        if (!response.ok) {
+            throw new Error('Respuesta no exitosa: ' + response.statusText);
+        }
+        productosVendedor2=[];
+        var productos = await response.json();
+        if(productos !== null){
+        productosVendedor2 = productos.map(producto => ({
+            id: producto.idProducto,
+            nombre: producto.Nombre,
+            descripcion: producto.Descripcion,
+            precio: producto.precio,
+            vistas: producto.Vistas,
+            enlace: producto.DireccionWeb,
+            imagen: producto.Imagen ? 'data:image/png;base64,' + producto.Imagen : null,
+        }));
+        }
+    } catch (error) {
+            productosVendedor = [];
+    }
+}
+
+
 
 var productosVendedor = [];
 async function LeerProductos() {
@@ -144,6 +176,100 @@ async function LeerProductos() {
        
     }
 }
+
+function MostrarProductos2(Productos12) {
+    try {
+        var listaProductos = document.getElementById('listaProductos');
+        listaProductos.innerHTML = '';
+
+        // Crear un contenedor principal para las columnas
+        var contenedorColumnas = document.createElement('div');
+        contenedorColumnas.className = 'row';
+
+        if (Productos12.length === 0) {
+            // Imprimir un mensaje de que no hay productos
+            var elementoMensaje = document.createElement('div');
+            elementoMensaje.className = 'col-md-4 mb-4'; // Añadir clase mb-4 para agregar espacio entre las tarjetas
+
+            var card = document.createElement('div');
+            card.className = 'card h-100';
+            var cardBody = document.createElement('div');
+            cardBody.className = 'card-body';
+
+            var message = document.createElement('h5');
+            message.className = 'card-title';
+            message.textContent = 'Sin productos';
+
+            cardBody.appendChild(message);
+            card.appendChild(cardBody);
+            elementoMensaje.appendChild(card);
+
+            // Agregar el elemento de la tarjeta al contenedor de columnas
+            contenedorColumnas.appendChild(elementoMensaje);
+            listaProductos.appendChild(contenedorColumnas);
+        } else {
+            Productos12.forEach(producto => {
+                // Crear un elemento para cada tarjeta de producto
+                var elementoProducto = document.createElement('div');
+                elementoProducto.className = 'col-md-4 mb-4'; // Añadir clase mb-4 para agregar espacio entre las tarjetas
+
+                var card = document.createElement('div');
+                card.className = 'card h-100';
+
+                var img = document.createElement('img');
+                img.src = producto.imagen;
+                img.className = 'card-img-top';
+                img.style = 'height: 200px; object-fit: contain; cursor: pointer; margin-top: 5%;';
+                img.alt = producto.nombre;
+                img.onclick = function () {
+                    window.location.href = producto.enlace;
+                };
+
+                var cardBody = document.createElement('div');
+                cardBody.className = 'card-body';
+
+                var title = document.createElement('h5');
+                title.className = 'card-title';
+                title.textContent = producto.nombre;
+
+                var price = document.createElement('p');
+                price.className = 'card-text';
+                price.textContent = 'Precio: $' + producto.precio;
+
+                var viewButton = document.createElement('a');
+                viewButton.href = producto.enlace;
+                viewButton.className = 'btn btn-primary btn-sm';
+                viewButton.textContent = 'Ver Artículo';
+
+                var modifyButton = document.createElement('a');
+                modifyButton.onclick = function () {
+                    showModifyProductForm(producto.id);
+                };
+                modifyButton.className = 'btn btn-warning btn-sm';
+                modifyButton.textContent = 'Modificar';
+                modifyButton.style = 'margin-left: 10px;';
+                cardBody.appendChild(title);
+                cardBody.appendChild(price);
+                cardBody.appendChild(viewButton);
+                cardBody.appendChild(modifyButton);
+
+                card.appendChild(img);
+                card.appendChild(cardBody);
+
+                elementoProducto.appendChild(card);
+
+                // Agregar el elemento de la tarjeta al contenedor de columnas
+                contenedorColumnas.appendChild(elementoProducto);
+            });
+
+            listaProductos.appendChild(contenedorColumnas);
+        }
+    } catch (error) {
+        console.error('Error al mostrar productos:', error);
+    }
+}
+
+
 
 function mostrarProductos() {
     try {
@@ -241,20 +367,16 @@ if(productosVendedor.length === 0){
 
 }
 
-function filtrarProductos(event) {
-    var categoriaSeleccionada = event.target.getAttribute('data-categoria');
-
-    var productosFiltrados = [];
-
-    if (categoriaSeleccionada === 'todos') {
-        productosFiltrados = productosVendedor;
-    } else {
-        productosFiltrados = productosVendedor.filter(function (producto) {
-            return producto.categoria === categoriaSeleccionada;
-        });
+async function filtrarProductos(event) {
+    try{
+        var categoriaSeleccionada = event.target.textContent;
+       await LeerProductosFiltrados(categoriaSeleccionada);
+        MostrarProductos2(productosVendedor2);
+    }catch(error){
+      
     }
 
-    mostrarProductos(productosFiltrados);
+   
 }
 
 async function showModifyProductForm(productoId) {
@@ -279,7 +401,6 @@ var Categoria;
        
         // Manejar la respuesta del servidor
         window.Categoria12 = data.categoria;
-        console.log(window.Categoria12);
         // Aquí puedes hacer lo que quieras con la categoría, por ejemplo, almacenarla en una variable global.
     })
     .catch(error => {
@@ -390,7 +511,6 @@ async function modificarProducto(datosModificados) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         mostrarProductos();
     })
     .catch(error => console.error('Error al modificar el producto:', error));
@@ -407,9 +527,6 @@ function eliminarProducto(productoId) {
     })
     .then(response => response.json())
     .then(data => {
-        // Lógica para manejar la respuesta del servidor después de eliminar el producto
-        console.log(data);
-        // Recargar o actualizar la lista de productos después de la eliminación
         mostrarProductos();
     })
     .catch(error => console.error('Error al eliminar el producto:', error));
@@ -439,7 +556,6 @@ function agregarCategoria() {
         })
         .then(response => response.text())
         .then(data => {
-            console.log('Respuesta del servidor:', data);
     
             mostrarMensaje('Nueva categoría agregada correctamente');
      
@@ -526,7 +642,6 @@ function obtenerDatos() {
             console.error('Error:', error);
         });
 }
-
 function obtenerDatosLista() {
     fetch('ObtenerCategorias.php')
         .then(response => response.json())
@@ -573,9 +688,24 @@ function obtenerDatosLista() {
 
             ul.appendChild(liAgregarCategoria);
 
+            // Agregar el elemento "Todos"
+            var liTodos = document.createElement('li');
+            liTodos.className = "nav-item";
+            liTodos.onclick = mostrarProductos;
+            
+            var aTodos = document.createElement('a');
+            aTodos.className = "nav-link";
+            aTodos.href = "#";
+            aTodos.textContent = "Todos";
+
+            liTodos.appendChild(aTodos);
+            ul.appendChild(liTodos);
+
             // Agregar otras categorías
             data.forEach(item => {
                 var li = document.createElement('li');
+                li.className = "nav-item";
+                li.onclick = filtrarProductos;
                 li.textContent = item.Categoria; // Asegúrate de tener la propiedad correcta para el nombre de la categoría
                 ul.appendChild(li);
             });
@@ -584,6 +714,7 @@ function obtenerDatosLista() {
             console.error('Error:', error);
         });
 }
+
 
 document.addEventListener('DOMContentLoaded', function() {
     obtenerDatos();

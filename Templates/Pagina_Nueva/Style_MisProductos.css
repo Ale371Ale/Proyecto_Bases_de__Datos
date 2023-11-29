@@ -1,0 +1,73 @@
+.container-mt-5 {
+    margin-top: 5%;
+}
+.mensaje-flotante {
+    position: fixed;
+    top: -50px; /* Inicia fuera de la pantalla */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #87CEFA; /* Color pastel de ejemplo */
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    display: none;
+    z-index: 1000; /* Asegura que esté encima de otros elementos */
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.mostrar {
+    top: 0;
+    opacity: 1;
+}
+
+.ocultar {
+    top: -50px;
+    opacity: 0;
+}
+#Categoria {
+    position: relative; /* Para posicionar el borde */
+    text-decoration: none; /* Para eliminar el subrayado predeterminado */
+}
+
+#Categoria::after {
+    content: ''; /* Contenido generado */
+    position: absolute; /* Posición absoluta con respecto al enlace */
+    bottom: -3px; /* Ajuste para la línea debajo del texto */
+    left: 0; /* Posición izquierda */
+    width: 63%; /* Ancho completo */
+    border-bottom: 2px solid gray; /* Grosor, color y estilo de la línea */
+}
+#inputCategoria {
+        display: none;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-in-out;
+    }
+
+    #inputCategoria.active {
+        max-height: 1000px; /* O un valor suficientemente grande para cubrir el contenido del formulario */
+        transition: max-height 0.5s ease-in-out;
+    }
+    #nuevaCategoriaInput:focus {
+        border-color: #4CAF50;
+    }
+
+.textito {
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    width: 100%;
+    padding: 12px 16px;
+    box-sizing: border-box;
+
+
+}
+.form {
+    width: 100%;
+    max-width: 500px;
+    padding: 1px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    border-radius: 10px;
+    align-items: left;
+}
