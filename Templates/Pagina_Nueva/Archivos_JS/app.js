@@ -254,9 +254,8 @@ async function removeFromCart(idProducto) {
 }
 
 function changeQuantity( id,ValorInicial,inputElement, origen) {
-    // Obtener el elemento de cantidad
-    console.log(id + "  "+ ValorInicial + "  "+ inputElement);
 
+    // Obtener el elemento de cantidad
         if(origen === "true"){
              // Actualiza el atributo 'data-current-value' con el nuevo valor
     // Check if 'dataset' is defined before setting 'currentValue'
@@ -516,9 +515,159 @@ await LeerProductos();
         listaProductosContainer.appendChild(cardElement);
     });
 }
-document.addEventListener('DOMContentLoaded', function() {
-
-obtenerDatosLista();
-mostrarProductosEnTarjetas();
-CargarCarrito();
+document.addEventListener('DOMContentLoaded', async function() {
+ try {
+        await CargarProductosRecientes();
+        await mostrarProductosEnTarjetas();
+        await obtenerDatosLista();
+        await CargarCarrito();
+    } catch (error) {
+        console.error('Error:', error);
+    }
 });
+
+var productosVendedo3 = [];
+async function CargarProductosRecientes() {
+    try {
+        // Obtener los productos generales
+        const response = await fetch('Archivos_PHP/LeerProductosGeneral.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Respuesta no exitosa: ' + response.statusText);
+        }
+
+        const productos = await response.json();
+
+        // Mapear los productos generales
+        productosVendedor3 = productos.map(producto => ({
+            id: producto.idProducto,
+            nombre: producto.Nombre,
+            descripcion: producto.Descripcion,
+            precio: producto.precio,
+            vistas: producto.Vistas,
+            enlace: producto.DireccionWeb,
+            imagen: producto.Imagen ? 'data:image/png;base64,' + producto.Imagen : null,
+        }));
+
+        // Tomar los primeros 3 productos
+        const primerosTresProductos = productosVendedor3.slice(0, 3);
+
+        // Crear un nuevo carrusel
+        const nuevoCarrusel = document.createElement('div');
+        nuevoCarrusel.id = 'carouselExampleControls';
+        nuevoCarrusel.classList.add('carousel', 'slide');
+        nuevoCarrusel.classList.add('active');
+        nuevoCarrusel.setAttribute('data-bs-ride', 'carousel');
+
+        // Agregar dinámicamente nuevos elementos al carrusel
+        primerosTresProductos.forEach((producto, index) => {
+            const carouselItem = document.createElement('div');
+            carouselItem.classList.add('carousel-item');
+
+            if (index === 0) {
+                carouselItem.classList.add('active');
+            }
+
+            const productoContainer = document.createElement('div');
+            productoContainer.classList.add('producto-container');
+
+            const productoInfo = document.createElement('div');
+            productoInfo.classList.add('producto-info');
+
+            const imageContainer = document.createElement('div');
+            imageContainer.classList.add('Imagecontainer');
+
+            const imagen = document.createElement('img');
+            imagen.src = producto.imagen;
+            imagen.alt = `Producto ${producto.id}`;
+            imagen.classList.add('mx-auto', 'd-block');
+            imagen.style.width = '200px';
+            imagen.style.height = '200px';
+
+            const textCarouselProducto = document.createElement('div');
+            textCarouselProducto.classList.add('Text_Carousel_Producto');
+
+            const titulo = document.createElement('h5');
+            titulo.textContent = producto.nombre;
+
+            const precio = document.createElement('p');
+            precio.textContent = `Precio: $${producto.precio}`;
+
+            const verMasButton = document.createElement('button');
+            verMasButton.textContent = 'Ver Articulo';
+            verMasButton.classList.add('btn', 'btn-info');
+            verMasButton.onclick = () => window.open(producto.enlace, '_blank');
+            verMasButton.style.marginRight = '50px';
+            const agregarCarritoButton = document.createElement('button');
+            agregarCarritoButton.textContent = 'Agregar a Carrito';
+            agregarCarritoButton.classList.add('btn', 'btn-primary');
+            agregarCarritoButton.style.marginLeft = '50px';
+            agregarCarritoButton.style.marginRight = '0px';
+            agregarCarritoButton.onclick = () => addToCart(producto.id);
+
+            textCarouselProducto.appendChild(titulo);
+            textCarouselProducto.appendChild(precio);
+            textCarouselProducto.appendChild(verMasButton);
+            textCarouselProducto.appendChild(agregarCarritoButton);
+
+            imageContainer.appendChild(imagen);
+
+            productoInfo.appendChild(imageContainer);
+            productoInfo.appendChild(textCarouselProducto);
+
+            productoContainer.appendChild(productoInfo);
+
+            carouselItem.appendChild(productoContainer);
+
+            nuevoCarrusel.appendChild(carouselItem);
+        });
+
+        // Flecha izquierda
+        const flechaIzquierda = document.createElement('button');
+        flechaIzquierda.classList.add('carousel-control-prev');
+        flechaIzquierda.setAttribute('type', 'button');
+        flechaIzquierda.setAttribute('data-bs-target', '#carouselExampleControls');
+        flechaIzquierda.setAttribute('data-bs-slide', 'prev');
+        flechaIzquierda.innerHTML = '<span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span>';
+        flechaIzquierda.style.marginTop= '200px';
+
+        // Flecha derecha
+        const flechaDerecha = document.createElement('button');
+        flechaDerecha.classList.add('carousel-control-next');
+        flechaDerecha.setAttribute('type', 'button');
+        flechaDerecha.setAttribute('data-bs-target', '#carouselExampleControls');
+        flechaDerecha.setAttribute('data-bs-slide', 'next');
+        flechaDerecha.innerHTML = '<span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next</span>';
+        flechaDerecha.style.marginTop= '200px';
+        nuevoCarrusel.appendChild(flechaIzquierda);
+        nuevoCarrusel.appendChild(flechaDerecha);
+
+        // Reemplazar el carrusel existente con el nuevo carrusel
+        const contenedorCarrusel = document.querySelector('.carousel-container');
+        const carruselExistente = document.getElementById('carouselExampleControls');
+        contenedorCarrusel.replaceChild(nuevoCarrusel, carruselExistente);
+
+        // Reinicializar el carrusel usando Bootstrap
+        new bootstrap.Carousel(document.getElementById('carouselExampleControls'), {
+            interval: 2000, // Puedes ajustar el intervalo según tus necesidades
+            // Otros parámetros de inicialización si es necesario
+        });
+
+    } catch (error) {
+        console.error('Error:', error);
+        productosVendedor = [];
+    }
+}
+
+
+
+
+
+
+
+
