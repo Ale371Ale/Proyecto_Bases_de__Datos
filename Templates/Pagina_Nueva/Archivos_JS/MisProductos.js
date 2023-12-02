@@ -487,6 +487,7 @@ var Categoria;
 }
 
 async function modificarProducto(datosModificados) {
+    console.log("");
     var imagenBase64 = datosModificados.nuevaImagen;
     fetch('Archivos_PHP/EditarProductos.php', {
         method: 'POST',
