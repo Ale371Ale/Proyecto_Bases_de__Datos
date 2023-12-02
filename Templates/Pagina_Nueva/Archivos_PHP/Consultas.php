@@ -1,4 +1,7 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
+
 $host = 'nozama.c6zaxwqbemop.us-east-2.rds.amazonaws.com';
 $usuario = 'admin';
 $contraseña = 'nimda1234';
