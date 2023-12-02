@@ -170,38 +170,6 @@ function enviarInformacion() {
     xhr.send(formData);
 }
 
-
-function verificarEspaciosVacios(correo) {
-    fetch('Archivos_PHP/Verificador_Nuevo.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: 'correo=' + correo
-    })
-    .then(response => response.json())
-    .then(data => {
-
-        if (data['mensaje'] === "True") {
-
-            document.getElementById('addProductModal').style.display = 'none';
-            window.location.href = 'MisProductos.html?correo=' + correo;
-      
-        } else {
-            var labelElement = document.getElementById('question4Label');
-        if (esNumero(correo)) {
-        if (labelElement) {
-            labelElement.innerText = 'Correo';
-        }
-        } else if (esCorreoElectronico(correo)) {
-        if (labelElement) {
-            labelElement.innerText = 'Telefono';
-        }
-        } 
-        }
-    })
-    .catch(error => console.error('Error al realizar la solicitud:', error));
-}
 function esNumero(valor) {
     return typeof valor === 'number' && isFinite(valor);
 }

@@ -85,6 +85,40 @@
     border-radius: 10px;
     align-items: left;
 }
+.nav-item {
+    display: inline-block;
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    margin: 5px;
+    transition: transform 0.3s; /* Add transition property for smooth zoom effect */
+}
+
+/* Highlight effect on hover */
+.nav-item:hover {
+    background-color: #f0f0f0;
+}
+
+/* Zoom effect on click */
+.nav-item:active {
+    transform: scale(1.1); /* Increase the scale on click */
+}
+
+/* Style for the "Agregar Categoria" link */
+#Categoria {
+    margin-top: 10px;
+}
+
+/* Style for the form input */
+.Textito {
+    width: 150px;
+    padding: 5px;
+}
+
+/* Style for the "Todos" link */
+#listaCategoria .nav-item:first-child {
+    margin-top: 10px;
+}
 </style>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -107,11 +141,11 @@
             <div class="nav-item-dropdown dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-user"></i><strong>Usuario</strong> <img src="Productos/User.png" alt="Logo"
+                <i class="fa fa-user"></i><strong  id="username">Usuario</strong> <img src="Productos/User.png" alt="Logo"
                     style="width: 20px; height: 20px;">
             </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Configuración</a>
+                    <a class="dropdown-item" onclick="" href="#">Configuración</a>
                     <a class="dropdown-item"
                         href="http://localhost/Proyecto_Bases_de__Datos/Templates/Pagina_Nueva/index.html">Cerrar
                         Sesión</a>

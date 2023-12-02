@@ -9,9 +9,11 @@
     <link rel="shortcut icon" href="Static/src/Logo.ico" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+  
 </head>
 <body>
-<style>.mensaje-sin-coincidencias {
+<style>
+.mensaje-sin-coincidencias {
     display: none; /* Por defecto, oculto */
     position: fixed;
     top: 50%;
@@ -23,7 +25,47 @@
     font-size: 18px;
     text-align: center;
     z-index: 1000; /* Asegura que esté encima de otros elementos */
-}</style>
+}
+.configuracion-form {
+    display: none;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 2px solid #a3d6cc;
+    background-color: #e0f4f0;
+    border-radius: 10px;
+}
+
+/* Estilo para las etiquetas del formulario */
+.configuracion-form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Estilo para los campos de entrada y el botón */
+.configuracion-form input,
+.configuracion-form select,
+.configuracion-form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Estilo para el botón */
+.configuracion-form button {
+    background-color: #5cb85c;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Efecto de hover para el botón */
+.configuracion-form button:hover {
+    background-color: #4cae4c;
+}
+</style>
 <div  class="ParteDerecha" id="parteDerecha">
     <aside id="shoppingCartContainer" class="inactive">
         <div class="title-container">
@@ -91,11 +133,11 @@
                 <!-- Ícono de usuario con menú colapsable -->
                 <div class="nav-item-dropdown dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-user"></i><strong>Usuario</strong>  <img src="Productos/User.png" alt="Logo" style="width: 20px; height: 20px;">
+                        <i class="fa fa-user"></i><strong id="username">Usuario</strong>  <img src="Productos/User.png" alt="Logo" style="width: 20px; height: 20px;">
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Configuración</a>
-                        <a class="dropdown-item" href="#">Nozama Box</a>
+                        <a class="dropdown-item" onclick="mostrarConfiguracionForm()" href="#">Configuración</a>
+                        <a class="dropdown-item" onclick="toggleParteDerecha()" href="#">Nozama Box</a>
                         <a class="dropdown-item" href="http://localhost/Proyecto_Bases_de__Datos/Templates/Pagina_Nueva/index.html">Cerrar Sesión</a>
 
                         <!-- Agrega más opciones según sea necesario -->
@@ -115,7 +157,30 @@
           
         </div>
     </div>
-
+    <div id="configuracionForm" class="configuracion-form" style="display: none;">
+        <h2>Configuración</h2>
+        <form id="usuarioConfigForm">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre">
+    
+            <label for="genero">Género:</label>
+            <select id="genero" name="genero">
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Helicóptero de Guerra">Helicóptero de Guerra</option>
+                <option value="Otro">Otro</option>
+            </select>
+    
+            <label for="edad">Edad:</label>
+            <input type="number" id="edad" name="edad">
+    
+            <label for="correo">Correo:</label>
+            <input type="email" id="correo" name="correo">
+    
+            <button type="button" onclick="guardarConfiguracion()">Guardar</button>
+        </form>
+    </div>
+    
   <!-- Sección de productos -->
 <!-- Sección de productos -->
 <div class="container-mt-5">

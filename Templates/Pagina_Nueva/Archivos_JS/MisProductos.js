@@ -710,8 +710,32 @@ function obtenerDatosLista() {
         });
 }
 
+async function obtenerNombre(){
+    await obtenerId();
+    var nombre;
+    const response = await fetch('Archivos_PHP/obtenerNombre.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: window.idVendedor })
+    })
+        .then(response => response.json())
+        .then(data => {
+            nombre = data.Nombre;
+        })
+        .catch(error => {
+           console.log(error);
+        });
 
+
+
+
+
+document.getElementById("username").textContent = nombre;
+}
 document.addEventListener('DOMContentLoaded', function() {
     obtenerDatos();
     obtenerDatosLista();
+    obtenerNombre();
 });

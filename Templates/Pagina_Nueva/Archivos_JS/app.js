@@ -158,6 +158,7 @@ async function CargarCarrito(){
             const productId = producto.idProducto;
             const productPrice = parseInt(producto.precio);
             const productQuantity = parseInt(producto.Cantidad);
+            const productLink = producto.DirreccionWeb;  
          
             // Crear un nuevo elemento para el producto
             var productElement = document.createElement('div');
@@ -173,6 +174,8 @@ async function CargarCarrito(){
             <img src="data:image/png;base64, ${imageBase64}" alt="${productName}" style="width: 70px; height: 70px; margin-top: 20%;">
             </figure>
             <div>
+            <a href="${productLink}" style="display: none;"></a>
+            <a href="${productId}" style="display: none;"></a>
             <p>${productName}</p>
             <p><strong>$${productPrice.toFixed(2)}</strong></p>
             </div>
@@ -508,7 +511,7 @@ await LeerProductos();
                     <h5 class="card-title">${producto.nombre}</h5>
                     <p class="card-text">Descripción: ${producto.descripcion}</p>
                     <p class="card-text">Precio: $${producto.precio}</p>
-                    <a href="${producto.enlace}" class="btn btn-primary" style="margin-right:50px;">Ver Artículo</a>
+                    <a  class="btn btn-primary" style="margin-right:50px;" onclick="abrirEnlaceYFuncion('${producto.enlace}' , ${producto.id})">Ver Artículo</a>
                     <a onclick="addToCart(${producto.id})" class="btn btn-primary">Agregar a Carrito</a>
                 </div>
             </div>
@@ -520,10 +523,13 @@ await LeerProductos();
 }
 document.addEventListener('DOMContentLoaded', async function() {
  try {
+    obtenerNombre();
         await CargarProductosRecientes();
         await mostrarProductosEnTarjetas();
         await obtenerDatosLista();
         await CargarCarrito();
+        const configuracionLink = document.querySelector('.dropdown-item[href="#"]');
+        configuracionLink.addEventListener('click', mostrarConfiguracionForm);
     } catch (error) {
         console.error('Error:', error);
     }
@@ -604,7 +610,15 @@ async function CargarProductosRecientes() {
             const verMasButton = document.createElement('button');
             verMasButton.textContent = 'Ver Articulo';
             verMasButton.classList.add('btn', 'btn-info');
-            verMasButton.onclick = () => window.open(producto.enlace, '_blank');
+            verMasButton.onclick = () => {
+                // Abrir enlace en una nueva ventana
+                const nuevaVentana = window.open(producto.enlace, '_blank');
+            
+                // Actualizar vistas en la ventana actual después de que la nueva ventana se abra
+                nuevaVentana.onload = function() {
+                    ActualizarVistas(producto.id);
+                };
+            };
             verMasButton.style.marginRight = '50px';
             const agregarCarritoButton = document.createElement('button');
             agregarCarritoButton.textContent = 'Agregar a Carrito';
@@ -740,10 +754,7 @@ async function mostrarResultadosBusqueda( terminoBusqueda) {
         }
 
         const productos = await response.json();
-        
 
-
-        
         try{
             // Limpiar la sección de productos
             const listaProductos = document.getElementById('listaProductos');
@@ -801,3 +812,196 @@ document.getElementById('enlaceLogo').addEventListener('click', function (event)
     // Agrega el correo como parámetro al enlace
     this.href = "Interfaz_Central.html?correo=" + encodeURIComponent(correo);
 });
+
+function ActualizarVistas(id){
+    fetch('Archivos_PHP/ActualizarVistas.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({ IDProducto: id}),
+    }).then(response => response.json()).then(data => {
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+}
+function abrirEnlaceYFuncion(enlace,id) {
+// Abrir enlace en una nueva ventana
+ActualizarVistas(id);
+window.open(enlace, '_blank');
+
+
+}
+
+function checkout() {
+    // Obtener el contenedor del carrito
+    const cartContainer = document.getElementById("cartProducts");
+    
+    // Obtener todos los elementos dentro del carrito
+    const cartItems = cartContainer.children;
+
+    // Recorrer cada elemento del carrito
+    for (let i = 0; i < cartItems.length; i++) {
+        const cartItem = cartItems[i];
+
+        // Obtener el enlace del producto dentro del elemento del carrito
+        const productLink = cartItem.querySelector("a[href^='https://www.google.com']");
+        
+        // Obtener el ID del producto
+        const productId = cartItem.querySelector(".quantitycontainer").id;
+
+        // Verificar si el enlace y el ID existen
+        if (productLink && productId) {
+            // Obtener la URL del enlace
+            const productUrl = productLink.getAttribute("href");
+
+            // Abrir la URL en una nueva ventana
+            window.open(productUrl, "_blank");
+
+            // Llamar a la función ActualizarVistas con el ID del producto
+            ActualizarVistas(productId);
+        }
+    }
+}
+async function obtenerNombre(){
+    await ObtenerIDCliente();
+    var nombre;
+   
+    const response = await fetch('Archivos_PHP/Obtener_Nombre.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: window.iDCLIENTE34 })
+    })
+        .then(response => response.json())
+        .then(data => {
+            nombre = data.Nombre;
+        })
+        .catch(error => {
+           console.log(error);
+        });
+
+document.getElementById("username").textContent = nombre;
+}
+
+function mostrarConfiguracionForm() {
+    // Hide other content
+    Sabersiescorreo();
+    document.getElementById('parteDerecha').style.display = 'none';
+    document.querySelector('.carousel-container').style.display = 'none';
+    document.querySelector('.container-mt-5').style.display = 'none';
+
+    // Show Configuración form
+    document.getElementById('configuracionForm').style.display = 'block';
+}
+
+async function guardarConfiguracion() {
+    // Obtener los datos del formulario
+    const nombre = document.getElementById('nombre').value;
+    const genero = document.getElementById('genero').value;
+    const edad = document.getElementById('edad').value;
+    const correo = document.getElementById('correo').value;
+
+    // Crear un objeto con los datos
+    const datosCliente = {
+        idCliente: window.iDCLIENTE34,
+        nombre: nombre,
+        genero: genero,
+        edad: edad,
+        correo: correo
+    };
+
+    // Enviar los datos al servidor utilizando fetch
+    fetch('Archivos_PHP/LlenadoInfoCliente.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datosCliente)
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Manejar la respuesta del servidor si es necesario
+        console.log(data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
+    // Ocultar el formulario después de enviar los datos
+    ocultarConfiguracionForm();
+}
+
+
+function ocultarConfiguracionForm() {
+    obtenerNombre();
+    // Show other content
+    document.getElementById('parteDerecha').style.display = 'block';
+    document.querySelector('.carousel-container').style.display = 'block';
+    document.querySelector('.container-mt-5').style.display = 'block';
+
+    // Hide Configuración form
+    document.getElementById('configuracionForm').style.display = 'none';
+}
+
+async function Sabersiescorreo(){
+    await ObtenerIDCliente();
+    fetch('Archivos_PHP/SaberSiEsCorreoCliente.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: window.iDCLIENTE34 })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if(data.Mensaje !== "Sin Correo"){
+               const etiquetaCorreo = document.getElementById('correoLabel');
+
+            // Verificar si la etiqueta existe
+            if (etiquetaCorreo) {
+                // Modificar el texto de la etiqueta
+                etiquetaCorreo.textContent = 'Teléfono';
+            }
+            }
+        })
+        .catch(error => {
+           console.log(error);
+        });
+}
+
+function verificarEspaciosVacios(correo) {
+    fetch('Archivos_PHP/Verificador_Nuevo.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'correo=' + correo
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        if (data['mensaje'] === "True") {
+
+            document.getElementById('addProductModal').style.display = 'none';
+            window.location.href = 'MisProductos.html?correo=' + correo;
+      
+        } else {
+            var labelElement = document.getElementById('question4Label');
+        if (esNumero(correo)) {
+        if (labelElement) {
+            labelElement.innerText = 'Correo';
+        }
+        } else if (esCorreoElectronico(correo)) {
+        if (labelElement) {
+            labelElement.innerText = 'Telefono';
+        }
+        } 
+        }
+    })
+    .catch(error => console.error('Error al realizar la solicitud:', error));
+}
+function esNumero(valor) {
+    return typeof valor === 'number' && isFinite(valor);
+}

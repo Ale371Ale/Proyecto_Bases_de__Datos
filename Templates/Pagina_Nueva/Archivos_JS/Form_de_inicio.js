@@ -109,19 +109,10 @@ function IniciarSesion(){
                 window.open(enlaceEspecifico, '_blank');
             }
             }else if(data['mensaje'] === "Inicio de sesión exitoso como Vendedor"){
-                var enlaceEspecifico = 'Pagina_Central_Vendedores.html?correo=' + correo;
-
-                // Accede a la ventana principal desde la ventana secundaria
-        var ventanaPrincipal = window.opener;
-
-    // Cambia la ubicación de la ventana principal
-    if (ventanaPrincipal) {
-        ventanaPrincipal.location.href = enlaceEspecifico;
-        // Cierra la ventana secundaria (ventana de inicio de sesión)
-    }
-        window.close();
+                verificarEspaciosVacios2(correo);
+ 
             }
-            else if(data['mensaje'] === "Inicio de sesión Fallido"){
+           if(data['mensaje'] === "Inicio de sesión Fallido"){
                 var errorContainer = document.getElementById('errorContainer');
                 errorContainer.textContent = "Correo / Contraseña Incorrectos";
                 errorContainer.style.display = 'block';
@@ -244,4 +235,56 @@ async function CrearCuenta() {
                         // Aquí puedes realizar acciones dependiendo de la respuesta del servidor
 
 
+}
+async function verificarEspaciosVacios2(correo) {
+    fetch('Archivos_PHP/Verificador_Nuevo.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'correo=' + correo
+    })
+    .then(response => response.json())
+    .then(data => {
+        var enlaceEspecifico;
+        if (data['mensaje'] === "True") {
+            enlaceEspecifico = 'MisProductos.html?correo=' + correo;
+             // Accede a la ventana principal desde la ventana secundaria
+    var ventanaPrincipal = window.opener;
+
+    // Cambia la ubicación de la ventana principal
+    if (ventanaPrincipal) {
+        ventanaPrincipal.location.href = enlaceEspecifico;
+        window.close();
+    }
+      
+        } else {
+             enlaceEspecifico = 'Pagina_Central_Vendedores.html?correo=' + correo;
+ // Accede a la ventana principal desde la ventana secundaria
+ var ventanaPrincipal = window.opener;
+
+ // Cambia la ubicación de la ventana principal
+ if (ventanaPrincipal) {
+     ventanaPrincipal.location.href = enlaceEspecifico;
+     // Cierra la ventana secundaria (ventana de inicio de sesión)
+     window.close();
+ }
+           
+    
+            var labelElement = document.getElementById('question4Label');
+        if (esNumero(correo)) {
+        if (labelElement) {
+            labelElement.innerText = 'Correo';
+        }
+        } else if (esCorreoElectronico(correo)) {
+        if (labelElement) {
+            labelElement.innerText = 'Telefono';
+        }
+        } 
+        }
+    })
+    .catch(error => console.error('Error al realizar la solicitud:', error));
+}
+function esNumero(valor) {
+    return typeof valor === 'number' && isFinite(valor);
 }
