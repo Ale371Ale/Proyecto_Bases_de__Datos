@@ -1,5 +1,10 @@
 <?php
-include('Archivos_PHP/Conexion.php');
+$host = 'nozama.c6zaxwqbemop.us-east-2.rds.amazonaws.com';
+$usuario = 'admin';
+$contraseña = 'nimda1234';
+$base_de_datos = 'Nozama';
+
+$conexion = new mysqli($host, $usuario, $contraseña, $base_de_datos);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Recibe los datos del formulario
