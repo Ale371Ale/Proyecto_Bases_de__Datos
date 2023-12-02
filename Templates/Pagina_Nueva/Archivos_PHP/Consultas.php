@@ -1,5 +1,5 @@
 <?php
-include('Conexion.php');
+include('Archivos_PHP/Conexion.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Recibe los datos del formulario

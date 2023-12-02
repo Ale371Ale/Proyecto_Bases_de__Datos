@@ -124,7 +124,7 @@ function IniciarSesion(){
 }
 
 function iniciarSesionGoogle() {
-    var enlaceEspecifico = '/Templates/Interfaz_Central.html';
+    var enlaceEspecifico = 'Interfaz_Central.html';
 
     // Accede a la ventana principal desde la ventana secundaria
     var ventanaPrincipal = window.opener;
