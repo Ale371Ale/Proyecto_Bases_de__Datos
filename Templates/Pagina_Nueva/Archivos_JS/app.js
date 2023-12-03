@@ -563,8 +563,9 @@ async function CargarProductosRecientes() {
             imagen: producto.Imagen ? 'data:image/png;base64,' + producto.Imagen : null,
         }));
 
-        // Tomar los primeros 3 productos
-        const primerosTresProductos = productosVendedor3.slice(0, 3);
+      // Tomar los últimos 3 productos (son los 3 recientes)
+const primerosTresProductos = productosVendedor3.slice(-3);
+
 
         // Crear un nuevo carrusel
         const nuevoCarrusel = document.createElement('div');
@@ -695,7 +696,6 @@ async function cargarProductosPorCategoria(categoria) {
 }
 async function MostrarProductosIndexados(categoria) {
     try {
-        console.log(categoria);
         const response = await fetch('Archivos_PHP/Obtener_Productos_Indexados.php', {
             method: 'POST',
             headers: {
@@ -703,34 +703,70 @@ async function MostrarProductosIndexados(categoria) {
             },
             body: JSON.stringify({ Categoria: categoria }),
         });
-     
+
         if (!response.ok) {
             throw new Error('Respuesta no exitosa: ' + response.statusText);
         }
+
+        const mensajeSinCoincidencias = document.getElementById("mensajeSinCoincidencias");
+        // Quitar la clase "active" para ocultar
+        mensajeSinCoincidencias.classList.remove("active");
+
         const productos = await response.json();
-                // Limpiar la sección de productos
+
+        // Limpiar la sección de productos
         const listaProductos = document.getElementById('listaProductos');
         listaProductos.innerHTML = '';
-        // Mostrar los productos obtenidos
-        productos.forEach(producto => {
-            const productoCard = document.createElement('div');
-            productoCard.classList.add('col-md-4', 'mb-4');
 
-            // Crear el contenido de la tarjeta del producto (puedes personalizar esto según tu diseño)
-            productoCard.innerHTML = `
+        // Mostrar los productos obtenidos
+        if (Array.isArray(productos) && productos.length > 0) {
+            productos.forEach(producto => {
+                const productoCard = document.createElement('div');
+                productoCard.classList.add('col-md-4', 'mb-4');
+
+                // Crear el contenido de la tarjeta del producto (puedes personalizar esto según tu diseño)
+                productoCard.innerHTML = `
+                    <div class="card">
+                        <img src="${producto.Imagen}" class="card-img-top" alt="${producto.Nombre}">
+                        <div class="card-body">
+                            <h5 class="card-title">${producto.Nombre}</h5>
+                            <p class="card-text">${producto.Descripcion}</p>
+                            <p class="card-text">Precio: $${producto.precio}</p>
+                            <button class="btn btn-primary" onclick="addToCart(${producto.idProducto})">Agregar al Carrito</button>
+                        </div>
+                    </div>
+                `;
+
+                listaProductos.appendChild(productoCard);
+            });
+        } else {
+            // Si no hay productos o no es un array, agregar el elemento "Sin Productos"
+            const tituloProductos = document.querySelector('.container-mt-5 h2');
+            tituloProductos.textContent = categoria;
+            tituloProductos.style.marginTop = '50px';
+
+            // Crear el elemento "Sin Productos"
+            const sinProductosCard = document.createElement('div');
+            sinProductosCard.classList.add('col-md-4', 'mb-4');
+
+            // Contenido del elemento "Sin Productos"
+            sinProductosCard.innerHTML = `
                 <div class="card">
-                    <img src="${producto.Imagen}" class="card-img-top" alt="${producto.Nombre}">
                     <div class="card-body">
-                        <h5 class="card-title">${producto.Nombre}</h5>
-                        <p class="card-text">${producto.Descripcion}</p>
-                        <p class="card-text">Precio: $${producto.precio}</p>
-                        <button class="btn btn-primary" onclick="addToCart(${producto.idProducto})">Agregar al Carrito</button>
+                        <h5 class="card-title">Sin Productos</h5>
+                        <p class="card-text">Lo sentimos, no hay productos disponibles en esta categoría.</p>
                     </div>
                 </div>
             `;
 
-            listaProductos.appendChild(productoCard);
-        });
+            // Agregar el elemento "Sin Productos" a la lista de productos
+            listaProductos.appendChild(sinProductosCard);
+
+            // Agregar la clase "active" para marcar como visible
+            mensajeSinCoincidencias.classList.add("active");
+        }
+
+        // Actualizar el título incluso cuando no hay productos
         const tituloProductos = document.querySelector('.container-mt-5 h2');
         tituloProductos.textContent = categoria;
         tituloProductos.style.marginTop = '50px';
@@ -738,6 +774,7 @@ async function MostrarProductosIndexados(categoria) {
         console.error('Error:', error);
     }
 }
+
 
 async function mostrarResultadosBusqueda( terminoBusqueda) {
     try {
@@ -922,8 +959,6 @@ async function guardarConfiguracion() {
     })
     .then(response => response.json())
     .then(data => {
-        // Manejar la respuesta del servidor si es necesario
-        console.log(data);
     })
     .catch(error => {
         console.error('Error:', error);
