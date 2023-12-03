@@ -27,6 +27,7 @@ function alternarBoton() {
     var tituloVentana = document.getElementById("tituloVentana").innerText;
 
     document.getElementById("tituloVentana").innerText = (btnIniciarSesion.classList.contains("d-none")) ? "Crear Cuenta" : "Iniciar Sesión";
+    btnIn
 
     document.getElementById("mensajeCuenta").innerHTML = (btnIniciarSesion.classList.contains("d-none")) ? "¿Tienes una cuenta? <a href='#' onclick='alternarBoton()'>Iniciar Sesión</a>" : "¿No tienes cuenta? <a href='#' onclick='alternarBoton()'>Crear cuenta</a>";
     habilitarBotones();
