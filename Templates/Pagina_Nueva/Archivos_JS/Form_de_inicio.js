@@ -76,7 +76,7 @@ function alternarBotonGoogle(accion) {
 habilitarBotones(); 
 
 function IniciarSesion(){
-   
+  
     var correo = document.getElementById('correo').value;
     var contrasena = document.getElementById('contrasena').value;
 
@@ -113,7 +113,7 @@ function IniciarSesion(){
                 verificarEspaciosVacios2(correo);
  
             }
-           if(data['mensaje'] === "Inicio de sesión Fallido"){
+           if(data['mensaje'] === "Inicio de sesión fallido"){
                 var errorContainer = document.getElementById('errorContainer');
                 errorContainer.textContent = "Correo / Contraseña Incorrectos";
                 errorContainer.style.display = 'block';
